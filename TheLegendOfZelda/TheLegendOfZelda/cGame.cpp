@@ -25,7 +25,7 @@ bool cGame::Init()
 	glEnable(GL_ALPHA_TEST);
 
 	//Scene initialization
-	res = Data.LoadImage(IMG_BLOCKS,"blocks.png",GL_RGBA);
+	res = Data.LoadImage(LINK,"resources/link.png",GL_RGBA);
 	if(!res) return false;
 	res = Scene.LoadLevel(1);
 	if(!res) return false;
@@ -80,7 +80,10 @@ void cGame::Render()
 	
 	glLoadIdentity();
 
-	Scene.Draw(Data.GetID(IMG_BLOCKS));
+	//Scene.Draw(Data.GetID(IMG_BLOCKS));
+	
+	// a descomentar
+	//Player.Draw(Data.GetID(LINK));
 
 	glutSwapBuffers();
 }

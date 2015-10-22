@@ -64,7 +64,6 @@ void main(int argc, char** argv)
 
 	//Register callback functions
 
-	//heyman
 
 	glutDisplayFunc(AppRender);			
 	glutKeyboardFunc(AppKeyboard);		

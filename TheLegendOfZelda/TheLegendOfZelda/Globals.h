@@ -3,4 +3,4 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include <gl/glut.h>
+#include <glut.h>
