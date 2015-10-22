@@ -5,7 +5,7 @@ cData::~cData(void){}
 
 int cData::GetID(int img)
 {
-	return texture[img].GetID(); //TEST
+	return texture[img].GetID();
 }
 
 void cData::GetSize(int img, int *w, int *h)
