@@ -30,10 +30,10 @@
     <ClCompile Include="GLUTMain.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Desktop\OpenGL2DGame\p03 (Bubble returns!)\cBicho.cpp">
+    <ClCompile Include="cBicho.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Desktop\OpenGL2DGame\p03 (Bubble returns!)\cPlayer.cpp">
+    <ClCompile Include="cPlayer.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,10 +53,10 @@
     <ClInclude Include="cScene.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\Desktop\OpenGL2DGame\p03 (Bubble returns!)\cBicho.h">
+    <ClInclude Include="cBicho.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\Desktop\OpenGL2DGame\p03 (Bubble returns!)\cPlayer.h">
+    <ClInclude Include="cPlayer.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cScene.h"
+#include "cPlayer.h"
 #include "cData.h"
 
 #define GAME_WIDTH	640
@@ -27,5 +28,6 @@ public:
 private:
 	unsigned char keys[256];
 	cScene Scene;
+	cPlayer Player;
 	cData Data;
 };

@@ -25,10 +25,17 @@ bool cGame::Init()
 	glEnable(GL_ALPHA_TEST);
 
 	//Scene initialization
-	res = Data.LoadImage(LINK,"resources/link.png",GL_RGBA);
-	if(!res) return false;
+	res = Data.LoadImage(IMG_BLOCKS, "blocks.png", GL_RGBA);
+	if (!res) return false;
 	res = Scene.LoadLevel(1);
-	if(!res) return false;
+	if (!res) return false;
+
+	//Player initialization
+	res = Data.LoadImage(IMG_PLAYER, "resources/link.png", GL_RGBA);
+	if (!res) return false;
+	Player.SetTile(10, 1);
+	Player.SetWidthHeight(16, 16);
+	Player.SetState(STATE_LOOKRIGHT);
 
 	return res;
 }
@@ -60,15 +67,20 @@ void cGame::ReadMouse(int button, int state, int x, int y)
 //Process
 bool cGame::Process()
 {
-	bool res=true;
-	
+	bool res = true;
+
 	//Process Input
-	if(keys[27])	res=false;	
-	
+	if (keys[27])	res = false;
+
+	if (keys[GLUT_KEY_UP])			Player.MoveUp(Scene.GetMap());
+	if (keys[GLUT_KEY_DOWN])		Player.MoveDown(Scene.GetMap());
+	if (keys[GLUT_KEY_LEFT])		Player.MoveLeft(Scene.GetMap());
+	else if (keys[GLUT_KEY_RIGHT])	Player.MoveRight(Scene.GetMap());
+	else Player.Stop();
+
+
 	//Game Logic
-	//...
-	
-	//test
+	Player.Logic(Scene.GetMap());
 
 	return res;
 }
@@ -80,10 +92,9 @@ void cGame::Render()
 	
 	glLoadIdentity();
 
-	//Scene.Draw(Data.GetID(IMG_BLOCKS));
-	
-	// a descomentar
-	//Player.Draw(Data.GetID(LINK));
+	Scene.Draw(Data.GetID(IMG_BLOCKS));
+
+	Player.Draw(Data.GetID(IMG_PLAYER));
 
 	glutSwapBuffers();
 }

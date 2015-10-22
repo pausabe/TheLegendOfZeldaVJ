@@ -3,7 +3,7 @@
 
 cScene::cScene(void)
 {
-} //test
+}
 
 cScene::~cScene(void)
 {
