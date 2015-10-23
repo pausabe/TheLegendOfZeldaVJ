@@ -4,7 +4,7 @@
 #include "Globals.h"
 
 #define FRAME_DELAY		8
-#define STEP_LENGTH		1
+#define STEP_LENGTH		3
 //#define JUMP_HEIGHT		96
 //#define JUMP_STEP		4
 

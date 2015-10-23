@@ -4,8 +4,8 @@
 #include "cPlayer.h"
 #include "cData.h"
 
-#define GAME_WIDTH	640
-#define GAME_HEIGHT 480
+#define GAME_WIDTH	TILE_SIZE*16
+#define GAME_HEIGHT TILE_SIZE*11
 
 class cGame
 {

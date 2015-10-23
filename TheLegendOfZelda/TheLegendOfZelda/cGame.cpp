@@ -25,16 +25,16 @@ bool cGame::Init()
 	glEnable(GL_ALPHA_TEST);
 
 	//Scene initialization
-	res = Data.LoadImage(IMG_BLOCKS, "blocks.png", GL_RGBA);
+	res = Data.LoadImage(OVERWORLD_TILES, "resources/overworld_tiles.png", GL_RGB);
 	if (!res) return false;
 	res = Scene.LoadLevel(1);
 	if (!res) return false;
 
 	//Player initialization
-	res = Data.LoadImage(IMG_PLAYER, "resources/link.png", GL_RGBA);
+	res = Data.LoadImage(LINK, "resources/link.png", GL_RGBA);
 	if (!res) return false;
 	Player.SetTile(10, 1);
-	Player.SetWidthHeight(16, 16);
+	Player.SetWidthHeight(TILE_SIZE, TILE_SIZE);
 	Player.SetState(STATE_LOOKRIGHT);
 
 	return res;
@@ -43,10 +43,14 @@ bool cGame::Init()
 bool cGame::Loop()
 {
 	bool res=true;
+	int t1, t2;
+	t1 = glutGet(GLUT_ELAPSED_TIME);
 
 	res = Process();
 	if(res) Render();
 
+	do { t2 = glutGet(GLUT_ELAPSED_TIME); 
+	} while (t2 - t1 < 20); // 1000/20=50fps
 	return res;
 }
 
@@ -92,9 +96,9 @@ void cGame::Render()
 	
 	glLoadIdentity();
 
-	Scene.Draw(Data.GetID(IMG_BLOCKS));
+	Scene.Draw(Data.GetID(OVERWORLD_TILES));
 
-	Player.Draw(Data.GetID(IMG_PLAYER));
+	Player.Draw(Data.GetID(LINK));
 
 	glutSwapBuffers();
 }
