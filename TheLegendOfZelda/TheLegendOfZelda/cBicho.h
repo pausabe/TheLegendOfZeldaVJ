@@ -3,8 +3,8 @@
 #include "cTexture.h"
 #include "Globals.h"
 
-#define FRAME_DELAY		8
-#define STEP_LENGTH		3
+#define FRAME_DELAY		4
+#define STEP_LENGTH		2
 //#define JUMP_HEIGHT		96
 //#define JUMP_STEP		4
 
@@ -54,10 +54,12 @@ public:
 	void NextFrame(int max);
 	int  GetFrame();
 	
-private:
-	int x,y;
-	int w,h;
+protected:
+	int x, y;
+	int w, h;
 	int state;
+
+private:
 
 	bool jumping;
 	int jump_alfa;

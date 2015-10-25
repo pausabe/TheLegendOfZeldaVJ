@@ -30,7 +30,6 @@ void cPlayer::Draw(int tex_id)
 	}*/
 
 	xo = 0.0f;	yf = 0.0f;
-	//xf = 1.0f; yf = 1.0f;
 	xf = xo + (float) (sprite_size/texture_size);
 	yo = yf + (float) (sprite_size/texture_size);
 

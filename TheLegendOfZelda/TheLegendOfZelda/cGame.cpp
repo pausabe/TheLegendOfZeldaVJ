@@ -43,14 +43,10 @@ bool cGame::Init()
 bool cGame::Loop()
 {
 	bool res=true;
-	int t1, t2;
-	t1 = glutGet(GLUT_ELAPSED_TIME);
 
 	res = Process();
 	if(res) Render();
 
-	do { t2 = glutGet(GLUT_ELAPSED_TIME); 
-	} while (t2 - t1 < 20); // 1000/20=50fps
 	return res;
 }
 
