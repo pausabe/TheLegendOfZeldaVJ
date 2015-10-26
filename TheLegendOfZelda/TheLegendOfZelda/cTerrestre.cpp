@@ -4,7 +4,7 @@
 cTerrestre::cTerrestre() {}
 cTerrestre::~cTerrestre() {}
 
-bool cTerrestre::CollidesMapTile(int* map, int direction) {
+bool cTerrestre::CollidesMapTile(std::pair<int, bool>* map, int direction) {
 	int tile_x = x / TILE_SIZE;
 	int tile_y = y / TILE_SIZE;
 	int width_tiles = w / TILE_SIZE;
@@ -15,29 +15,29 @@ bool cTerrestre::CollidesMapTile(int* map, int direction) {
 	if (direction == 0) {				// LEFT
 		if (y % TILE_SIZE > TILE_SIZE/2) height_tiles++;
 		for (int i = 0; i < height_tiles; ++i) {
-			if (map[tile_x + ((tile_y + i)*SCENE_WIDTH)] == 1)	return true;
+			if (map[tile_x + ((tile_y + i)*SCENE_WIDTH)].second)	return true;
 		}
 	} else if (direction == 1) {		// TOP
 		if (x % TILE_SIZE != 0) width_tiles++;
 		for (int i = 0; i < width_tiles; ++i) {
-			if (map[tile_x + i + ((tile_y + 1)*SCENE_WIDTH)] == 1)	return true;
+			if (map[tile_x + i + ((tile_y + 1)*SCENE_WIDTH)].second)	return true;
 		}
 	} else if (direction == 2) {		// RIGHT
 		if (y % TILE_SIZE > TILE_SIZE / 2) height_tiles++;
 		for (int i = 0; i < height_tiles; ++i) {
-			if (map[tile_x + width_tiles + ((tile_y + i)*SCENE_WIDTH)] == 1)	return true;
+			if (map[tile_x + width_tiles + ((tile_y + i)*SCENE_WIDTH)].second)	return true;
 		}
 	} else if(direction == 3) {			// BOTTOM
 		if (x % TILE_SIZE != 0) width_tiles++;
 		for (int i = 0; i < width_tiles; ++i) {
-			if (map[tile_x + i + ((tile_y)*SCENE_WIDTH)] == 1)	return true;
+			if (map[tile_x + i + ((tile_y)*SCENE_WIDTH)].second)	return true;
 		}
 	}
 
 	return false;
 }
 
-void cTerrestre::MoveLeft(int *map)
+void cTerrestre::MoveLeft(std::pair<int, bool> *map)
 {
 	int xaux;
 
@@ -65,7 +65,7 @@ void cTerrestre::MoveLeft(int *map)
 		}
 	}
 }
-void cTerrestre::MoveRight(int *map)
+void cTerrestre::MoveRight(std::pair<int, bool> *map)
 {
 	int xaux;
 
@@ -94,7 +94,7 @@ void cTerrestre::MoveRight(int *map)
 		}
 	}
 }
-void cTerrestre::MoveUp(int *map)
+void cTerrestre::MoveUp(std::pair<int, bool> *map)
 {
 	int yaux;
 
@@ -124,7 +124,7 @@ void cTerrestre::MoveUp(int *map)
 		}
 	}
 }
-void cTerrestre::MoveDown(int *map)
+void cTerrestre::MoveDown(std::pair<int, bool> *map)
 {
 	int yaux;
 

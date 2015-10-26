@@ -9,13 +9,27 @@ cScene::~cScene(void)
 {
 }
 
+bool cScene::isAWall(int tile) {
+	bool walls[] = {false,true,false,true,true,true,false,true,false,true,true,true,false,true,false,
+					false,true,true,true,false,true,false,true,true,true,false,true,false,true,true,
+					true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,
+					true,true,true,true,false,true,true,true,true,true,false,true,true,true,true,
+					true,true,true,false,false,false,true,true,true,false,false,false,true,true,true,					
+					true,true,true,false,false,false,true,true,true,false,false,false,true,true,true,
+					true,true,true,false,false,false,true,true,true,false,false,false,true,true,true,
+					false,false,false,false,true,false,false,false,false,false,true,false,false,false,false,
+					true,true,true,false,true,false,true,false,true,true,true,true,true,false,true,
+					false,false,false,false,false,false,false,false,false};
+	return walls[tile];
+}
+
 bool cScene::LoadLevel(int level)
 {
 	bool res;
 	FILE *fd;
 	char file[16];
 	int i,j,px,py;
-	char tile;
+	char tile[2];
 	float coordx_tile, coordy_tile;
 
 	res=true;
@@ -37,39 +51,24 @@ bool cScene::LoadLevel(int level)
 
 				for(i=0;i<SCENE_WIDTH;i++)
 				{
-					fscanf(fd,"%c",&tile);
-					if(tile==' ')
-					{
-						//Tiles must be != 0 !!!
-						tile='2';
-					}
+					fscanf(fd,"%c",&tile[0]);
+					fscanf(fd, "%c", &tile[1]);
+					
+					if(tile[0]==' ') map[(j*SCENE_WIDTH) + i].first = atoi(tile);
+					else map[(j*SCENE_WIDTH) + i].first = atoi(tile);
 
+					map[(j*SCENE_WIDTH) + i].second = isAWall(atoi(tile));
 
-						//Tiles = 1,2,3,...
-						map[(j*SCENE_WIDTH)+i] = tile-48;
-						coordx_tile = (float) 1 / 256 + map[(j*SCENE_WIDTH) + i] % 15 * (float) 17 / 256;
-						int row = (int) map[(j*SCENE_WIDTH) + i] / 15;
-						coordy_tile = (float)1 / 256 + row * (float)17 / 256;
+					coordx_tile = (float) 1 / 256 + map[(j*SCENE_WIDTH) + i].first % 15 * (float) 17 / 256;
+					int row = (int) map[(j*SCENE_WIDTH) + i].first / 15;
+					coordy_tile = (float)1 / 256 + row * (float)17 / 256;
 
-						float tile_size = (float)16 / 256; // Size of the tile in the texture 
-						glTexCoord2f(coordx_tile, coordy_tile + tile_size); glVertex2i(px, py);
-						glTexCoord2f(coordx_tile + tile_size, coordy_tile + tile_size);    glVertex2i(px + BLOCK_SIZE, py);
-						glTexCoord2f(coordx_tile + tile_size, coordy_tile); glVertex2i(px + BLOCK_SIZE, py + BLOCK_SIZE);
-						glTexCoord2f(coordx_tile, coordy_tile); glVertex2i(px, py + BLOCK_SIZE);
+					float tile_size = (float)16 / 256; // Size of the tile in the texture 
+					glTexCoord2f(coordx_tile, coordy_tile + tile_size); glVertex2i(px, py);
+					glTexCoord2f(coordx_tile + tile_size, coordy_tile + tile_size);    glVertex2i(px + BLOCK_SIZE, py);
+					glTexCoord2f(coordx_tile + tile_size, coordy_tile); glVertex2i(px + BLOCK_SIZE, py + BLOCK_SIZE);
+					glTexCoord2f(coordx_tile, coordy_tile); glVertex2i(px, py + BLOCK_SIZE);
 
-						/*
-						if(map[(j*SCENE_WIDTH)+i]%2) coordx_tile = 0.0f;
-						else						 coordx_tile = 0.5f;
-						if(map[(j*SCENE_WIDTH)+i]<3) coordy_tile = 0.0f;
-						else						 coordy_tile = 0.5f;
-
-						//BLOCK_SIZE = 24, FILE_SIZE = 64
-						// 24 / 64 = 0.375
-						glTexCoord2f(coordx_tile       ,coordy_tile+0.375f);	glVertex2i(px           ,py           );
-						glTexCoord2f(coordx_tile+0.375f,coordy_tile+0.375f);	glVertex2i(px+BLOCK_SIZE,py           );
-						glTexCoord2f(coordx_tile+0.375f,coordy_tile       );	glVertex2i(px+BLOCK_SIZE,py+BLOCK_SIZE);
-						glTexCoord2f(coordx_tile       ,coordy_tile       );	glVertex2i(px           ,py+BLOCK_SIZE);
-					*/
 					px+=TILE_SIZE;
 				}
 				fscanf(fd,"%c",&tile); //pass enter
@@ -90,7 +89,7 @@ void cScene::Draw(int tex_id)
 	glCallList(id_DL);
 	glDisable(GL_TEXTURE_2D);
 }
-int* cScene::GetMap()
+std::pair<int,bool>* cScene::GetMap()
 {
 	return map;
 }
