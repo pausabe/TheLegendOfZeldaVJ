@@ -3,8 +3,8 @@
 #include "cTexture.h"
 #include "Globals.h"
 
-#define FRAME_DELAY		8
-#define STEP_LENGTH		3
+#define FRAME_DELAY		4
+#define STEP_LENGTH		2
 //#define JUMP_HEIGHT		96
 //#define JUMP_STEP		4
 
@@ -40,18 +40,18 @@ public:
 	void GetWidthHeight(int *w,int *h);
 
 	bool Collides(cRect *rc);
-	bool CollidesMapWall(int *map,bool right);
-	bool CollidesMapFloor(int *map);
+	bool CollidesMapWall(std::pair<int, bool> *map,bool right);
+	bool CollidesMapFloor(std::pair<int, bool> *map);
 	void GetArea(cRect *rc);
 	void DrawRect(int tex_id,float xo,float yo,float xf,float yf);
 
-	void MoveRight(int *map);
-	void MoveLeft(int *map);
-	void MoveUp(int *map);
-	void MoveDown(int *màp);
+	void MoveRight(std::pair<int, bool> *map);
+	void MoveLeft(std::pair<int, bool> *map);
+	void MoveUp(std::pair<int, bool> *map);
+	void MoveDown(std::pair<int, bool> *màp);
 	//void Jump(int *map);
 	void Stop();
-	void Logic(int *map);
+	void Logic(std::pair<int, bool> *map);
 
 	int  GetState();
 	void SetState(int s);
@@ -59,10 +59,12 @@ public:
 	void NextFrame(int max);
 	int  GetFrame();
 	
-private:
-	int x,y;
-	int w,h;
+protected:
+	int x, y;
+	int w, h;
 	int state;
+
+private:
 
 	bool jumping;
 	int jump_alfa;

@@ -21,9 +21,14 @@ public:
 
 	bool LoadLevel(int level);
 	void Draw(int tex_id);
-	int *GetMap();
+	std::pair<int, bool> *GetMap();
 
 private:
-	int map[SCENE_WIDTH * SCENE_HEIGHT];	//scene
+
+	// Returns wether the specified tile is a wall or not
+	bool isAWall(int tile);
+
+	// First: nº of tile, Second: if the tile is a wall or not
+	std::pair<int,bool> map[SCENE_WIDTH * SCENE_HEIGHT];	//scene
 	int id_DL;								//actual level display list
 };

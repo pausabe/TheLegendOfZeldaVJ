@@ -33,7 +33,16 @@ void AppMouse(int button, int state, int x, int y)
 }
 void AppIdle()
 {
+	int t1, t2;
+	t1 = glutGet(GLUT_ELAPSED_TIME);
+
 	if(!Game.Loop()) exit(0);
+
+	// Controls the framerate
+	do {
+		t2 = glutGet(GLUT_ELAPSED_TIME);
+	} while (t2 - t1 < 20); // 1000/20=50fps
+
 }
 
 void main(int argc, char** argv)

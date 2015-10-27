@@ -33,7 +33,7 @@ bool cGame::Init()
 	//Player initialization
 	res = Data.LoadImage(LINK, "resources/link.png", GL_RGBA);
 	if (!res) return false;
-	Player.SetTile(10, 1);
+	Player.SetTile(8, 5);
 	Player.SetWidthHeight(TILE_SIZE, TILE_SIZE);
 	Player.SetState(STATE_LOOKRIGHT);
 
@@ -43,14 +43,10 @@ bool cGame::Init()
 bool cGame::Loop()
 {
 	bool res=true;
-	int t1, t2;
-	t1 = glutGet(GLUT_ELAPSED_TIME);
 
 	res = Process();
 	if(res) Render();
 
-	do { t2 = glutGet(GLUT_ELAPSED_TIME); 
-	} while (t2 - t1 < 20); // 1000/20=50fps
 	return res;
 }
 
