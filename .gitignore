@@ -194,3 +194,10 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+/TheLegendOfZelda/glut-3.7.6-bin/glut.def
+/TheLegendOfZelda/glut-3.7.6-bin/glut.h
+/TheLegendOfZelda/glut-3.7.6-bin/glut32.dll
+/TheLegendOfZelda/glut-3.7.6-bin/glut32.lib
+/TheLegendOfZelda/TheLegendOfZelda/blocks.png
+/TheLegendOfZelda/TheLegendOfZelda.sln
+/TheLegendOfZelda/glut-3.7.6-bin/README-win32.txt
