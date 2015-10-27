@@ -25,10 +25,10 @@ bool cGame::Init()
 	glEnable(GL_ALPHA_TEST);
 
 	//Scene initialization
-	res = Data.LoadImage(OVERWORLD_TILES, "resources/overworld_tiles.png", GL_RGB);
+	/*res = Data.LoadImage(OVERWORLD_TILES, "resources/overworld_tiles.png", GL_RGB);
 	if (!res) return false;
 	res = Scene.LoadLevel(1);
-	if (!res) return false;
+	if (!res) return false;*/
 
 	//Player initialization
 	res = Data.LoadImage(LINK, "resources/link.png", GL_RGBA);
