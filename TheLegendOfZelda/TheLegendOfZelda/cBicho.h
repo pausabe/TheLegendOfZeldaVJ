@@ -4,7 +4,7 @@
 #include "Globals.h"
 
 #define FRAME_DELAY		4
-#define STEP_LENGTH		2
+#define STEP_LENGTH		4
 //#define JUMP_HEIGHT		96
 //#define JUMP_STEP		4
 
@@ -63,6 +63,7 @@ protected:
 	int x, y;
 	int w, h;
 	int state;
+	int seq, delay;
 
 private:
 
@@ -70,5 +71,4 @@ private:
 	int jump_alfa;
 	int jump_y;
 
-	int seq,delay;
 };

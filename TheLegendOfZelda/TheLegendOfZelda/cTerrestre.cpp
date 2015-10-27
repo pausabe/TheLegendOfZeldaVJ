@@ -60,8 +60,8 @@ void cTerrestre::MoveLeft(std::pair<int, bool> *map)
 		if (state != STATE_WALKLEFT)
 		{
 			state = STATE_WALKLEFT;
-			//seq = 0;
-			//delay = 0;
+			seq = 0;
+			delay = 0;
 		}
 	}
 }
@@ -89,8 +89,8 @@ void cTerrestre::MoveRight(std::pair<int, bool> *map)
 		if (state != STATE_WALKRIGHT)
 		{
 			state = STATE_WALKRIGHT;
-			//seq = 0;
-			//delay = 0;
+			seq = 0;
+			delay = 0;
 		}
 	}
 }
@@ -100,7 +100,6 @@ void cTerrestre::MoveUp(std::pair<int, bool> *map)
 
 	//Whats next tile?
 	if ((y % TILE_SIZE) == TILE_SIZE / 2)
-	//if ((y % TILE_SIZE) == 0)
 	{
 		yaux = y;
 		y += STEP_LENGTH;
@@ -108,7 +107,7 @@ void cTerrestre::MoveUp(std::pair<int, bool> *map)
 		if (CollidesMapTile(map, 1))
 		{
 			y = yaux;
-			state = STATE_LOOKRIGHT;
+			state = STATE_LOOKUP;
 		}
 	}
 	//Advance, no problem
@@ -116,11 +115,11 @@ void cTerrestre::MoveUp(std::pair<int, bool> *map)
 	{
 		y += STEP_LENGTH;
 
-		if (state != STATE_WALKRIGHT)
+		if (state != STATE_WALKUP)
 		{
-			state = STATE_WALKRIGHT;
-			//seq = 0;
-			//delay = 0;
+			state = STATE_WALKUP;
+			seq = 0;
+			delay = 0;
 		}
 	}
 }
@@ -137,7 +136,7 @@ void cTerrestre::MoveDown(std::pair<int, bool> *map)
 		if (CollidesMapTile(map, 3))
 		{
 			y = yaux;
-			state = STATE_LOOKRIGHT;
+			state = STATE_LOOKDOWN;
 		}
 	}
 	//Advance, no problem
@@ -145,11 +144,11 @@ void cTerrestre::MoveDown(std::pair<int, bool> *map)
 	{
 		y -= STEP_LENGTH;
 
-		if (state != STATE_WALKRIGHT)
+		if (state != STATE_WALKDOWN)
 		{
-			state = STATE_WALKRIGHT;
-			//seq = 0;
-			//delay = 0;
+			state = STATE_WALKDOWN;
+			seq = 0;
+			delay = 0;
 		}
 	}
 }

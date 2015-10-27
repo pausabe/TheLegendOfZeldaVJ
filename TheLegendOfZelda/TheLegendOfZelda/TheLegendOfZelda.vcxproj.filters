@@ -36,6 +36,9 @@
     <ClCompile Include="cPlayer.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
+    <ClCompile Include="cTerrestre.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cTexture.h">
@@ -57,6 +60,9 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="cPlayer.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="cTerrestre.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

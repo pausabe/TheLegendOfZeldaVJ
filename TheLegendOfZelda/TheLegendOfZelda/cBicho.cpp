@@ -252,10 +252,14 @@ void cBicho::MoveDown(std::pair<int, bool> *map)
 }
 void cBicho::Stop()
 {
+	
 	switch(state)
 	{
 		case STATE_WALKLEFT:	state = STATE_LOOKLEFT;		break;
 		case STATE_WALKRIGHT:	state = STATE_LOOKRIGHT;	break;
+		case STATE_WALKUP:		state = STATE_LOOKUP;		break;
+		case STATE_WALKDOWN:	state = STATE_LOOKDOWN;		break;
+
 	}
 }
 
