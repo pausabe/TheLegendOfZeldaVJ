@@ -4,7 +4,7 @@
 #include "Globals.h"
 
 #define FRAME_DELAY		4
-#define STEP_LENGTH		2
+#define STEP_LENGTH		4
 //#define JUMP_HEIGHT		96
 //#define JUMP_STEP		4
 
@@ -12,6 +12,11 @@
 #define STATE_LOOKRIGHT		1
 #define STATE_WALKLEFT		2
 #define STATE_WALKRIGHT		3
+#define STATE_LOOKUP		4
+#define STATE_LOOKDOWN		5
+#define STATE_WALKUP		6
+#define STATE_WALKDOWN		7
+
 
 class cRect
 {
@@ -58,6 +63,7 @@ protected:
 	int x, y;
 	int w, h;
 	int state;
+	int seq, delay;
 
 private:
 
@@ -65,5 +71,4 @@ private:
 	int jump_alfa;
 	int jump_y;
 
-	int seq,delay;
 };

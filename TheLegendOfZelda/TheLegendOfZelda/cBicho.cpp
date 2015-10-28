@@ -205,7 +205,7 @@ void cBicho::MoveUp(std::pair<int, bool> *map)
 		if (CollidesMapWall(map, true))
 		{
 			y = yaux;
-			state = STATE_LOOKRIGHT;
+			state = STATE_LOOKUP;
 		}
 	}
 	//Advance, no problem
@@ -213,9 +213,9 @@ void cBicho::MoveUp(std::pair<int, bool> *map)
 	{
 		y += STEP_LENGTH;
 
-		if (state != STATE_WALKRIGHT)
+		if (state != STATE_WALKUP)
 		{
-			state = STATE_WALKRIGHT;
+			state = STATE_WALKUP;
 			seq = 0;
 			delay = 0;
 		}
@@ -234,7 +234,7 @@ void cBicho::MoveDown(std::pair<int, bool> *map)
 		if (CollidesMapWall(map, true))
 		{
 			y = yaux;
-			state = STATE_LOOKRIGHT;
+			state = STATE_LOOKDOWN;
 		}
 	}
 	//Advance, no problem
@@ -242,9 +242,9 @@ void cBicho::MoveDown(std::pair<int, bool> *map)
 	{
 		y -= STEP_LENGTH;
 
-		if (state != STATE_WALKRIGHT)
+		if (state != STATE_WALKDOWN)
 		{
-			state = STATE_WALKRIGHT;
+			state = STATE_WALKDOWN;
 			seq = 0;
 			delay = 0;
 		}
@@ -252,10 +252,14 @@ void cBicho::MoveDown(std::pair<int, bool> *map)
 }
 void cBicho::Stop()
 {
+	
 	switch(state)
 	{
 		case STATE_WALKLEFT:	state = STATE_LOOKLEFT;		break;
 		case STATE_WALKRIGHT:	state = STATE_LOOKRIGHT;	break;
+		case STATE_WALKUP:		state = STATE_LOOKUP;		break;
+		case STATE_WALKDOWN:	state = STATE_LOOKDOWN;		break;
+
 	}
 }
 
