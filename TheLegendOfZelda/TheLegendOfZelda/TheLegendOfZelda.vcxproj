@@ -71,8 +71,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Pau\Source\Repos\TheLegendOfZeldaVJ\TheLegendOfZelda\glut-3.7.6-bin;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Pau\Source\Repos\TheLegendOfZeldaVJ\TheLegendOfZelda\glut-3.7.6-bin;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Dropbox\FIB\Quadri 7\VJ\glut-3.7.6-bin;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Dropbox\FIB\Quadri 7\VJ\glut-3.7.6-bin;C:\Users\Pau\Source\Repos\TheLegendOfZeldaVJ\TheLegendOfZelda\glut-3.7.6-bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -151,6 +151,7 @@
     <ClCompile Include="cBicho.cpp" />
     <ClCompile Include="cData.cpp" />
     <ClCompile Include="cGame.cpp" />
+    <ClCompile Include="cTerrestre.cpp" />
     <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cScene.cpp" />
     <ClCompile Include="cTexture.cpp" />
@@ -160,10 +161,18 @@
     <ClInclude Include="cBicho.h" />
     <ClInclude Include="cData.h" />
     <ClInclude Include="cGame.h" />
+    <ClInclude Include="cTerrestre.h" />
     <ClInclude Include="cPlayer.h" />
     <ClInclude Include="cScene.h" />
     <ClInclude Include="cTexture.h" />
     <ClInclude Include="Globals.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\link.png" />
+    <Image Include="resources\overworld_tiles.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="level01.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
