@@ -5,6 +5,13 @@
 
 class cTerrestre : public cBicho
 {
+
+protected:
+
+	// Is true if the character is exactly in the tile coordinates
+	bool inTileX, inTileY;
+	int move;
+
 public:
 	cTerrestre();
 	~cTerrestre();

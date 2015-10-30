@@ -4,11 +4,12 @@
 #include "Globals.h"
 
 //Image array size
-#define NUM_IMG		2
+#define NUM_IMG		3
 
 //Image identifiers
 #define OVERWORLD_TILES	0
 #define LINK	1
+#define OVERWORLD_ENEMIES	2
 /*
 #define IMG_PLAYER	1
 #define IMG_ENEMY1	2

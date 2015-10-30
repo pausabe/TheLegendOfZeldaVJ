@@ -2,6 +2,7 @@
 #include "Globals.h"
 
 
+
 cGame::cGame(void)
 {
 }
@@ -36,6 +37,20 @@ bool cGame::Init()
 	Player.SetTile(8, 5);
 	Player.SetWidthHeight(TILE_SIZE, TILE_SIZE);
 	Player.SetState(STATE_LOOKRIGHT);
+
+	//Enemies initialization
+	res = Data.LoadImage(OVERWORLD_ENEMIES, "resources/overworld_enemies.png", GL_RGBA);
+	if (!res) return false;
+
+	/*enemies = std::vector<cBicho>(1);
+	enemies[0] = cOctorok();
+	enemies[0].SetTile(4, 5);
+	enemies[0].SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	enemies[0].SetState(STATE_LOOKRIGHT);
+	*/
+	c.SetTile(4, 5);
+	c.SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	c.SetState(STATE_LOOKDOWN);
 
 	return res;
 }
@@ -82,6 +97,12 @@ bool cGame::Process()
 	//Game Logic
 	Player.Logic(Scene.GetMap());
 
+	c.Logic(Scene.GetMap());
+
+	cRect rt;
+	c.GetArea(&rt);
+	if (Player.Collides(&rt)) c.SetTile(1,1);
+
 	return res;
 }
 
@@ -95,6 +116,7 @@ void cGame::Render()
 	Scene.Draw(Data.GetID(OVERWORLD_TILES));
 
 	Player.Draw(Data.GetID(LINK));
+	c.Draw(Data.GetID(OVERWORLD_ENEMIES));
 
 	glutSwapBuffers();
 }

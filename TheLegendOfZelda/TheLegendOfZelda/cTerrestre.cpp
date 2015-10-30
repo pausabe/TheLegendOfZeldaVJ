@@ -1,7 +1,10 @@
 #include "cTerrestre.h"
 #include "cScene.h"
 
-cTerrestre::cTerrestre() {}
+cTerrestre::cTerrestre() {
+	inTileX = true;
+	inTileY = true;
+}
 cTerrestre::~cTerrestre() {}
 
 bool cTerrestre::CollidesMapTile(std::pair<int, bool>* map, int direction) {
@@ -52,6 +55,7 @@ void cTerrestre::MoveLeft(std::pair<int, bool> *map)
 			x = xaux;
 			state = STATE_LOOKLEFT;
 		}
+
 	}
 	//Advance, no problem
 	else
@@ -63,6 +67,9 @@ void cTerrestre::MoveLeft(std::pair<int, bool> *map)
 			seq = 0;
 			delay = 0;
 		}
+
+		if ((x % TILE_SIZE) == 0) inTileX = true;
+		else inTileX = false;
 	}
 }
 void cTerrestre::MoveRight(std::pair<int, bool> *map)
@@ -80,6 +87,8 @@ void cTerrestre::MoveRight(std::pair<int, bool> *map)
 			x = xaux;
 			state = STATE_LOOKRIGHT;
 		}
+
+		//inTileX = true;
 	}
 	//Advance, no problem
 	else
@@ -92,6 +101,9 @@ void cTerrestre::MoveRight(std::pair<int, bool> *map)
 			seq = 0;
 			delay = 0;
 		}
+
+		if ((x % TILE_SIZE) == 0) inTileX = true;
+		else inTileX = false;
 	}
 }
 void cTerrestre::MoveUp(std::pair<int, bool> *map)
@@ -109,6 +121,8 @@ void cTerrestre::MoveUp(std::pair<int, bool> *map)
 			y = yaux;
 			state = STATE_LOOKUP;
 		}
+
+		//inTileY = true;
 	}
 	//Advance, no problem
 	else
@@ -121,6 +135,9 @@ void cTerrestre::MoveUp(std::pair<int, bool> *map)
 			seq = 0;
 			delay = 0;
 		}
+
+		if ((y % TILE_SIZE) == 0 || (y % TILE_SIZE) == TILE_SIZE / 2) inTileY = true;
+		else inTileY = false;
 	}
 }
 void cTerrestre::MoveDown(std::pair<int, bool> *map)
@@ -138,6 +155,8 @@ void cTerrestre::MoveDown(std::pair<int, bool> *map)
 			y = yaux;
 			state = STATE_LOOKDOWN;
 		}
+
+		//inTileY = true;
 	}
 	//Advance, no problem
 	else
@@ -150,5 +169,8 @@ void cTerrestre::MoveDown(std::pair<int, bool> *map)
 			seq = 0;
 			delay = 0;
 		}
+
+		if ((y % TILE_SIZE) == 0) inTileY = true;
+		else inTileY = false;
 	}
 }
