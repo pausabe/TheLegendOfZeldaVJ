@@ -15,20 +15,22 @@
 
 class cScene
 {
+
 public:
 	cScene(void);
 	virtual ~cScene(void);
 
 	bool LoadLevel(int level);
 	void Draw(int tex_id);
-	std::pair<int, bool> *GetMap();
+	Tile *GetMap();
 
 private:
 
 	// Returns wether the specified tile is a wall or not
 	bool isAWall(int tile);
 
-	// First: nº of tile, Second: if the tile is a wall or not
-	std::pair<int,bool> map[SCENE_WIDTH * SCENE_HEIGHT];	//scene
+	// Array of tiles
+	Tile map[SCENE_WIDTH * SCENE_HEIGHT];	//scene
 	int id_DL;								//actual level display list
+
 };

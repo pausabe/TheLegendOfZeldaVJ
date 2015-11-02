@@ -54,7 +54,12 @@ void cOctorok::Draw(int tex_id)
 	DrawRect(tex_id, xo, yf, xf, yo);
 }
 
-void cOctorok::Logic(std::pair<int, bool> *map) {
+void cOctorok::Logic(Tile *map) {
+	int x0;
+	int y0;
+
+	GetPosition(&x0, &y0);
+
 	int shoot = rand() % 80;
 	if (shoot < 80 && inTileX && inTileY) {
 		if (rand()%4 < 2) // Per canviar de moviment nomes la meitat de les ocasions
@@ -74,4 +79,7 @@ void cOctorok::Logic(std::pair<int, bool> *map) {
 			MoveLeft(map);
 			break;
 		}
+
+	UpdateMapTiles(map, x0, y0);
+
 }

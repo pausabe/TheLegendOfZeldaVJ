@@ -34,9 +34,11 @@ bool cGame::Init()
 	//Player initialization
 	res = Data.LoadImage(LINK, "resources/link.png", GL_RGBA);
 	if (!res) return false;
-	Player.SetTile(8, 5);
+	Player.SetTile(8, 5, Scene.GetMap());
 	Player.SetWidthHeight(TILE_SIZE, TILE_SIZE);
 	Player.SetState(STATE_LOOKRIGHT);
+
+	lifes = 3;
 
 	//Enemies initialization
 	res = Data.LoadImage(OVERWORLD_ENEMIES, "resources/overworld_enemies.png", GL_RGBA);
@@ -48,10 +50,13 @@ bool cGame::Init()
 	enemies[0].SetWidthHeight(TILE_SIZE, TILE_SIZE);
 	enemies[0].SetState(STATE_LOOKRIGHT);
 	*/
-	c.SetTile(4, 5);
-	c.SetWidthHeight(TILE_SIZE, TILE_SIZE);
-	c.SetState(STATE_LOOKDOWN);
-
+	cOctorok* c = new cOctorok();
+	c->SetTile(4, 5, Scene.GetMap());
+	//c->SetPosition(8*TILE_SIZE, 5*TILE_SIZE+16, Scene.GetMap());
+	c->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	c->SetState(STATE_LOOKDOWN);
+	
+	Enemies.push_back(c);
 	return res;
 }
 
@@ -97,12 +102,17 @@ bool cGame::Process()
 	//Game Logic
 	Player.Logic(Scene.GetMap());
 
-	c.Logic(Scene.GetMap());
+	for (int i = 0; i < Enemies.size(); i++) {
+		Enemies[i]->Logic(Scene.GetMap());
+	}
 
+	// Detect player-enemies collisions
+	ProcessDynamicCollisions();
+	/*
 	cRect rt;
-	c.GetArea(&rt);
-	if (Player.Collides(&rt)) c.SetTile(1,1);
-
+	Enemies[0].GetArea(&rt);
+	if (Player.Collides(&rt)) Enemies[0].SetTile(1,1, Scene.GetMap());
+	*/
 	return res;
 }
 
@@ -116,7 +126,25 @@ void cGame::Render()
 	Scene.Draw(Data.GetID(OVERWORLD_TILES));
 
 	Player.Draw(Data.GetID(LINK));
-	c.Draw(Data.GetID(OVERWORLD_ENEMIES));
+
+	for (int i = 0; i < Enemies.size(); i++) {
+		Enemies[i]->Draw(Data.GetID(OVERWORLD_ENEMIES));
+	}
+
 
 	glutSwapBuffers();
+}
+
+void cGame::ProcessDynamicCollisions() {
+	// Detect collisions with enemies
+	int x, y;
+	Player.GetPosition(&x, &y);
+	std::vector<cBicho*> *bichos = &Scene.GetMap()[(y/TILE_SIZE)*SCENE_WIDTH + x / TILE_SIZE].bichos;
+	for (int i = 0; i < bichos->size(); i++) {
+		cRect rt;
+		(*bichos)[i]->GetArea(&rt);
+		if (Player.Collides(&rt)) {
+			lifes--;
+		}
+	}
 }

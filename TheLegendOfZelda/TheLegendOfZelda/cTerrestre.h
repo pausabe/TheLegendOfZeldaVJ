@@ -18,11 +18,11 @@ public:
 
 	// Returns true if the character collides with a map wall type tile in the specified direction
 	// Directions: 0 = left, 1 = top, 2 = right, 3 = bottom
-	bool CollidesMapTile(std::pair<int, bool>* map, int direction);
+	bool CollidesMapTile(Tile* map, int direction);
 
-	void MoveRight(std::pair<int, bool> *map);
-	void MoveLeft(std::pair<int, bool> *map);
-	void MoveUp(std::pair<int, bool> *map);
-	void MoveDown(std::pair<int, bool> *màp);
+	void MoveRight(Tile *map);
+	void MoveLeft(Tile *map);
+	void MoveUp(Tile *map);
+	void MoveDown(Tile *màp);
 
 };

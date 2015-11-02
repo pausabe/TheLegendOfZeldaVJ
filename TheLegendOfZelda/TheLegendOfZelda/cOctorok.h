@@ -10,6 +10,6 @@ public:
 	~cOctorok();
 
 	void Draw(int tex_id);
-	void Logic(std::pair<int, bool> *map);
+	void Logic(Tile *map);
 
 };

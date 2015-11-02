@@ -33,6 +33,8 @@ private:
 	cScene Scene;
 	cPlayer Player;
 	cData Data;
-	cOctorok c;
-	//std::vector<cBicho> enemies = std::vector<cBicho>();
+	std::vector<cBicho*> Enemies = std::vector<cBicho*>();
+	int lifes;
+
+	void ProcessDynamicCollisions();
 };

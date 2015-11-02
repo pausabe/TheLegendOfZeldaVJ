@@ -4,6 +4,17 @@
 cPlayer::cPlayer() {}
 cPlayer::~cPlayer(){}
 
+void cPlayer::SetPosition(int posx, int posy, Tile* map)
+{
+	x = posx;
+	y = posy;
+}
+void cPlayer::SetTile(int tx, int ty, Tile *map)
+{
+	x = tx * TILE_SIZE;
+	y = ty * TILE_SIZE;
+}
+
 void cPlayer::Draw(int tex_id)
 {	
 	float xo,yo,xf,yf;
@@ -53,4 +64,7 @@ void cPlayer::Draw(int tex_id)
 	yf = yo + (float)(sprite_size / texture_size);
 
 	DrawRect(tex_id,xo,yf,xf,yo);
+}
+
+void cPlayer::Logic(Tile* map) {
 }
