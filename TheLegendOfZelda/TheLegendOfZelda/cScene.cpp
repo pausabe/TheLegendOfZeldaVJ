@@ -88,6 +88,7 @@ void cScene::Draw(int tex_id)
 	glCallList(id_DL);
 	glDisable(GL_TEXTURE_2D);
 }
+
 Tile* cScene::GetMap()
 {
 	return map;

@@ -67,4 +67,43 @@ void cPlayer::Draw(int tex_id)
 }
 
 void cPlayer::Logic(Tile* map) {
+	int state = GetState();
+	
+	if (jumping != -1) {
+		stepLength = JUMP_STEP;
+		switch (jumping) {
+		case LEFT:
+			MoveLeft(map);
+			break;
+		case UP:
+			MoveUp(map);
+			break;
+		case RIGHT:
+			MoveRight(map);
+			break;
+		case DOWN:
+			MoveDown(map);
+			break;
+		}
+		jump -= stepLength;
+		if (jump <= 0) {
+			jumping = -1;
+		}
+	} else stepLength = STEP_LENGTH;
+	SetState(state);
+}
+
+bool cPlayer::isJumping() {
+	return jumping != -1;
+}
+
+void cPlayer::JumpBack(cRect* collider) {
+	int diffX = x - collider->left;
+	int diffY = y - collider->bottom;
+
+	if (diffX > diffY && diffX < 0) jumping = LEFT;
+	else if (diffX > diffY && diffX >= 0) jumping = RIGHT;
+	else if (diffX <= diffY && diffY < 0) jumping = DOWN;
+	else if (diffX <= diffY && diffY >= 0) jumping = UP;
+	jump = JUMP_LENGTH;
 }

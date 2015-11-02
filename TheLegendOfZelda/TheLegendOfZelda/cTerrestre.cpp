@@ -15,22 +15,22 @@ bool cTerrestre::CollidesMapTile(Tile* map, int direction) {
 
 	int walls[] = {1};
 
-	if (direction == 0) {				// LEFT
+	if (direction == LEFT) {				// LEFT
 		if (y % TILE_SIZE > TILE_SIZE/2) height_tiles++;
 		for (int i = 0; i < height_tiles; ++i) {
 			if (map[tile_x + ((tile_y + i)*SCENE_WIDTH)].isWall)	return true;
 		}
-	} else if (direction == 1) {		// TOP
+	} else if (direction == UP) {		// TOP
 		if (x % TILE_SIZE != 0) width_tiles++;
 		for (int i = 0; i < width_tiles; ++i) {
 			if (map[tile_x + i + ((tile_y + 1)*SCENE_WIDTH)].isWall)	return true;
 		}
-	} else if (direction == 2) {		// RIGHT
+	} else if (direction == RIGHT) {		// RIGHT
 		if (y % TILE_SIZE > TILE_SIZE / 2) height_tiles++;
 		for (int i = 0; i < height_tiles; ++i) {
 			if (map[tile_x + width_tiles + ((tile_y + i)*SCENE_WIDTH)].isWall)	return true;
 		}
-	} else if(direction == 3) {			// BOTTOM
+	} else if(direction == DOWN) {			// BOTTOM
 		if (x % TILE_SIZE != 0) width_tiles++;
 		for (int i = 0; i < width_tiles; ++i) {
 			if (map[tile_x + i + ((tile_y)*SCENE_WIDTH)].isWall)	return true;
@@ -45,14 +45,15 @@ void cTerrestre::MoveLeft(Tile *map)
 	int xaux;
 
 	//Whats next tile?
-	if ((x % TILE_SIZE) == 0)
+	if (((x-stepLength) % TILE_SIZE) >= TILE_SIZE - stepLength)
 	{
 		xaux = x;
-		x -= STEP_LENGTH;
+		x -= stepLength;
 
-		if (CollidesMapTile(map, 0))
+		if (CollidesMapTile(map, LEFT))
 		{
-			x = xaux;
+			if (xaux % TILE_SIZE == 0) x = xaux;
+			else x = xaux - TILE_SIZE + (xaux % (TILE_SIZE));
 			state = STATE_LOOKLEFT;
 		}
 
@@ -60,7 +61,7 @@ void cTerrestre::MoveLeft(Tile *map)
 	//Advance, no problem
 	else
 	{
-		x -= STEP_LENGTH;
+		x -= stepLength;
 		if (state != STATE_WALKLEFT)
 		{
 			state = STATE_WALKLEFT;
@@ -68,23 +69,24 @@ void cTerrestre::MoveLeft(Tile *map)
 			delay = 0;
 		}
 
-		if ((x % TILE_SIZE) == 0) inTileX = true;
-		else inTileX = false;
 	}
+	if ((x % TILE_SIZE) == 0) inTileX = true;
+	else inTileX = false;
 }
 void cTerrestre::MoveRight(Tile *map)
 {
 	int xaux;
 
 	//Whats next tile?
-	if ((x % TILE_SIZE) == 0)
+	if (((x + stepLength) % TILE_SIZE) <= stepLength)
 	{
 		xaux = x;
-		x += STEP_LENGTH;
+		x += stepLength;
 
-		if (CollidesMapTile(map, 2))
+		if (CollidesMapTile(map, RIGHT))
 		{
-			x = xaux;
+			if (xaux % TILE_SIZE == 0)	x = xaux;
+			else x = xaux + TILE_SIZE -(xaux%(TILE_SIZE));
 			state = STATE_LOOKRIGHT;
 		}
 
@@ -93,7 +95,7 @@ void cTerrestre::MoveRight(Tile *map)
 	//Advance, no problem
 	else
 	{
-		x += STEP_LENGTH;
+		x += stepLength;
 
 		if (state != STATE_WALKRIGHT)
 		{
@@ -102,23 +104,24 @@ void cTerrestre::MoveRight(Tile *map)
 			delay = 0;
 		}
 
-		if ((x % TILE_SIZE) == 0) inTileX = true;
-		else inTileX = false;
 	}
+	if ((x % TILE_SIZE) == 0) inTileX = true;
+	else inTileX = false;
 }
 void cTerrestre::MoveUp(Tile *map)
 {
 	int yaux;
 
 	//Whats next tile?
-	if ((y % TILE_SIZE) == TILE_SIZE / 2)
+	if (((y + stepLength) % TILE_SIZE) >= TILE_SIZE / 2 + stepLength)
 	{
 		yaux = y;
-		y += STEP_LENGTH;
+		y += stepLength;
 
-		if (CollidesMapTile(map, 1))
+		if (CollidesMapTile(map, UP))
 		{
-			y = yaux;
+			if (yaux % TILE_SIZE == TILE_SIZE / 2) y = yaux;
+			else y = yaux + TILE_SIZE / 2 - (yaux % (TILE_SIZE));
 			state = STATE_LOOKUP;
 		}
 
@@ -127,7 +130,7 @@ void cTerrestre::MoveUp(Tile *map)
 	//Advance, no problem
 	else
 	{
-		y += STEP_LENGTH;
+		y += stepLength;
 
 		if (state != STATE_WALKUP)
 		{
@@ -136,23 +139,25 @@ void cTerrestre::MoveUp(Tile *map)
 			delay = 0;
 		}
 
-		if ((y % TILE_SIZE) == 0 || (y % TILE_SIZE) == TILE_SIZE / 2) inTileY = true;
-		else inTileY = false;
 	}
+	if ((y % TILE_SIZE) == 0 || (y % TILE_SIZE) == TILE_SIZE / 2) inTileY = true;
+	else inTileY = false;
 }
+
 void cTerrestre::MoveDown(Tile *map)
 {
 	int yaux;
 
 	//Whats next tile?
-	if ((y % TILE_SIZE) == 0)
+	if (((y - stepLength) % TILE_SIZE) >= TILE_SIZE - stepLength)
 	{
 		yaux = y;
-		y -= STEP_LENGTH;
+		y -= stepLength;
 
-		if (CollidesMapTile(map, 3))
+		if (CollidesMapTile(map, DOWN))
 		{
-			y = yaux;
+			if (yaux % TILE_SIZE == 0) y = yaux;
+			else y = yaux - TILE_SIZE + (yaux % (TILE_SIZE));
 			state = STATE_LOOKDOWN;
 		}
 
@@ -161,7 +166,7 @@ void cTerrestre::MoveDown(Tile *map)
 	//Advance, no problem
 	else
 	{
-		y -= STEP_LENGTH;
+		y -= stepLength;
 
 		if (state != STATE_WALKDOWN)
 		{
@@ -170,7 +175,7 @@ void cTerrestre::MoveDown(Tile *map)
 			delay = 0;
 		}
 
-		if ((y % TILE_SIZE) == 0) inTileY = true;
-		else inTileY = false;
 	}
+	if ((y % TILE_SIZE) == 0) inTileY = true;
+	else inTileY = false;
 }
