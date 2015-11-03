@@ -98,6 +98,11 @@ bool cGame::Process()
 
 	for (int i = 0; i < Enemies.size(); i++) {
 		Enemies[i]->Logic(Scene.GetMap());
+		cBicho* projectil = Enemies[i]->ThrowProjectil(Scene.GetMap());
+		if (projectil != NULL) {
+			Enemies.push_back(projectil);
+			projectil->UpdateMapTiles(Scene.GetMap(),-1,-1);
+		}
 	}
 
 	// Detect player-enemies collisions

@@ -1,9 +1,11 @@
-#include "cOctorok.h"
+#include "cProjectil.h"
 
-cOctorok::cOctorok() {}
-cOctorok::~cOctorok() {}
+cProjectil::cProjectil() {
+	stepLength = 16;
+}
+cProjectil::~cProjectil() {}
 
-void cOctorok::Draw(int tex_id)
+void cProjectil::Draw(int tex_id)
 {
 	float xo, yo, xf, yf;
 
@@ -54,51 +56,20 @@ void cOctorok::Draw(int tex_id)
 	DrawRect(tex_id, xo, yf, xf, yo);
 }
 
-void cOctorok::Logic(Tile *map) {
+void cProjectil::Logic(Tile *map) {
 	int x0;
 	int y0;
-
+	
 	GetPosition(&x0, &y0);
-
-	int shoot = rand() % 10;
-	if (shoot < 9) {
-		if (inTileX && inTileY) {
-			if (rand() % 4 < 2) // Per canviar de moviment nomes la meitat de les ocasions
-				move = rand() % 4;
-		}
-		switch (move) {
-		case 0:
-			MoveUp(map);
-			break;
-		case 1:
-			MoveRight(map);
-			break;
-		case 2:
-			MoveDown(map);
-			break;
-		case 3:
-			MoveLeft(map);
-			break;
-		}
-		throwProjectil = false;
-	}
-	else {
-		Stop();
-		throwProjectil = true;
-	}
-
+	if (GetState() == STATE_LOOKLEFT || GetState() == STATE_WALKLEFT) MoveLeft(map);
+	else if (GetState() == STATE_LOOKRIGHT || GetState() == STATE_WALKRIGHT) MoveRight(map);
+	else if (GetState() == STATE_LOOKUP || GetState() == STATE_WALKUP) MoveUp(map);
+	else if (GetState() == STATE_LOOKDOWN || GetState() == STATE_WALKDOWN) MoveDown(map);
+	
 	UpdateMapTiles(map, x0, y0);
-
+	
 }
 
-cBicho* cOctorok::ThrowProjectil(Tile* map) {
-	if (throwProjectil) {
-		cProjectil* projectil = new cProjectil();
-		int x, y;
-		GetPosition(&x, &y);
-		projectil->SetPosition(x, y, map);
-		projectil->SetState(GetState());
-		return projectil;
-	}
-	else return nullptr;
+cBicho* cProjectil::ThrowProjectil(Tile* map) {
+	return nullptr;
 }

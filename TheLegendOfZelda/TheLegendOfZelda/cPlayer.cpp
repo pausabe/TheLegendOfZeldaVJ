@@ -107,3 +107,7 @@ void cPlayer::JumpBack(cRect* collider) {
 	else if (diffX <= diffY && diffY >= 0) jumping = UP;
 	jump = JUMP_LENGTH;
 }
+
+cBicho* cPlayer::ThrowProjectil(Tile* map) {
+	return nullptr;
+}

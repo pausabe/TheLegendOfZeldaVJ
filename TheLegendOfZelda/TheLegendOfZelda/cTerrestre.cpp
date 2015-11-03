@@ -89,8 +89,6 @@ void cTerrestre::MoveRight(Tile *map)
 			else x = xaux + TILE_SIZE -(xaux%(TILE_SIZE));
 			state = STATE_LOOKRIGHT;
 		}
-
-		//inTileX = true;
 	}
 	//Advance, no problem
 	else
@@ -125,7 +123,6 @@ void cTerrestre::MoveUp(Tile *map)
 			state = STATE_LOOKUP;
 		}
 
-		//inTileY = true;
 	}
 	//Advance, no problem
 	else
@@ -157,11 +154,10 @@ void cTerrestre::MoveDown(Tile *map)
 		if (CollidesMapTile(map, DOWN))
 		{
 			if (yaux % TILE_SIZE == 0) y = yaux;
-			else y = yaux - TILE_SIZE + (yaux % (TILE_SIZE));
+			else y = yaux - (TILE_SIZE + (yaux % (TILE_SIZE)));
 			state = STATE_LOOKDOWN;
 		}
 
-		//inTileY = true;
 	}
 	//Advance, no problem
 	else

@@ -65,12 +65,14 @@ public:
 	int  GetFrame();
 
 	virtual void Draw(int tex_id) = 0;
+	virtual cBicho* ThrowProjectil(Tile* map) = 0;
 	
 protected:
 	int x = -1, y = -1;
 	int w, h;
 	int state;
 	int seq, delay;
+	bool throwProjectil = false;
 
 private:
 

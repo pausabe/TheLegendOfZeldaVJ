@@ -22,4 +22,5 @@ public:
 	void Logic(Tile *map);
 	bool isJumping();
 	void JumpBack(cRect* collider);
+	cBicho* ThrowProjectil(Tile* map);
 };
