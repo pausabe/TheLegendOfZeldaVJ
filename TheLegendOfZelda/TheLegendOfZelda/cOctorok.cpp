@@ -60,8 +60,8 @@ void cOctorok::Logic(Tile *map) {
 
 	GetPosition(&x0, &y0);
 
-	int shoot = rand() % 10;
-	if (shoot < 9) {
+	int shoot = rand() % 400;
+	if (shoot > 1) {
 		if (inTileX && inTileY) {
 			if (rand() % 4 < 2) // Per canviar de moviment nomes la meitat de les ocasions
 				move = rand() % 4;
@@ -98,6 +98,8 @@ cBicho* cOctorok::ThrowProjectil(Tile* map) {
 		GetPosition(&x, &y);
 		projectil->SetPosition(x, y, map);
 		projectil->SetState(GetState());
+		projectil->SetWidthHeight(TILE_SIZE,TILE_SIZE);
+		throwProjectil = false;
 		return projectil;
 	}
 	else return nullptr;

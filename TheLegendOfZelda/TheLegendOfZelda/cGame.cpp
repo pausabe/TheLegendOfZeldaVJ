@@ -49,6 +49,8 @@ bool cGame::Init()
 	c->SetWidthHeight(TILE_SIZE, TILE_SIZE);
 	c->SetState(STATE_LOOKDOWN);
 	
+
+
 	Enemies.push_back(c);
 	return res;
 }
@@ -97,11 +99,18 @@ bool cGame::Process()
 	Player.Logic(Scene.GetMap());
 
 	for (int i = 0; i < Enemies.size(); i++) {
-		Enemies[i]->Logic(Scene.GetMap());
-		cBicho* projectil = Enemies[i]->ThrowProjectil(Scene.GetMap());
-		if (projectil != NULL) {
-			Enemies.push_back(projectil);
-			projectil->UpdateMapTiles(Scene.GetMap(),-1,-1);
+		if (Enemies[i]->ToBeDestroyed()) {
+			cBicho* aux = Enemies[i];
+			Enemies.erase(Enemies.begin() + i);
+			delete aux;
+		}
+		else {
+			Enemies[i]->Logic(Scene.GetMap());
+			cBicho* projectil = Enemies[i]->ThrowProjectil(Scene.GetMap());
+			if (projectil != NULL) {
+				Enemies.push_back(projectil);
+				projectil->UpdateMapTiles(Scene.GetMap(), -1, -1);
+			}
 		}
 	}
 

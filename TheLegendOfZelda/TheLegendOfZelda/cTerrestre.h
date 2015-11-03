@@ -8,8 +8,11 @@ class cTerrestre : public cBicho
 
 protected:
 
-	// Is true if the character is exactly in the tile coordinates
-	bool inTileX, inTileY;
+	// True if the character is exactly in the tile coordinates
+	bool inTileX = true;
+	bool inTileY = true;
+	// True if the character has collided with a wall tile
+	bool collision = false;
 	int move;
 	int stepLength = STEP_LENGTH;
 

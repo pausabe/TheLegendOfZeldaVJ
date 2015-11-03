@@ -2,8 +2,6 @@
 #include "cScene.h"
 
 cTerrestre::cTerrestre() {
-	inTileX = true;
-	inTileY = true;
 }
 cTerrestre::~cTerrestre() {}
 
@@ -50,12 +48,12 @@ void cTerrestre::MoveLeft(Tile *map)
 		xaux = x;
 		x -= stepLength;
 
-		if (CollidesMapTile(map, LEFT))
-		{
+		if (CollidesMapTile(map, LEFT)) {
 			if (xaux % TILE_SIZE == 0) x = xaux;
 			else x = xaux - TILE_SIZE + (xaux % (TILE_SIZE));
 			state = STATE_LOOKLEFT;
-		}
+			collision = true;
+		} else collision = false;
 
 	}
 	//Advance, no problem
@@ -68,7 +66,7 @@ void cTerrestre::MoveLeft(Tile *map)
 			seq = 0;
 			delay = 0;
 		}
-
+		collision = false;
 	}
 	if ((x % TILE_SIZE) == 0) inTileX = true;
 	else inTileX = false;
@@ -87,8 +85,9 @@ void cTerrestre::MoveRight(Tile *map)
 		{
 			if (xaux % TILE_SIZE == 0)	x = xaux;
 			else x = xaux + TILE_SIZE -(xaux%(TILE_SIZE));
-			state = STATE_LOOKRIGHT;
-		}
+			state = STATE_LOOKRIGHT;			
+			collision = true;
+		} else collision = false;
 	}
 	//Advance, no problem
 	else
@@ -101,7 +100,7 @@ void cTerrestre::MoveRight(Tile *map)
 			seq = 0;
 			delay = 0;
 		}
-
+		collision = false;
 	}
 	if ((x % TILE_SIZE) == 0) inTileX = true;
 	else inTileX = false;
@@ -121,7 +120,8 @@ void cTerrestre::MoveUp(Tile *map)
 			if (yaux % TILE_SIZE == TILE_SIZE / 2) y = yaux;
 			else y = yaux + TILE_SIZE / 2 - (yaux % (TILE_SIZE));
 			state = STATE_LOOKUP;
-		}
+			collision = true;
+		} else collision = false;
 
 	}
 	//Advance, no problem
@@ -135,7 +135,7 @@ void cTerrestre::MoveUp(Tile *map)
 			seq = 0;
 			delay = 0;
 		}
-
+		collision = false;
 	}
 	if ((y % TILE_SIZE) == 0 || (y % TILE_SIZE) == TILE_SIZE / 2) inTileY = true;
 	else inTileY = false;
@@ -156,7 +156,8 @@ void cTerrestre::MoveDown(Tile *map)
 			if (yaux % TILE_SIZE == 0) y = yaux;
 			else y = yaux - (TILE_SIZE + (yaux % (TILE_SIZE)));
 			state = STATE_LOOKDOWN;
-		}
+			collision = true;
+		} else collision = false;
 
 	}
 	//Advance, no problem
@@ -170,7 +171,7 @@ void cTerrestre::MoveDown(Tile *map)
 			seq = 0;
 			delay = 0;
 		}
-
+		collision = false;
 	}
 	if ((y % TILE_SIZE) == 0) inTileY = true;
 	else inTileY = false;

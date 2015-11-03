@@ -280,41 +280,42 @@ void cBicho::Stop()
 void cBicho::UpdateMapTiles(Tile *map, int x0, int y0) {
 	
 	// Remove the bicho from original tiles
-
-	std::vector<cBicho*> *bichos = &map[((y0 / TILE_SIZE)*SCENE_WIDTH) + x0 / TILE_SIZE].bichos;
-	for ( int i = 0; i < bichos->size(); i++) {
-		if ((*bichos)[i] == this) {
-			bichos->erase(bichos->begin()+i);
-			break;
-		}
-	}
-
-	if (x0 % TILE_SIZE != 0) {
-		bichos = &map[((y0 / TILE_SIZE)*SCENE_WIDTH) + x0 / TILE_SIZE + 1].bichos;
+	if (x0 >= 0 && y0 >= 0) {
+		std::vector<cBicho*> *bichos = &map[((y0 / TILE_SIZE)*SCENE_WIDTH) + x0 / TILE_SIZE].bichos;
 		for (int i = 0; i < bichos->size(); i++) {
 			if ((*bichos)[i] == this) {
 				bichos->erase(bichos->begin() + i);
 				break;
 			}
 		}
-	}
 
-	if (y0 % TILE_SIZE != 0) {
-		bichos = &map[(((y0 / TILE_SIZE)+1)*SCENE_WIDTH) + x0 / TILE_SIZE].bichos;
-		for (int i = 0; i < bichos->size(); i++) {
-			if ((*bichos)[i] == this) {
-				bichos->erase(bichos->begin() + i);
-				break;
+		if (x0 % TILE_SIZE != 0) {
+			bichos = &map[((y0 / TILE_SIZE)*SCENE_WIDTH) + x0 / TILE_SIZE + 1].bichos;
+			for (int i = 0; i < bichos->size(); i++) {
+				if ((*bichos)[i] == this) {
+					bichos->erase(bichos->begin() + i);
+					break;
+				}
 			}
 		}
-	}
 
-	if (x0 % TILE_SIZE != 0 && y0 % TILE_SIZE != 0) {
-		bichos = &map[(((y0 / TILE_SIZE)+1)*SCENE_WIDTH) + x0 / TILE_SIZE + 1].bichos;
-		for (int i = 0; i < bichos->size(); i++) {
-			if ((*bichos)[i] == this) {
-				bichos->erase(bichos->begin() + i);
-				break;
+		if (y0 % TILE_SIZE != 0) {
+			bichos = &map[(((y0 / TILE_SIZE) + 1)*SCENE_WIDTH) + x0 / TILE_SIZE].bichos;
+			for (int i = 0; i < bichos->size(); i++) {
+				if ((*bichos)[i] == this) {
+					bichos->erase(bichos->begin() + i);
+					break;
+				}
+			}
+		}
+
+		if (x0 % TILE_SIZE != 0 && y0 % TILE_SIZE != 0) {
+			bichos = &map[(((y0 / TILE_SIZE) + 1)*SCENE_WIDTH) + x0 / TILE_SIZE + 1].bichos;
+			for (int i = 0; i < bichos->size(); i++) {
+				if ((*bichos)[i] == this) {
+					bichos->erase(bichos->begin() + i);
+					break;
+				}
 			}
 		}
 	}
@@ -370,4 +371,8 @@ int cBicho::GetState()
 void cBicho::SetState(int s)
 {
 	state = s;
+}
+
+bool cBicho::ToBeDestroyed() {
+	return toBeDestroyed;
 }
