@@ -5,9 +5,7 @@
 cBicho::cBicho(void)
 {
 	seq=0;
-	seqAtack = 0;
 	delay=0;
-	delayAtack = 0;
 
 	jumping = false;
 }
@@ -124,7 +122,10 @@ void cBicho::DrawRect(int tex_id,float xo,float yo,float xf,float yf)
 	screen_x = x + SCENE_Xo;
 	screen_y = y + SCENE_Yo + (BLOCK_SIZE - TILE_SIZE);
 
-	if (seqAtack==1) screen_y -= 64;
+	if (state == STATE_ATACKDOWN) {
+		screen_y -= 32; 
+	}
+	else if (state == STATE_ATACKLEFT) screen_x -= 32;
 
 	glEnable(GL_TEXTURE_2D);
 	
@@ -170,7 +171,6 @@ void cBicho::MoveLeft(std::pair<int, bool> *map)
 }
 void cBicho::MoveRight(std::pair<int, bool> *map)
 {
-	//SetWidthHeight(64, 64);
 	int xaux;
 
 	//Whats next tile?
@@ -200,7 +200,6 @@ void cBicho::MoveRight(std::pair<int, bool> *map)
 }
 void cBicho::MoveUp(std::pair<int, bool> *map)
 {
-	//SetWidthHeight(64, 64);
 	int yaux;
 
 	//Whats next tile?
@@ -230,7 +229,6 @@ void cBicho::MoveUp(std::pair<int, bool> *map)
 }
 void cBicho::MoveDown(std::pair<int, bool> *map)
 {
-	//SetWidthHeight(64, 64);
 	int yaux;
 
 	//Whats next tile?
@@ -260,22 +258,28 @@ void cBicho::MoveDown(std::pair<int, bool> *map)
 }
 void cBicho::Atack(std::pair<int, bool> *map)
 {
-	if (state != STATE_ATACKDOWN) {
-		seqAtack = 0;
-		delayAtack = 0;
-		//lastState = state;
+	if (state == STATE_WALKDOWN || state == STATE_LOOKDOWN || state == STATE_ATACKDOWN) {
 		state = STATE_ATACKDOWN;
+		SetWidthHeight(64, 96);
+	}
+	else if (state == STATE_WALKUP || state == STATE_LOOKUP || state == STATE_ATACKUP) {
+		state = STATE_ATACKUP;
+		SetWidthHeight(64, 96);
+	}
+	else if (state == STATE_WALKRIGHT || state == STATE_LOOKRIGHT || state == STATE_ATACKRIGHT) {
+		state = STATE_ATACKRIGHT;
+		SetWidthHeight(96, 64);
+	}
+	else if (state == STATE_WALKLEFT || state == STATE_LOOKLEFT || state == STATE_ATACKLEFT) {
+		state = STATE_ATACKLEFT;
+		SetWidthHeight(96, 64);
 	}
 
-	if (seqAtack == 1) {
-		SetWidthHeight(64, 128);
-	}
-	else SetWidthHeight(64, 64);
+	
 
 }
 void cBicho::Stop()
 {
-	//SetWidthHeight(64, 64);
 	switch(state)
 	{
 		case STATE_WALKLEFT:	state = STATE_LOOKLEFT;		break;
@@ -303,24 +307,6 @@ void cBicho::NextFrame(int max)
 		delay = 0;
 	}
 }
-void cBicho::AtackFrame()
-{
-	delayAtack++;
-	if (delayAtack == FRAME_DELAY_ATACK)
-	{
-		if (seqAtack == 0) {
-			seqAtack = 1;
-		
-		}
-		else if (seqAtack == 1) {
-			seqAtack = 2;
-			state = STATE_LOOKDOWN;
-		}
-
-		delayAtack = 0;
-	}
-}
-
 int cBicho::GetFrame()
 {
 	return seq;
@@ -329,10 +315,7 @@ int cBicho::GetState()
 {
 	return state;
 }
-int cBicho::GetAtackFrame()
-{
-	return seqAtack;
-}
+
 void cBicho::SetState(int s)
 {
 	state = s;

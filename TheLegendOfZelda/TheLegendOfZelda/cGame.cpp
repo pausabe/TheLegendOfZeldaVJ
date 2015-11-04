@@ -76,22 +76,21 @@ bool cGame::Process()
 
 	Player.SetWidthHeight(64, 64);
 
-	if (selKey == 's') {
-		if(Player.GetAtackFrame() == 2) selKey = ' ';
+	if (keys['s']) {
 		Player.Atack(Scene.GetMap());
 	}
-	else if (keys[GLUT_KEY_UP] && selKey != 's') {
+	else if (keys[GLUT_KEY_UP]) {
 		Player.MoveUp(Scene.GetMap()); 
 	}
-	else if (keys[GLUT_KEY_DOWN] && selKey != 's')
+	else if (keys[GLUT_KEY_DOWN])
 	{
 		Player.MoveDown(Scene.GetMap());
 	}
-	else if (keys[GLUT_KEY_LEFT] && selKey != 's')
+	else if (keys[GLUT_KEY_LEFT])
 	{
 		Player.MoveLeft(Scene.GetMap());
 	}
-	else if (keys[GLUT_KEY_RIGHT] && selKey != 's')
+	else if (keys[GLUT_KEY_RIGHT])
 	{
 		Player.MoveRight(Scene.GetMap());
 	}

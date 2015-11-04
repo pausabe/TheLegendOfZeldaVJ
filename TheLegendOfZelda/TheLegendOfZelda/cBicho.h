@@ -4,7 +4,6 @@
 #include "Globals.h"
 
 #define FRAME_DELAY			10
-#define FRAME_DELAY_ATACK	5 
 #define STEP_LENGTH			4
 
 #define STATE_LOOKLEFT		0
@@ -57,11 +56,9 @@ public:
 	void Logic(std::pair<int, bool> *map);
 
 	int  GetState();
-	int	 GetAtackFrame();
 	void SetState(int s);
 
 	void NextFrame(int max);
-	void AtackFrame();
 	int  GetFrame();
 	
 protected:
@@ -69,10 +66,7 @@ protected:
 	int w, h;
 	int state;
 	int lastState;
-	int atackState;
 	int seq, delay;
-	int seqAtack;
-	int delayAtack;
 
 private:
 
