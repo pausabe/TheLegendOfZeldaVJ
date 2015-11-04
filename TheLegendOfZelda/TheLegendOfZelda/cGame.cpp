@@ -12,6 +12,7 @@ cGame::~cGame(void)
 
 bool cGame::Init()
 {
+	oneKey = false;
 	bool res=true;
 
 	//Graphics initialization
@@ -58,6 +59,7 @@ void cGame::Finalize()
 void cGame::ReadKeyboard(unsigned char key, int x, int y, bool press)
 {
 	keys[key] = press;
+	selKey = key;
 }
 
 void cGame::ReadMouse(int button, int state, int x, int y)
@@ -72,10 +74,28 @@ bool cGame::Process()
 	//Process Input
 	if (keys[27])	res = false;
 
-	if (keys[GLUT_KEY_UP])			Player.MoveUp(Scene.GetMap());
-	else if (keys[GLUT_KEY_DOWN])		Player.MoveDown(Scene.GetMap());
-	else if (keys[GLUT_KEY_LEFT])		Player.MoveLeft(Scene.GetMap());
-	else if (keys[GLUT_KEY_RIGHT])	Player.MoveRight(Scene.GetMap());
+	Player.SetWidthHeight(64, 64);
+
+	if (selKey == 's') {
+		if(Player.GetAtackFrame() == 2) selKey = ' ';
+		Player.Atack(Scene.GetMap());
+	}
+	else if (keys[GLUT_KEY_UP] && selKey != 's') {
+		Player.MoveUp(Scene.GetMap()); 
+	}
+	else if (keys[GLUT_KEY_DOWN] && selKey != 's')
+	{
+		Player.MoveDown(Scene.GetMap());
+	}
+	else if (keys[GLUT_KEY_LEFT] && selKey != 's')
+	{
+		Player.MoveLeft(Scene.GetMap());
+	}
+	else if (keys[GLUT_KEY_RIGHT] && selKey != 's')
+	{
+		Player.MoveRight(Scene.GetMap());
+	}
+	
 	else Player.Stop();
 
 

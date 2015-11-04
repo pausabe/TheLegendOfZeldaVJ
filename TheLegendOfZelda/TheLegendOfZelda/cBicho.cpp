@@ -5,7 +5,9 @@
 cBicho::cBicho(void)
 {
 	seq=0;
+	seqAtack = 0;
 	delay=0;
+	delayAtack = 0;
 
 	jumping = false;
 }
@@ -122,6 +124,8 @@ void cBicho::DrawRect(int tex_id,float xo,float yo,float xf,float yf)
 	screen_x = x + SCENE_Xo;
 	screen_y = y + SCENE_Yo + (BLOCK_SIZE - TILE_SIZE);
 
+	if (seqAtack==1) screen_y -= 64;
+
 	glEnable(GL_TEXTURE_2D);
 	
 	glBindTexture(GL_TEXTURE_2D,tex_id);
@@ -137,6 +141,7 @@ void cBicho::DrawRect(int tex_id,float xo,float yo,float xf,float yf)
 
 void cBicho::MoveLeft(std::pair<int, bool> *map)
 {
+	//SetWidthHeight(64, 64);
 	int xaux;
 	
 	//Whats next tile?
@@ -165,6 +170,7 @@ void cBicho::MoveLeft(std::pair<int, bool> *map)
 }
 void cBicho::MoveRight(std::pair<int, bool> *map)
 {
+	//SetWidthHeight(64, 64);
 	int xaux;
 
 	//Whats next tile?
@@ -194,6 +200,7 @@ void cBicho::MoveRight(std::pair<int, bool> *map)
 }
 void cBicho::MoveUp(std::pair<int, bool> *map)
 {
+	//SetWidthHeight(64, 64);
 	int yaux;
 
 	//Whats next tile?
@@ -223,6 +230,7 @@ void cBicho::MoveUp(std::pair<int, bool> *map)
 }
 void cBicho::MoveDown(std::pair<int, bool> *map)
 {
+	//SetWidthHeight(64, 64);
 	int yaux;
 
 	//Whats next tile?
@@ -250,31 +258,36 @@ void cBicho::MoveDown(std::pair<int, bool> *map)
 		}
 	}
 }
+void cBicho::Atack(std::pair<int, bool> *map)
+{
+	if (state != STATE_ATACKDOWN) {
+		seqAtack = 0;
+		delayAtack = 0;
+		//lastState = state;
+		state = STATE_ATACKDOWN;
+	}
+
+	if (seqAtack == 1) {
+		SetWidthHeight(64, 128);
+	}
+	else SetWidthHeight(64, 64);
+
+}
 void cBicho::Stop()
 {
-	
+	//SetWidthHeight(64, 64);
 	switch(state)
 	{
 		case STATE_WALKLEFT:	state = STATE_LOOKLEFT;		break;
 		case STATE_WALKRIGHT:	state = STATE_LOOKRIGHT;	break;
 		case STATE_WALKUP:		state = STATE_LOOKUP;		break;
 		case STATE_WALKDOWN:	state = STATE_LOOKDOWN;		break;
-
+		case STATE_ATACKLEFT:	state = STATE_LOOKLEFT;		break;
+		case STATE_ATACKRIGHT:	state = STATE_LOOKRIGHT;	break;
+		case STATE_ATACKUP:		state = STATE_LOOKUP;		break;
+		case STATE_ATACKDOWN:	state = STATE_LOOKDOWN;		break;
 	}
 }
-
-/*void cBicho::Jump(int *map)
-{
-	if(!jumping)
-	{
-		if(CollidesMapFloor(map))
-		{
-			jumping = true;
-			jump_alfa = 0;
-			jump_y = y;
-		}
-	}
-}*/
 
 void cBicho::Logic(std::pair<int, bool> *map)
 {
@@ -290,6 +303,24 @@ void cBicho::NextFrame(int max)
 		delay = 0;
 	}
 }
+void cBicho::AtackFrame()
+{
+	delayAtack++;
+	if (delayAtack == FRAME_DELAY_ATACK)
+	{
+		if (seqAtack == 0) {
+			seqAtack = 1;
+		
+		}
+		else if (seqAtack == 1) {
+			seqAtack = 2;
+			state = STATE_LOOKDOWN;
+		}
+
+		delayAtack = 0;
+	}
+}
+
 int cBicho::GetFrame()
 {
 	return seq;
@@ -297,6 +328,10 @@ int cBicho::GetFrame()
 int cBicho::GetState()
 {
 	return state;
+}
+int cBicho::GetAtackFrame()
+{
+	return seqAtack;
 }
 void cBicho::SetState(int s)
 {

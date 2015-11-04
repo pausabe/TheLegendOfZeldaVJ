@@ -3,10 +3,9 @@
 #include "cTexture.h"
 #include "Globals.h"
 
-#define FRAME_DELAY		4
-#define STEP_LENGTH		4
-//#define JUMP_HEIGHT		96
-//#define JUMP_STEP		4
+#define FRAME_DELAY			10
+#define FRAME_DELAY_ATACK	5 
+#define STEP_LENGTH			4
 
 #define STATE_LOOKLEFT		0
 #define STATE_LOOKRIGHT		1
@@ -16,6 +15,10 @@
 #define STATE_LOOKDOWN		5
 #define STATE_WALKUP		6
 #define STATE_WALKDOWN		7
+#define STATE_ATACKLEFT		8
+#define STATE_ATACKRIGHT	9
+#define STATE_ATACKUP		10
+#define STATE_ATACKDOWN		11
 
 
 class cRect
@@ -49,21 +52,27 @@ public:
 	void MoveLeft(std::pair<int, bool> *map);
 	void MoveUp(std::pair<int, bool> *map);
 	void MoveDown(std::pair<int, bool> *màp);
-	//void Jump(int *map);
+	void Atack(std::pair<int, bool> *màp);
 	void Stop();
 	void Logic(std::pair<int, bool> *map);
 
 	int  GetState();
+	int	 GetAtackFrame();
 	void SetState(int s);
 
 	void NextFrame(int max);
+	void AtackFrame();
 	int  GetFrame();
 	
 protected:
 	int x, y;
 	int w, h;
 	int state;
+	int lastState;
+	int atackState;
 	int seq, delay;
+	int seqAtack;
+	int delayAtack;
 
 private:
 
