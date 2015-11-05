@@ -30,6 +30,8 @@ public:
 
 private:
 	unsigned char keys[256];
+	char selKey;
+	int oneKey;
 	cScene Scene;
 	cPlayer Player;
 	cData Data;

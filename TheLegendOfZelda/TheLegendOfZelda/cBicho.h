@@ -15,6 +15,10 @@
 #define STATE_LOOKDOWN		5
 #define STATE_WALKUP		6
 #define STATE_WALKDOWN		7
+#define STATE_ATACKLEFT		8
+#define STATE_ATACKRIGHT	9
+#define STATE_ATACKUP		10
+#define STATE_ATACKDOWN		11
 
 
 class cRect
@@ -49,6 +53,7 @@ public:
 	void MoveLeft(Tile *map);
 	void MoveUp(Tile *map);
 	void MoveDown(Tile *màp);
+	//void Atack(Tile * map);
 	//void Jump(int *map);
 	void Stop();
 
@@ -63,7 +68,7 @@ public:
 
 	void NextFrame(int max);
 	int  GetFrame();
-
+	
 	virtual void Draw(int tex_id) = 0;
 	virtual cBicho* ThrowProjectil(Tile* map) = 0;
 	
@@ -73,6 +78,7 @@ protected:
 	int x = -1, y = -1;
 	int w, h;
 	int state;
+	int lastState;
 	int seq, delay;
 	bool throwProjectil = false;
 	bool toBeDestroyed = false;

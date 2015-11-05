@@ -23,52 +23,138 @@ void cPlayer::Draw(int tex_id)
     float texture_size = 512;
 
 	//hi ha 14 pixels en blanc que hem d'anar saltant
-	switch(GetState())
-	{
-		//1
-		case STATE_LOOKLEFT:	xo = (float) ((sprite_size+14)/texture_size);	yo = 0.0f;
-								break;
-		//4
-		case STATE_LOOKRIGHT:	xo = (float)((sprite_size + 14)/texture_size)*3;	yo = 0.0f;
-								break;
-		//1..3
-		case STATE_WALKLEFT:	xo = (float)((sprite_size + 14) / texture_size); 
-								yo = 0.0f + (GetFrame()*((float)((sprite_size + 14) / texture_size)));
-								NextFrame(2);
-								break;
-		//4..6
-		case STATE_WALKRIGHT:	xo = (float)((sprite_size + 14) / texture_size) * 3;
-								yo = 0.0f + (GetFrame()*((float)((sprite_size + 14) / texture_size)));
-								NextFrame(2);
-								break;
+	int SA;
+	if (atacking != -1) {
+		switch (GetState()) {
+		case STATE_ATACKDOWN:
+			xo = 0.0f;
+			yo = ((float)((sprite_size + 14) / texture_size)) * 2 + ((float)((sprite_size + 8) / texture_size));
+			break;
 
-		case STATE_LOOKUP:		xo = (float)((sprite_size + 14) / texture_size) * 2;	yo = 0.0f;
-								break;
+		case STATE_ATACKUP:
+			xo = (float)((sprite_size + 14) / texture_size) * 2;
+			yo = ((float)((sprite_size + 14) / texture_size)) * 2 + ((float)((sprite_size + 8) / texture_size));
+			break;
 
-		case STATE_LOOKDOWN:	xo = 0.0f;	yo = 0.0f;
-								break;
+		case STATE_ATACKRIGHT:
+			xo = (float)((sprite_size + 14) / texture_size) * 2 + ((float)((sprite_size + 8) / texture_size));
+			yo = ((float)((sprite_size + 14) / texture_size)) * 3;
+			break;
 
-		case STATE_WALKUP:		xo = (float)((sprite_size + 14) / texture_size) * 2;
-								yo = 0.0f + (GetFrame()*((float)((sprite_size + 14) / texture_size)));
-								NextFrame(2);
-								break;
-
-		case STATE_WALKDOWN:	xo = 0.0f;	
-								yo = 0.0f + (GetFrame()*((float)((sprite_size + 14) / texture_size)));
-								NextFrame(2);
-								break;
+		case STATE_ATACKLEFT:
+			xo = ((float)((sprite_size + 8) / texture_size));
+			yo = ((float)((sprite_size + 14) / texture_size)) * 3;
+			break;
+		}
 	}
+	else {
+		switch (GetState())
+		{
+		case STATE_LOOKLEFT:
+			xo = (float)((sprite_size + 14) / texture_size);
+			yo = 0.0f;
+			break;
 
+		case STATE_LOOKRIGHT:
+			xo = (float)((sprite_size + 14) / texture_size) * 3;
+			yo = 0.0f;
+			break;
 
-	xf = xo + (float)(sprite_size / texture_size);
-	yf = yo + (float)(sprite_size / texture_size);
+		case STATE_WALKLEFT:
+			xo = (float)((sprite_size + 14) / texture_size);
+			yo = (GetFrame()*((float)((sprite_size + 14) / texture_size)));
+			NextFrame(2);
+			break;
+
+		case STATE_WALKRIGHT:
+			xo = (float)((sprite_size + 14) / texture_size) * 3;
+			yo = (GetFrame()*((float)((sprite_size + 14) / texture_size)));
+			NextFrame(2);
+			break;
+
+		case STATE_LOOKUP:
+			xo = (float)((sprite_size + 14) / texture_size) * 2;
+			yo = 0.0f;
+			break;
+
+		case STATE_LOOKDOWN:
+			xo = 0.0f;
+			yo = 0.0f;
+			break;
+
+		case STATE_WALKUP:
+			xo = (float)((sprite_size + 14) / texture_size) * 2;
+			yo = (GetFrame()*((float)((sprite_size + 14) / texture_size)));
+			NextFrame(2);
+			break;
+
+		case STATE_WALKDOWN:
+			xo = 0.0f;
+			yo = (GetFrame()*((float)((sprite_size + 14) / texture_size)));
+			NextFrame(2);
+			break;
+		}
+	}
+	int state = GetState();
+	if(GetState() == STATE_ATACKRIGHT || GetState() == STATE_ATACKLEFT) xf = xo + (float)((sprite_size + 11.0f)/ texture_size);
+	else xf = xo + (float)(sprite_size / texture_size);
+	if (GetState() == STATE_ATACKDOWN || GetState() == STATE_ATACKUP) yf = yo + (float)((sprite_size + 11.0f) / texture_size);
+	else yf = yo + (float)(sprite_size / texture_size);
+
 
 	DrawRect(tex_id,xo,yf,xf,yo);
+}
+
+void cPlayer::Atack(Tile *map)
+{
+	atacking = ATACK_DURATION;
+
+	if (state == STATE_WALKDOWN || state == STATE_LOOKDOWN || state == STATE_ATACKDOWN) {
+		state = STATE_ATACKDOWN;
+		SetWidthHeight(64, 96);
+	}
+	else if (state == STATE_WALKUP || state == STATE_LOOKUP || state == STATE_ATACKUP) {
+		state = STATE_ATACKUP;
+		SetWidthHeight(64, 96);
+	}
+	else if (state == STATE_WALKRIGHT || state == STATE_LOOKRIGHT || state == STATE_ATACKRIGHT) {
+		SetState(STATE_ATACKRIGHT);
+		SetWidthHeight(96, 64);
+	}
+	else if (state == STATE_WALKLEFT || state == STATE_LOOKLEFT || state == STATE_ATACKLEFT) {
+		state = STATE_ATACKLEFT;
+		SetWidthHeight(96, 64);
+	}
+
 }
 
 void cPlayer::Logic(Tile* map) {
 	int state = GetState();
 	
+
+	if (atacking > 0) {
+		atacking--;
+	} 
+	else {
+		SetWidthHeight(64, 64);
+		switch (GetState()) {
+		case STATE_ATACKDOWN: 
+			SetState(STATE_LOOKDOWN);
+			break;
+		case STATE_ATACKUP:
+			SetState(STATE_LOOKUP);
+			break;
+		case STATE_ATACKLEFT:
+			SetState(STATE_LOOKLEFT);
+			break;
+		case STATE_ATACKRIGHT:
+			SetState(STATE_LOOKRIGHT);
+			break;
+		}
+		atacking = -1;
+	}
+
+
 	if (jumping != -1) {
 		stepLength = JUMP_STEP;
 		switch (jumping) {

@@ -12,6 +12,7 @@ cGame::~cGame(void)
 
 bool cGame::Init()
 {
+	oneKey = false;
 	bool res=true;
 
 	//Graphics initialization
@@ -73,6 +74,7 @@ void cGame::Finalize()
 void cGame::ReadKeyboard(unsigned char key, int x, int y, bool press)
 {
 	keys[key] = press;
+	selKey = key;
 }
 
 void cGame::ReadMouse(int button, int state, int x, int y)
@@ -88,10 +90,24 @@ bool cGame::Process()
 	if (keys[27])	res = false;
 
 	if (!Player.isJumping()) {
-		if (keys[GLUT_KEY_UP])			Player.MoveUp(Scene.GetMap());
-		else if (keys[GLUT_KEY_DOWN])		Player.MoveDown(Scene.GetMap());
-		else if (keys[GLUT_KEY_LEFT])		Player.MoveLeft(Scene.GetMap());
-		else if (keys[GLUT_KEY_RIGHT])	Player.MoveRight(Scene.GetMap());
+		if (keys['s']) {
+			Player.Atack(Scene.GetMap());
+		}
+		else if (keys[GLUT_KEY_UP]) {
+			Player.MoveUp(Scene.GetMap());
+		}
+		else if (keys[GLUT_KEY_DOWN])
+		{
+			Player.MoveDown(Scene.GetMap());
+		}
+		else if (keys[GLUT_KEY_LEFT])
+		{
+			Player.MoveLeft(Scene.GetMap());
+		}
+		else if (keys[GLUT_KEY_RIGHT])
+		{
+			Player.MoveRight(Scene.GetMap());
+		}
 		else Player.Stop();
 	}
 
