@@ -1,7 +1,7 @@
 #include "cProjectil.h"
 
 cProjectil::cProjectil() {
-	stepLength = 24;
+	stepLength = SPEED;
 }
 cProjectil::~cProjectil() {}
 
@@ -25,15 +25,19 @@ void cProjectil::Logic(Tile *map) {
 	int y0;
 	
 	GetPosition(&x0, &y0);
-
+	if (x0 < 0 || y0 < 0 || collision) toBeDestroyed = true;
 	if (GetState() == STATE_LOOKLEFT || GetState() == STATE_WALKLEFT) MoveLeft(map);
 	else if (GetState() == STATE_LOOKRIGHT || GetState() == STATE_WALKRIGHT) MoveRight(map);
 	else if (GetState() == STATE_LOOKUP || GetState() == STATE_WALKUP) MoveUp(map);
 	else if (GetState() == STATE_LOOKDOWN || GetState() == STATE_WALKDOWN) MoveDown(map);
-	if (x0 < 0 || y0 < 0 || collision) toBeDestroyed = true;
-	else UpdateMapTiles(map, x0, y0);
+	
+	if (!toBeDestroyed) UpdateMapTiles(map, x0, y0);
 }
 
 cBicho* cProjectil::ThrowProjectil(Tile* map) {
 	return nullptr;
+}
+
+bool cProjectil::Blockable() {
+	return true;
 }

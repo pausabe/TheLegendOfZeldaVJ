@@ -3,6 +3,8 @@
 #include "cTerrestre.h"
 #include "cEnemy.h"
 
+#define SPEED 16
+
 class cProjectil : public cEnemy, public cTerrestre
 {
 public:
@@ -12,5 +14,7 @@ public:
 	void Draw(int tex_id);
 	void Logic(Tile *map);
 	cBicho* ThrowProjectil(Tile* map);
+
+	bool Blockable();
 
 };

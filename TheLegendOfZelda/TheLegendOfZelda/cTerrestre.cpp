@@ -176,3 +176,7 @@ void cTerrestre::MoveDown(Tile *map)
 	if ((y % TILE_SIZE) == 0) inTileY = true;
 	else inTileY = false;
 }
+
+void cTerrestre::SetCollision(bool c) {
+	collision = c;
+}

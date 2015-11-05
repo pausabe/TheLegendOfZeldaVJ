@@ -38,5 +38,8 @@ private:
 	std::vector<cBicho*> Enemies = std::vector<cBicho*>();
 	int lifes;
 
+	// Detects if the bicho collisions is blocked by the player shield
+	bool ShieldBlocks(cBicho* bicho);
+	void DetectCollisions(std::vector<cBicho*> *bichos);
 	void ProcessDynamicCollisions();
 };

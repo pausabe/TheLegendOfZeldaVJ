@@ -55,41 +55,47 @@ void cOctorok::Draw(int tex_id)
 }
 
 void cOctorok::Logic(Tile *map) {
-	int x0;
-	int y0;
+	if (shooting <= 0) {
+		int x0;
+		int y0;
 
-	GetPosition(&x0, &y0);
+		GetPosition(&x0, &y0);
 
-	int shoot = rand() % 400;
-	if (shoot > 1) {
-		if (inTileX && inTileY) {
-			if (rand() % 4 < 2) // Per canviar de moviment nomes la meitat de les ocasions
-				move = rand() % 4;
+		int shoot = rand() % 400;
+		if (shoot > 1) {
+			if (inTileX && inTileY) {
+				if (rand() % 4 < 2) // Per canviar de moviment nomes la meitat de les ocasions
+					move = rand() % 4;
+			}
+			switch (move) {
+			case 0:
+				MoveUp(map);
+				break;
+			case 1:
+				MoveRight(map);
+				break;
+			case 2:
+				MoveDown(map);
+				break;
+			case 3:
+				MoveLeft(map);
+				break;
+			}
 		}
-		switch (move) {
-		case 0:
-			MoveUp(map);
-			break;
-		case 1:
-			MoveRight(map);
-			break;
-		case 2:
-			MoveDown(map);
-			break;
-		case 3:
-			MoveLeft(map);
-			break;
+		else {
+			Stop();
+			shooting = SHOOTING_TIME;
 		}
+
 		throwProjectil = false;
+
+		UpdateMapTiles(map, x0, y0);
 	}
 	else {
 		Stop();
-		throwProjectil = true;
-
+		shooting--;
+		if (shooting == 0)	throwProjectil = true;
 	}
-
-	UpdateMapTiles(map, x0, y0);
-
 }
 
 cBicho* cOctorok::ThrowProjectil(Tile* map) {
@@ -104,4 +110,8 @@ cBicho* cOctorok::ThrowProjectil(Tile* map) {
 		return projectil;
 	}
 	else return nullptr;
+}
+
+bool cOctorok::Blockable() {
+	return false;
 }

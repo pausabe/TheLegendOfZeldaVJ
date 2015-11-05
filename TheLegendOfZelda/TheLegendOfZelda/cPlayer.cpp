@@ -102,40 +102,41 @@ void cPlayer::Draw(int tex_id)
 	else yf = yo + (float)(sprite_size / texture_size);
 
 
+	if (immune > 0 && immune % 4 > 2) glColor4f(0.2f, 0.2f, 0.2f, 0.5f);
 	DrawRect(tex_id,xo,yf,xf,yo);
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void cPlayer::Atack(Tile *map)
 {
-	atacking = ATACK_DURATION;
+	if (atacking == -1) {
+		atacking = ATACK_DURATION;
 
-	if (state == STATE_WALKDOWN || state == STATE_LOOKDOWN || state == STATE_ATACKDOWN) {
-		state = STATE_ATACKDOWN;
-		SetWidthHeight(64, 96);
+		if (state == STATE_WALKDOWN || state == STATE_LOOKDOWN || state == STATE_ATACKDOWN) {
+			state = STATE_ATACKDOWN;
+			SetWidthHeight(64, 96);
+		}
+		else if (state == STATE_WALKUP || state == STATE_LOOKUP || state == STATE_ATACKUP) {
+			state = STATE_ATACKUP;
+			SetWidthHeight(64, 96);
+		}
+		else if (state == STATE_WALKRIGHT || state == STATE_LOOKRIGHT || state == STATE_ATACKRIGHT) {
+			SetState(STATE_ATACKRIGHT);
+			SetWidthHeight(96, 64);
+		}
+		else if (state == STATE_WALKLEFT || state == STATE_LOOKLEFT || state == STATE_ATACKLEFT) {
+			state = STATE_ATACKLEFT;
+			SetWidthHeight(96, 64);
+		}
 	}
-	else if (state == STATE_WALKUP || state == STATE_LOOKUP || state == STATE_ATACKUP) {
-		state = STATE_ATACKUP;
-		SetWidthHeight(64, 96);
-	}
-	else if (state == STATE_WALKRIGHT || state == STATE_LOOKRIGHT || state == STATE_ATACKRIGHT) {
-		SetState(STATE_ATACKRIGHT);
-		SetWidthHeight(96, 64);
-	}
-	else if (state == STATE_WALKLEFT || state == STATE_LOOKLEFT || state == STATE_ATACKLEFT) {
-		state = STATE_ATACKLEFT;
-		SetWidthHeight(96, 64);
-	}
-
 }
 
-void cPlayer::Logic(Tile* map) {
-	int state = GetState();
-	
+void cPlayer::Logic(Tile* map) {	
 
 	if (atacking > 0) {
 		atacking--;
 	} 
-	else {
+	else if (atacking == 0){
 		SetWidthHeight(64, 64);
 		switch (GetState()) {
 		case STATE_ATACKDOWN: 
@@ -156,6 +157,7 @@ void cPlayer::Logic(Tile* map) {
 
 
 	if (jumping != -1) {
+		int state = GetState();
 		stepLength = JUMP_STEP;
 		switch (jumping) {
 		case LEFT:
@@ -175,8 +177,13 @@ void cPlayer::Logic(Tile* map) {
 		if (jump <= 0) {
 			jumping = -1;
 		}
+		SetState(state);
 	} else stepLength = STEP_LENGTH;
-	SetState(state);
+
+
+	if (immune > 0) {
+		immune--;
+	}
 }
 
 bool cPlayer::isJumping() {
@@ -192,8 +199,23 @@ void cPlayer::JumpBack(cRect* collider) {
 	else if (diffX <= diffY && diffY < 0) jumping = DOWN;
 	else if (diffX <= diffY && diffY >= 0) jumping = UP;
 	jump = JUMP_LENGTH;
+
+	int state = GetState();
+	if (state == STATE_ATACKDOWN || state == STATE_WALKDOWN) SetState(STATE_LOOKDOWN);	
+	else if (state == STATE_ATACKUP || state == STATE_WALKUP) SetState(STATE_LOOKUP);
+	else if (state == STATE_ATACKLEFT || state == STATE_WALKLEFT) SetState(STATE_LOOKLEFT);
+	else if (state == STATE_ATACKRIGHT || state == STATE_WALKRIGHT) SetState(STATE_LOOKRIGHT);
+}
+
+void cPlayer::Hit(cRect* collider) {
+	JumpBack(collider);
+	immune = IMMUNITY_DURATION;
 }
 
 cBicho* cPlayer::ThrowProjectil(Tile* map) {
 	return nullptr;
+}
+
+bool cPlayer::isImmune() {
+	return immune > 0;
 }

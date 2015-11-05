@@ -12,7 +12,7 @@ cGame::~cGame(void)
 
 bool cGame::Init()
 {
-	oneKey = false;
+	oneKey = true;
 	bool res=true;
 
 	//Graphics initialization
@@ -36,7 +36,7 @@ bool cGame::Init()
 	if (!res) return false;
 	Player.SetTile(8, 5, Scene.GetMap());
 	Player.SetWidthHeight(TILE_SIZE, TILE_SIZE);
-	Player.SetState(STATE_LOOKRIGHT);
+	Player.SetState(STATE_LOOKDOWN);
 
 	lifes = 3;
 
@@ -118,7 +118,7 @@ bool cGame::Process()
 		if (Enemies[i]->ToBeDestroyed()) {
 			cBicho* aux = Enemies[i];
 			Enemies.erase(Enemies.begin() + i);
-			delete aux;
+			//delete aux;
 		}
 		else {
 			Enemies[i]->Logic(Scene.GetMap());
@@ -154,54 +154,48 @@ void cGame::Render()
 	glutSwapBuffers();
 }
 
+bool cGame::ShieldBlocks(cBicho* bicho) {
+	if (!dynamic_cast<cEnemy*>(bicho)->Blockable()) return false;
+	int bichoState = bicho->GetState();
+	int playerState = Player.GetState();
+	if ((bichoState == STATE_WALKUP || bichoState == STATE_LOOKUP) && (playerState == STATE_WALKDOWN || playerState == STATE_LOOKDOWN)) return true;
+	else if ((bichoState == STATE_WALKRIGHT || bichoState == STATE_LOOKRIGHT) && (playerState == STATE_WALKLEFT || playerState == STATE_LOOKLEFT)) return true;
+	else if ((bichoState == STATE_WALKDOWN || bichoState == STATE_LOOKDOWN) && (playerState == STATE_WALKUP || playerState == STATE_LOOKUP)) return true;
+	else if ((bichoState == STATE_WALKLEFT || bichoState == STATE_LOOKLEFT) && (playerState == STATE_WALKRIGHT || playerState == STATE_LOOKRIGHT)) return true;
+	return false;
+}
+
+void cGame::DetectCollisions(std::vector<cBicho*> *bichos) {
+	for (int i = 0; i < bichos->size(); i++) {
+		cRect rt;
+		(*bichos)[i]->GetArea(&rt);
+		if (ShieldBlocks((*bichos)[i])) dynamic_cast<cTerrestre*>((*bichos)[i])->SetCollision(true);
+		else if (Player.Collides(&rt) && !Player.isImmune()) {
+			lifes--;
+			Player.Hit(&rt);
+		}
+	}
+}
+
 void cGame::ProcessDynamicCollisions() {
 	// Detect collisions with enemies
 	int x, y;
 	Player.GetPosition(&x, &y);
 	std::vector<cBicho*> *bichos = &Scene.GetMap()[(y/TILE_SIZE)*SCENE_WIDTH + x / TILE_SIZE].bichos;
-	for (int i = 0; i < bichos->size(); i++) {
-		cRect rt;
-		(*bichos)[i]->GetArea(&rt);
-		if (Player.Collides(&rt)) {
-			lifes--;
-			Player.JumpBack(&rt);
-		}
-	}
 
 	if (x % TILE_SIZE != 0) {
 		bichos = &Scene.GetMap()[(y / TILE_SIZE)*SCENE_WIDTH + x / TILE_SIZE + 1].bichos;
-		for (int i = 0; i < bichos->size(); i++) {
-			cRect rt;
-			(*bichos)[i]->GetArea(&rt);
-			if (Player.Collides(&rt)) {
-				lifes--;
-				Player.JumpBack(&rt);
-			}
-		}
+		DetectCollisions(bichos);
 	}
 
 	if (y % TILE_SIZE != 0) {
 		bichos = &Scene.GetMap()[((y / TILE_SIZE) + 1)*SCENE_WIDTH + x / TILE_SIZE].bichos;
-		for (int i = 0; i < bichos->size(); i++) {
-			cRect rt;
-			(*bichos)[i]->GetArea(&rt);
-			if (Player.Collides(&rt)) {
-				lifes--;
-				Player.JumpBack(&rt);
-			}
-		}
+		DetectCollisions(bichos);
 	}
 
 	if (x % TILE_SIZE != 0 && y % TILE_SIZE != 0) {
 		bichos = &Scene.GetMap()[((y / TILE_SIZE) + 1)*SCENE_WIDTH + x / TILE_SIZE + 1].bichos;
-		for (int i = 0; i < bichos->size(); i++) {
-			cRect rt;
-			(*bichos)[i]->GetArea(&rt);
-			if (Player.Collides(&rt)) {
-				lifes--;
-				Player.JumpBack(&rt);
-			}
-		}
+		DetectCollisions(bichos);
 	}
 
 }

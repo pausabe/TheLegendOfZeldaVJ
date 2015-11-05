@@ -28,4 +28,6 @@ public:
 	void MoveUp(Tile *map);
 	void MoveDown(Tile *màp);
 
+	void SetCollision(bool collision);
+
 };
