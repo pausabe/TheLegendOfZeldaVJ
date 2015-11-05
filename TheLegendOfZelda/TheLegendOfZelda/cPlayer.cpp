@@ -4,6 +4,17 @@
 cPlayer::cPlayer() {}
 cPlayer::~cPlayer(){}
 
+void cPlayer::SetPosition(int posx, int posy, Tile* map)
+{
+	x = posx;
+	y = posy;
+}
+void cPlayer::SetTile(int tx, int ty, Tile *map)
+{
+	x = tx * TILE_SIZE;
+	y = ty * TILE_SIZE;
+}
+
 void cPlayer::Draw(int tex_id)
 {	
 	float xo,yo,xf,yf;
@@ -90,4 +101,50 @@ void cPlayer::Draw(int tex_id)
 
 
 	DrawRect(tex_id,xo,yf,xf,yo);
+}
+
+void cPlayer::Logic(Tile* map) {
+	int state = GetState();
+	
+	if (jumping != -1) {
+		stepLength = JUMP_STEP;
+		switch (jumping) {
+		case LEFT:
+			MoveLeft(map);
+			break;
+		case UP:
+			MoveUp(map);
+			break;
+		case RIGHT:
+			MoveRight(map);
+			break;
+		case DOWN:
+			MoveDown(map);
+			break;
+		}
+		jump -= stepLength;
+		if (jump <= 0) {
+			jumping = -1;
+		}
+	} else stepLength = STEP_LENGTH;
+	SetState(state);
+}
+
+bool cPlayer::isJumping() {
+	return jumping != -1;
+}
+
+void cPlayer::JumpBack(cRect* collider) {
+	int diffX = x - collider->left;
+	int diffY = y - collider->bottom;
+
+	if (diffX > diffY && diffX < 0) jumping = LEFT;
+	else if (diffX > diffY && diffX >= 0) jumping = RIGHT;
+	else if (diffX <= diffY && diffY < 0) jumping = DOWN;
+	else if (diffX <= diffY && diffY >= 0) jumping = UP;
+	jump = JUMP_LENGTH;
+}
+
+cBicho* cPlayer::ThrowProjectil(Tile* map) {
+	return nullptr;
 }

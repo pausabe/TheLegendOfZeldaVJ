@@ -1,6 +1,4 @@
 #include "cBicho.h"
-#include "cScene.h"
-#include "Globals.h"
 
 cBicho::cBicho(void)
 {
@@ -11,27 +9,43 @@ cBicho::cBicho(void)
 }
 cBicho::~cBicho(void){}
 
-cBicho::cBicho(int posx,int posy,int width,int height)
+cBicho::cBicho(int posx,int posy,int width,int height, Tile* map)
 {
 	x = posx;
 	y = posy;
 	w = width;
 	h = height;
+
+	UpdateMapTiles(map, -1, -1);
 }
-void cBicho::SetPosition(int posx,int posy)
+void cBicho::SetPosition(int posx,int posy, Tile* map)
 {
+	int x0;
+	int y0;
+
+	GetPosition(&x0, &y0);
+
 	x = posx;
 	y = posy;
+
+	UpdateMapTiles(map, x0, y0);
 }
 void cBicho::GetPosition(int *posx,int *posy)
 {
 	*posx = x;
 	*posy = y;
 }
-void cBicho::SetTile(int tx,int ty)
+void cBicho::SetTile(int tx,int ty, Tile *map)
 {
+	int x0;
+	int y0;
+
+	GetPosition(&x0, &y0);
+
 	x = tx * TILE_SIZE;
 	y = ty * TILE_SIZE;
+
+	UpdateMapTiles(map, x0, y0);
 }
 void cBicho::GetTile(int *tx,int *ty)
 {
@@ -50,9 +64,9 @@ void cBicho::GetWidthHeight(int *width,int *height)
 }
 bool cBicho::Collides(cRect *rc)
 {
-	return ((x>rc->left) && (x+w<rc->right) && (y>rc->bottom) && (y+h<rc->top));
+	return ((x+w>=rc->left) && (x<=rc->right) && (y+h>=rc->bottom) && (y<=rc->top));
 }
-bool cBicho::CollidesMapWall(std::pair<int, bool> *map,bool right)
+bool cBicho::CollidesMapWall(Tile *map,bool right)
 {
 	int tile_x,tile_y;
 	int j;
@@ -67,13 +81,13 @@ bool cBicho::CollidesMapWall(std::pair<int, bool> *map,bool right)
 	
 	for(j=0;j<height_tiles;j++)
 	{
-		if(map[ tile_x + ((tile_y+j)*SCENE_WIDTH) ].first != 0)	return true;
+		if(map[ tile_x + ((tile_y+j)*SCENE_WIDTH) ].tileId != 0)	return true;
 	}
 	
 	return false;
 }
 
-bool cBicho::CollidesMapFloor(std::pair<int, bool> *map)
+bool cBicho::CollidesMapFloor(Tile *map)
 {
 	int tile_x,tile_y;
 	int width_tiles;
@@ -92,12 +106,12 @@ bool cBicho::CollidesMapFloor(std::pair<int, bool> *map)
 	{
 		if( (y % TILE_SIZE) == 0 )
 		{
-			if(map[ (tile_x + i) + ((tile_y - 1) * SCENE_WIDTH) ].first != 0)
+			if(map[ (tile_x + i) + ((tile_y - 1) * SCENE_WIDTH) ].tileId != 0)
 				on_base = true;
 		}
 		else
 		{
-			if(map[ (tile_x + i) + (tile_y * SCENE_WIDTH) ].first != 0)
+			if(map[ (tile_x + i) + (tile_y * SCENE_WIDTH) ].tileId != 0)
 			{
 				y = (tile_y + 1) * TILE_SIZE;
 				on_base = true;
@@ -140,7 +154,7 @@ void cBicho::DrawRect(int tex_id,float xo,float yo,float xf,float yf)
 	glDisable(GL_TEXTURE_2D);
 }
 
-void cBicho::MoveLeft(std::pair<int, bool> *map)
+void cBicho::MoveLeft(Tile *map)
 {
 	//SetWidthHeight(64, 64);
 	int xaux;
@@ -169,7 +183,7 @@ void cBicho::MoveLeft(std::pair<int, bool> *map)
 		}
 	}
 }
-void cBicho::MoveRight(std::pair<int, bool> *map)
+void cBicho::MoveRight(Tile *map)
 {
 	int xaux;
 
@@ -198,7 +212,7 @@ void cBicho::MoveRight(std::pair<int, bool> *map)
 		}
 	}
 }
-void cBicho::MoveUp(std::pair<int, bool> *map)
+void cBicho::MoveUp(Tile *map)
 {
 	int yaux;
 
@@ -227,7 +241,7 @@ void cBicho::MoveUp(std::pair<int, bool> *map)
 		}
 	}
 }
-void cBicho::MoveDown(std::pair<int, bool> *map)
+void cBicho::MoveDown(Tile *map)
 {
 	int yaux;
 
@@ -256,7 +270,7 @@ void cBicho::MoveDown(std::pair<int, bool> *map)
 		}
 	}
 }
-void cBicho::Atack(std::pair<int, bool> *map)
+void cBicho::Atack(Tile *map)
 {
 	if (state == STATE_WALKDOWN || state == STATE_LOOKDOWN || state == STATE_ATACKDOWN) {
 		state = STATE_ATACKDOWN;
@@ -290,12 +304,80 @@ void cBicho::Stop()
 		case STATE_ATACKRIGHT:	state = STATE_LOOKRIGHT;	break;
 		case STATE_ATACKUP:		state = STATE_LOOKUP;		break;
 		case STATE_ATACKDOWN:	state = STATE_LOOKDOWN;		break;
+
 	}
 }
 
-void cBicho::Logic(std::pair<int, bool> *map)
-{
+void cBicho::UpdateMapTiles(Tile *map, int x0, int y0) {
+	
+	// Remove the bicho from original tiles
+	if (x0 >= 0 && y0 >= 0) {
+		std::vector<cBicho*> *bichos = &map[((y0 / TILE_SIZE)*SCENE_WIDTH) + x0 / TILE_SIZE].bichos;
+		for (int i = 0; i < bichos->size(); i++) {
+			if ((*bichos)[i] == this) {
+				bichos->erase(bichos->begin() + i);
+				break;
+			}
+		}
+
+		if (x0 % TILE_SIZE != 0) {
+			bichos = &map[((y0 / TILE_SIZE)*SCENE_WIDTH) + x0 / TILE_SIZE + 1].bichos;
+			for (int i = 0; i < bichos->size(); i++) {
+				if ((*bichos)[i] == this) {
+					bichos->erase(bichos->begin() + i);
+					break;
+				}
+			}
+		}
+
+		if (y0 % TILE_SIZE != 0) {
+			bichos = &map[(((y0 / TILE_SIZE) + 1)*SCENE_WIDTH) + x0 / TILE_SIZE].bichos;
+			for (int i = 0; i < bichos->size(); i++) {
+				if ((*bichos)[i] == this) {
+					bichos->erase(bichos->begin() + i);
+					break;
+				}
+			}
+		}
+
+		if (x0 % TILE_SIZE != 0 && y0 % TILE_SIZE != 0) {
+			bichos = &map[(((y0 / TILE_SIZE) + 1)*SCENE_WIDTH) + x0 / TILE_SIZE + 1].bichos;
+			for (int i = 0; i < bichos->size(); i++) {
+				if ((*bichos)[i] == this) {
+					bichos->erase(bichos->begin() + i);
+					break;
+		}
+	}
+		}
+	}
+
+	// Add the bicho to the map with the new tiles
+	int x, y;
+	GetPosition(&x, &y);
+	map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE].bichos.push_back(this);
+	if (x % TILE_SIZE != 0)
+		map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos.push_back(this);
+	if (y % TILE_SIZE != 0)
+		map[(((y / TILE_SIZE)+1)*SCENE_WIDTH) + x / TILE_SIZE].bichos.push_back(this);
+	if (x % TILE_SIZE != 0 && y % TILE_SIZE != 0)
+		map[(((y / TILE_SIZE)+1)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos.push_back(this);
+
 }
+/*
+void cBicho::Logic(Tile *map)
+{
+	int x0;
+	int y0;
+
+	GetPosition(&x0, &y0);
+
+	// Move the bicho
+
+	UpdateMapTiles(map, x0, y0);
+
+}
+
+*/
 
 void cBicho::NextFrame(int max)
 {
@@ -311,6 +393,7 @@ int cBicho::GetFrame()
 {
 	return seq;
 }
+
 int cBicho::GetState()
 {
 	return state;
@@ -319,4 +402,8 @@ int cBicho::GetState()
 void cBicho::SetState(int s)
 {
 	state = s;
+}
+
+bool cBicho::ToBeDestroyed() {
+	return toBeDestroyed;
 }

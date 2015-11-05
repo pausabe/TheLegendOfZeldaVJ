@@ -1,5 +1,4 @@
 #include "cScene.h"
-#include "Globals.h"
 
 cScene::cScene(void)
 {
@@ -54,13 +53,13 @@ bool cScene::LoadLevel(int level)
 					fscanf(fd,"%c",&tile[0]);
 					fscanf(fd, "%c", &tile[1]);
 					
-					if(tile[0]==' ') map[(j*SCENE_WIDTH) + i].first = atoi(tile);
-					else map[(j*SCENE_WIDTH) + i].first = atoi(tile);
+					if(tile[0]==' ') map[(j*SCENE_WIDTH) + i].tileId = atoi(tile);
+					else map[(j*SCENE_WIDTH) + i].tileId = atoi(tile);
 
-					map[(j*SCENE_WIDTH) + i].second = isAWall(atoi(tile));
+					map[(j*SCENE_WIDTH) + i].isWall = isAWall(atoi(tile));
 
-					coordx_tile = (float) 1 / 256 + map[(j*SCENE_WIDTH) + i].first % 15 * (float) 17 / 256;
-					int row = (int) map[(j*SCENE_WIDTH) + i].first / 15;
+					coordx_tile = (float) 1 / 256 + map[(j*SCENE_WIDTH) + i].tileId % 15 * (float) 17 / 256;
+					int row = (int) map[(j*SCENE_WIDTH) + i].tileId / 15;
 					coordy_tile = (float)1 / 256 + row * (float)17 / 256;
 
 					float tile_size = (float)16 / 256; // Size of the tile in the texture 
@@ -89,7 +88,8 @@ void cScene::Draw(int tex_id)
 	glCallList(id_DL);
 	glDisable(GL_TEXTURE_2D);
 }
-std::pair<int,bool>* cScene::GetMap()
+
+Tile* cScene::GetMap()
 {
 	return map;
 }

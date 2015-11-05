@@ -39,6 +39,15 @@
     <ClCompile Include="cTerrestre.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
+    <ClCompile Include="cOctorok.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="cProjectil.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="cEnemy.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cTexture.h">
@@ -63,6 +72,15 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="cTerrestre.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="cOctorok.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="cProjectil.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="cEnemy.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

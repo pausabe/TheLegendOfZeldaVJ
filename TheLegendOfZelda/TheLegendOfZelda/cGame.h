@@ -3,6 +3,9 @@
 #include "cScene.h"
 #include "cPlayer.h"
 #include "cData.h"
+#include "cEnemy.h"
+#include "cOctorok.h"
+#include <vector>
 
 #define GAME_WIDTH	TILE_SIZE*16
 #define GAME_HEIGHT TILE_SIZE*11
@@ -32,4 +35,8 @@ private:
 	cScene Scene;
 	cPlayer Player;
 	cData Data;
+	std::vector<cBicho*> Enemies = std::vector<cBicho*>();
+	int lifes;
+
+	void ProcessDynamicCollisions();
 };

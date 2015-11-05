@@ -34,10 +34,25 @@ bool cGame::Init()
 	//Player initialization
 	res = Data.LoadImage(LINK, "resources/link.png", GL_RGBA);
 	if (!res) return false;
-	Player.SetTile(8, 5);
+	Player.SetTile(8, 5, Scene.GetMap());
 	Player.SetWidthHeight(TILE_SIZE, TILE_SIZE);
 	Player.SetState(STATE_LOOKRIGHT);
 
+	lifes = 3;
+
+	//Enemies initialization
+	res = Data.LoadImage(OVERWORLD_ENEMIES, "resources/overworld_enemies.png", GL_RGBA);
+	if (!res) return false;
+
+	cOctorok* c = new cOctorok();
+	c->SetTile(4, 5, Scene.GetMap());
+	//c->SetPosition(8*TILE_SIZE, 5*TILE_SIZE+16, Scene.GetMap());
+	c->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	c->SetState(STATE_LOOKDOWN);
+	
+
+
+	Enemies.push_back(c);
 	return res;
 }
 
@@ -74,32 +89,49 @@ bool cGame::Process()
 	//Process Input
 	if (keys[27])	res = false;
 
-	Player.SetWidthHeight(64, 64);
-
-	if (keys['s']) {
-		Player.Atack(Scene.GetMap());
+	if (!Player.isJumping()) {
+		if (keys['s']) {
+			Player.Atack(Scene.GetMap());
+		}
+		else if (keys[GLUT_KEY_UP]) {
+			Player.MoveUp(Scene.GetMap());
+		}
+		else if (keys[GLUT_KEY_DOWN])
+		{
+			Player.MoveDown(Scene.GetMap());
+		}
+		else if (keys[GLUT_KEY_LEFT])
+		{
+			Player.MoveLeft(Scene.GetMap());
+		}
+		else if (keys[GLUT_KEY_RIGHT])
+		{
+			Player.MoveRight(Scene.GetMap());
+		}
+		else Player.Stop();
 	}
-	else if (keys[GLUT_KEY_UP]) {
-		Player.MoveUp(Scene.GetMap()); 
-	}
-	else if (keys[GLUT_KEY_DOWN])
-	{
-		Player.MoveDown(Scene.GetMap());
-	}
-	else if (keys[GLUT_KEY_LEFT])
-	{
-		Player.MoveLeft(Scene.GetMap());
-	}
-	else if (keys[GLUT_KEY_RIGHT])
-	{
-		Player.MoveRight(Scene.GetMap());
-	}
-	
-	else Player.Stop();
-
 
 	//Game Logic
 	Player.Logic(Scene.GetMap());
+
+	for (int i = 0; i < Enemies.size(); i++) {
+		if (Enemies[i]->ToBeDestroyed()) {
+			cBicho* aux = Enemies[i];
+			Enemies.erase(Enemies.begin() + i);
+			delete aux;
+		}
+		else {
+			Enemies[i]->Logic(Scene.GetMap());
+			cBicho* projectil = Enemies[i]->ThrowProjectil(Scene.GetMap());
+			if (projectil != NULL) {
+				Enemies.push_back(projectil);
+				projectil->UpdateMapTiles(Scene.GetMap(), -1, -1);
+			}
+		}
+	}
+
+	// Detect player-enemies collisions
+	ProcessDynamicCollisions();
 
 	return res;
 }
@@ -115,5 +147,61 @@ void cGame::Render()
 
 	Player.Draw(Data.GetID(LINK));
 
+	for (int i = 0; i < Enemies.size(); i++) {
+		Enemies[i]->Draw(Data.GetID(OVERWORLD_ENEMIES));
+	}
+
 	glutSwapBuffers();
+}
+
+void cGame::ProcessDynamicCollisions() {
+	// Detect collisions with enemies
+	int x, y;
+	Player.GetPosition(&x, &y);
+	std::vector<cBicho*> *bichos = &Scene.GetMap()[(y/TILE_SIZE)*SCENE_WIDTH + x / TILE_SIZE].bichos;
+	for (int i = 0; i < bichos->size(); i++) {
+		cRect rt;
+		(*bichos)[i]->GetArea(&rt);
+		if (Player.Collides(&rt)) {
+			lifes--;
+			Player.JumpBack(&rt);
+		}
+	}
+
+	if (x % TILE_SIZE != 0) {
+		bichos = &Scene.GetMap()[(y / TILE_SIZE)*SCENE_WIDTH + x / TILE_SIZE + 1].bichos;
+		for (int i = 0; i < bichos->size(); i++) {
+			cRect rt;
+			(*bichos)[i]->GetArea(&rt);
+			if (Player.Collides(&rt)) {
+				lifes--;
+				Player.JumpBack(&rt);
+			}
+		}
+	}
+
+	if (y % TILE_SIZE != 0) {
+		bichos = &Scene.GetMap()[((y / TILE_SIZE) + 1)*SCENE_WIDTH + x / TILE_SIZE].bichos;
+		for (int i = 0; i < bichos->size(); i++) {
+			cRect rt;
+			(*bichos)[i]->GetArea(&rt);
+			if (Player.Collides(&rt)) {
+				lifes--;
+				Player.JumpBack(&rt);
+			}
+		}
+	}
+
+	if (x % TILE_SIZE != 0 && y % TILE_SIZE != 0) {
+		bichos = &Scene.GetMap()[((y / TILE_SIZE) + 1)*SCENE_WIDTH + x / TILE_SIZE + 1].bichos;
+		for (int i = 0; i < bichos->size(); i++) {
+			cRect rt;
+			(*bichos)[i]->GetArea(&rt);
+			if (Player.Collides(&rt)) {
+				lifes--;
+				Player.JumpBack(&rt);
+			}
+		}
+	}
+
 }
