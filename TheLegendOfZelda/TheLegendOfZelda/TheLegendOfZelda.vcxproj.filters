@@ -39,6 +39,15 @@
     <ClCompile Include="cTerrestre.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
+    <ClCompile Include="cEnemy.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="cOctorok.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="cProjectil.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cTexture.h">
@@ -65,6 +74,15 @@
     <ClInclude Include="cTerrestre.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="cOctorok.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="cEnemy.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="cProjectil.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\link.png">
@@ -73,9 +91,15 @@
     <Image Include="resources\overworld_tiles.png">
       <Filter>Archivos de recursos</Filter>
     </Image>
+    <Image Include="resources\overworld_enemies.png">
+      <Filter>Archivos de recursos</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="level01.txt">
+      <Filter>Archivos de recursos</Filter>
+    </Text>
+    <Text Include="level02.txt">
       <Filter>Archivos de recursos</Filter>
     </Text>
   </ItemGroup>
