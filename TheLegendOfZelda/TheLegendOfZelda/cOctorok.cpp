@@ -85,6 +85,7 @@ void cOctorok::Logic(Tile *map) {
 	else {
 		Stop();
 		throwProjectil = true;
+
 	}
 
 	UpdateMapTiles(map, x0, y0);
