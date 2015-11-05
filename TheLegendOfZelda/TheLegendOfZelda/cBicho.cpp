@@ -270,30 +270,10 @@ void cBicho::MoveDown(Tile *map)
 		}
 	}
 }
-void cBicho::Atack(Tile *map)
-{
-	if (state == STATE_WALKDOWN || state == STATE_LOOKDOWN || state == STATE_ATACKDOWN) {
-		state = STATE_ATACKDOWN;
-		SetWidthHeight(64, 96);
-	}
-	else if (state == STATE_WALKUP || state == STATE_LOOKUP || state == STATE_ATACKUP) {
-		state = STATE_ATACKUP;
-		SetWidthHeight(64, 96);
-	}
-	else if (state == STATE_WALKRIGHT || state == STATE_LOOKRIGHT || state == STATE_ATACKRIGHT) {
-		state = STATE_ATACKRIGHT;
-		SetWidthHeight(96, 64);
-	}
-	else if (state == STATE_WALKLEFT || state == STATE_LOOKLEFT || state == STATE_ATACKLEFT) {
-		state = STATE_ATACKLEFT;
-		SetWidthHeight(96, 64);
-	}
 
-	
-
-}
 void cBicho::Stop()
 {
+	//SetWidthHeight(64, 64);
 	switch(state)
 	{
 		case STATE_WALKLEFT:	state = STATE_LOOKLEFT;		break;

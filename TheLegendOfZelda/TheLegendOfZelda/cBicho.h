@@ -53,7 +53,7 @@ public:
 	void MoveLeft(Tile *map);
 	void MoveUp(Tile *map);
 	void MoveDown(Tile *màp);
-	void Atack(Tile * map);
+	//void Atack(Tile * map);
 	//void Jump(int *map);
 	void Stop();
 

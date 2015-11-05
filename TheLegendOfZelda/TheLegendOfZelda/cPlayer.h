@@ -6,11 +6,13 @@
 #define PLAYER_START_CY		2
 #define JUMP_STEP			8
 #define JUMP_LENGTH			TILE_SIZE*2
+#define ATACK_DURATION 100
 
 class cPlayer: public cTerrestre
 {
 private:
 	int jumping = -1;
+	int atacking = -1;
 	int jump;
 public:
 	cPlayer();
@@ -22,5 +24,7 @@ public:
 	void Logic(Tile *map);
 	bool isJumping();
 	void JumpBack(cRect* collider);
+	void Atack(Tile * map);
 	cBicho* ThrowProjectil(Tile* map);
+
 };

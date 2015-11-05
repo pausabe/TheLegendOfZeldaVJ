@@ -41,7 +41,7 @@ bool cTerrestre::CollidesMapTile(Tile* map, int direction) {
 void cTerrestre::MoveLeft(Tile *map)
 {
 	int xaux;
-
+	//SetWidthHeight(64, 64);
 	//Whats next tile?
 	if (((x-stepLength) % TILE_SIZE) >= TILE_SIZE - stepLength)
 	{
@@ -74,7 +74,7 @@ void cTerrestre::MoveLeft(Tile *map)
 void cTerrestre::MoveRight(Tile *map)
 {
 	int xaux;
-
+	//SetWidthHeight(64, 64);
 	//Whats next tile?
 	if (((x + stepLength) % TILE_SIZE) <= stepLength)
 	{
@@ -108,7 +108,7 @@ void cTerrestre::MoveRight(Tile *map)
 void cTerrestre::MoveUp(Tile *map)
 {
 	int yaux;
-
+	//SetWidthHeight(64, 64);
 	//Whats next tile?
 	if (((y + stepLength) % TILE_SIZE) >= TILE_SIZE / 2 + stepLength)
 	{
