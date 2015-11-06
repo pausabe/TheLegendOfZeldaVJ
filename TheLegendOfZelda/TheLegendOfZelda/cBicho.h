@@ -7,19 +7,6 @@
 #define FRAME_DELAY		4
 #define STEP_LENGTH		4
 
-#define STATE_LOOKLEFT		0
-#define STATE_LOOKRIGHT		1
-#define STATE_WALKLEFT		2
-#define STATE_WALKRIGHT		3
-#define STATE_LOOKUP		4
-#define STATE_LOOKDOWN		5
-#define STATE_WALKUP		6
-#define STATE_WALKDOWN		7
-#define STATE_ATACKLEFT		8
-#define STATE_ATACKRIGHT	9
-#define STATE_ATACKUP		10
-#define STATE_ATACKDOWN		11
-
 
 class cRect
 {
@@ -49,13 +36,13 @@ public:
 	void GetArea(cRect *rc);
 	void DrawRect(int tex_id,float xo,float yo,float xf,float yf);
 
-	void MoveRight(Tile *map);
+	/*void MoveRight(Tile *map);
 	void MoveLeft(Tile *map);
 	void MoveUp(Tile *map);
-	void MoveDown(Tile *màp);
+	void MoveDown(Tile *map);*/
 	//void Atack(Tile * map);
 	//void Jump(int *map);
-	void Stop();
+	//void Stop();
 
 	// Updates the map tiles with the bicho position
 	// tileX0 or tileY0 = -1 indicates that the bicho has just been created

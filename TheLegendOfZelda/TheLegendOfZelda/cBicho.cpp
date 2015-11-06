@@ -136,10 +136,10 @@ void cBicho::DrawRect(int tex_id,float xo,float yo,float xf,float yf)
 	screen_x = x + SCENE_Xo;
 	screen_y = y + SCENE_Yo + (BLOCK_SIZE - TILE_SIZE);
 
-	if (state == STATE_ATACKDOWN) {
+	/*if (state == STATE_ATACKDOWN) {
 		screen_y -= 32; 
 	}
-	else if (state == STATE_ATACKLEFT) screen_x -= 32;
+	else if (state == STATE_ATACKLEFT) screen_x -= 32;*/
 
 	glEnable(GL_TEXTURE_2D);
 	
@@ -154,7 +154,7 @@ void cBicho::DrawRect(int tex_id,float xo,float yo,float xf,float yf)
 	glDisable(GL_TEXTURE_2D);
 }
 
-void cBicho::MoveLeft(Tile *map)
+/*void cBicho::MoveLeft(Tile *map)
 {
 	//SetWidthHeight(64, 64);
 	int xaux;
@@ -269,9 +269,9 @@ void cBicho::MoveDown(Tile *map)
 			delay = 0;
 		}
 	}
-}
+}*/
 
-void cBicho::Stop()
+/*void cBicho::Stop()
 {
 	//SetWidthHeight(64, 64);
 	switch(state)
@@ -286,7 +286,7 @@ void cBicho::Stop()
 		case STATE_ATACKDOWN:	state = STATE_LOOKDOWN;		break;
 
 	}
-}
+}*/
 
 void cBicho::UpdateMapTiles(Tile *map, int x0, int y0) {
 	

@@ -92,6 +92,7 @@ bool cGame::Process()
 	if (!Player.isJumping()) {
 		if (keys['s']) {
 			Player.Atack(Scene.GetMap());
+			//keys['s'] = false;
 		}
 		else if (keys[GLUT_KEY_UP]) {
 			Player.MoveUp(Scene.GetMap());
@@ -108,7 +109,7 @@ bool cGame::Process()
 		{
 			Player.MoveRight(Scene.GetMap());
 		}
-		else Player.Stop();
+		else if(Player.getAtacking() == -1) Player.Stop();
 	}
 
 	//Game Logic

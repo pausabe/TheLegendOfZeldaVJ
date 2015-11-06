@@ -22,10 +22,10 @@ void cPlayer::Draw(int tex_id)
 	float sprite_size = 16;
     float texture_size = 512;
 
-	//hi ha 14 pixels en blanc que hem d'anar saltant
-	int SA;
+	int state = GetState();
+
 	if (atacking != -1) {
-		switch (GetState()) {
+		switch (state) {
 		case STATE_ATACKDOWN:
 			xo = 0.0f;
 			yo = ((float)((sprite_size + 14) / texture_size)) * 2 + ((float)((sprite_size + 8) / texture_size));
@@ -48,7 +48,7 @@ void cPlayer::Draw(int tex_id)
 		}
 	}
 	else {
-		switch (GetState())
+		switch (state)
 		{
 		case STATE_LOOKLEFT:
 			xo = (float)((sprite_size + 14) / texture_size);
@@ -95,16 +95,28 @@ void cPlayer::Draw(int tex_id)
 			break;
 		}
 	}
-	int state = GetState();
-	if(GetState() == STATE_ATACKRIGHT || GetState() == STATE_ATACKLEFT) xf = xo + (float)((sprite_size + 11.0f)/ texture_size);
+
+	if(state == STATE_ATACKRIGHT || state == STATE_ATACKLEFT) xf = xo + (float)((sprite_size + 11.0f)/ texture_size);
 	else xf = xo + (float)(sprite_size / texture_size);
-	if (GetState() == STATE_ATACKDOWN || GetState() == STATE_ATACKUP) yf = yo + (float)((sprite_size + 11.0f) / texture_size);
+	if (state == STATE_ATACKDOWN || state == STATE_ATACKUP) yf = yo + (float)((sprite_size + 11.0f) / texture_size);
 	else yf = yo + (float)(sprite_size / texture_size);
 
 
 	if (immune > 0 && immune % 4 > 2) glColor4f(0.2f, 0.2f, 0.2f, 0.5f);
 	DrawRect(tex_id,xo,yf,xf,yo);
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+}
+
+void cPlayer::Stop()
+{
+	switch (state)
+	{
+	case STATE_WALKLEFT:	state = STATE_LOOKLEFT;		break;
+	case STATE_WALKRIGHT:	state = STATE_LOOKRIGHT;	break;
+	case STATE_WALKUP:		state = STATE_LOOKUP;		break;
+	case STATE_WALKDOWN:	state = STATE_LOOKDOWN;		break;
+
+	}
 }
 
 void cPlayer::Atack(Tile *map)
@@ -129,6 +141,7 @@ void cPlayer::Atack(Tile *map)
 			SetWidthHeight(96, 64);
 		}
 	}
+
 }
 
 void cPlayer::Logic(Tile* map) {	
@@ -210,6 +223,11 @@ void cPlayer::JumpBack(cRect* collider) {
 void cPlayer::Hit(cRect* collider) {
 	JumpBack(collider);
 	immune = IMMUNITY_DURATION;
+}
+
+int cPlayer::getAtacking()
+{
+	return atacking;
 }
 
 cBicho* cPlayer::ThrowProjectil(Tile* map) {
