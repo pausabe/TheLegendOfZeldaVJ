@@ -47,14 +47,18 @@ bool cGame::Init()
 	cOctorok* c = new cOctorok();
 	c->SetTile(4, 5);
 	int x, y;
-	c->GetPosition(&x,&y);
 	c->UpdateMapTiles(Scene.GetMap(), -1,-1);
 	c->SetWidthHeight(TILE_SIZE, TILE_SIZE);
 	c->SetState(STATE_LOOKDOWN);
 	
-
+	cDarknut* d = new cDarknut();
+	d->SetTile(6,5);
+	d->UpdateMapTiles(Scene.GetMap(), -1, -1);
+	d->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	d->SetState(STATE_LOOKDOWN);
 
 	Enemies.push_back(c);
+	Enemies.push_back(d);
 	return res;
 }
 
@@ -92,7 +96,7 @@ bool cGame::Process()
 	if (keys[27])	res = false;
 
 	if (!Player.isJumping()) {
-		if (keys['s'] && !sKeyPressed) {
+		if ((keys['s'] || keys['S'])&& !sKeyPressed) {
 			Player.Atack(Scene.GetMap());
 			sKeyPressed = true;
 		}
@@ -122,6 +126,7 @@ bool cGame::Process()
 	Player.Logic(Scene.GetMap());
 
 	if (Espasa == NULL) Espasa = dynamic_cast<cEspasa*>(Player.ThrowProjectil(Scene.GetMap()));
+	else if (Espasa->ToBeDestroyed()) Espasa = NULL;
 	else Espasa->Logic(Scene.GetMap());
 
 	for (int i = 0; i < Enemies.size(); i++) {
@@ -157,7 +162,7 @@ void cGame::Render()
 	Scene.Draw(Data.GetID(OVERWORLD_TILES));
 
 	Player.Draw(Data.GetID(LINK));
-	if (Espasa != NULL) Espasa->Draw(Data.GetID(OVERWORLD_ENEMIES));
+	if (Espasa != NULL) Espasa->Draw(Data.GetID(LINK));
 	for (int i = 0; i < Enemies.size(); i++) {
 		Enemies[i]->Draw(Data.GetID(OVERWORLD_ENEMIES));
 	}
@@ -180,7 +185,7 @@ void cGame::DetectCollisions(std::vector<cBicho*> *bichos) {
 	for (int i = 0; i < bichos->size(); i++) {
 		cRect rt;
 		(*bichos)[i]->GetArea(&rt);
-		if (ShieldBlocks((*bichos)[i])) dynamic_cast<cTerrestre*>((*bichos)[i])->SetCollision(true);
+		if (ShieldBlocks((*bichos)[i])) dynamic_cast<cTerrestre*>((*bichos)[i])->Destroy(Scene.GetMap());
 		else if (Player.Collides(&rt) && !Player.isImmune()) {
 			lifes--;
 			Player.Hit(&rt);

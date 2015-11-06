@@ -12,8 +12,8 @@ void cEspasa::Draw(int tex_id)
 	float sprite_size = 16;
 	float texture_size = 512;
 
-	xo = (float)((sprite_size + 14) * 11 / texture_size);
-	yo = (float)0;
+	yo = (float)((sprite_size + 14) * 6 / texture_size);
+	xo = (float)0;
 	xf = xo + (float)(sprite_size / texture_size);
 	yf = yo + (float)(sprite_size / texture_size);
 
@@ -25,11 +25,11 @@ void cEspasa::Logic(Tile *map) {
 	int y0;
 
 	GetPosition(&x0, &y0);
-	if (x0 < 0 || y0 < 0 || collision) toBeDestroyed = true;
-	if (GetState() == STATE_LOOKLEFT || GetState() == STATE_WALKLEFT) MoveLeft(map);
-	else if (GetState() == STATE_LOOKRIGHT || GetState() == STATE_WALKRIGHT) MoveRight(map);
-	else if (GetState() == STATE_LOOKUP || GetState() == STATE_WALKUP) MoveUp(map);
-	else if (GetState() == STATE_LOOKDOWN || GetState() == STATE_WALKDOWN) MoveDown(map);
+	if (x0 < 0 || y0 < 0 || collision) Destroy(map);
+	if (GetState() == STATE_LOOKLEFT || GetState() == STATE_WALKLEFT || GetState() == STATE_ATACKLEFT) MoveLeft(map);
+	else if (GetState() == STATE_LOOKRIGHT || GetState() == STATE_WALKRIGHT || GetState() == STATE_ATACKRIGHT) MoveRight(map);
+	else if (GetState() == STATE_LOOKUP || GetState() == STATE_WALKUP || GetState() == STATE_ATACKUP) MoveUp(map);
+	else if (GetState() == STATE_LOOKDOWN || GetState() == STATE_WALKDOWN || GetState() == STATE_ATACKDOWN) MoveDown(map);
 
 }
 

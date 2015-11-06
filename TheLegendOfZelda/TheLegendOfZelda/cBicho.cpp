@@ -364,6 +364,7 @@ bool cBicho::ToBeDestroyed() {
 }
 
 void cBicho::Destroy(Tile* map) {
+	toBeDestroyed = true;
 	int x0;
 	int y0;
 

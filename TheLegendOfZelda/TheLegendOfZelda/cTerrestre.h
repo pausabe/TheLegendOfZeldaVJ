@@ -12,6 +12,11 @@
 #define STATE_WALKUP		6
 #define STATE_WALKDOWN		7
 
+#define STATE_ATACKUP		8
+#define STATE_ATACKDOWN		9
+#define STATE_ATACKRIGHT	10
+#define STATE_ATACKLEFT		11
+
 
 class cTerrestre : public cBicho
 {

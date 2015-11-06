@@ -31,7 +31,7 @@ void cProjectil::Logic(Tile *map) {
 	else if (GetState() == STATE_LOOKUP || GetState() == STATE_WALKUP) MoveUp(map);
 	else if (GetState() == STATE_LOOKDOWN || GetState() == STATE_WALKDOWN) MoveDown(map);
 	
-	if (!toBeDestroyed);// UpdateMapTiles(map, x0, y0);
+	if (!toBeDestroyed) UpdateMapTiles(map, x0, y0);
 }
 
 cBicho* cProjectil::ThrowProjectil(Tile* map) {

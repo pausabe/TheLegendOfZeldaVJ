@@ -119,7 +119,7 @@ void cTerrestre::MoveUp(Tile *map)
 {
 	int yaux;
 	//Whats next tile?
-	if (((y + stepLength) % TILE_SIZE) <= TILE_SIZE / 2 + stepLength)
+	if (((y + stepLength) % TILE_SIZE) >= TILE_SIZE / 2)
 	{
 		yaux = y;
 		y += stepLength;

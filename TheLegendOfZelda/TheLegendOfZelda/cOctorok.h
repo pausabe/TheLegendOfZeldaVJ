@@ -4,7 +4,7 @@
 #include "cEnemy.h"
 #include "cProjectil.h"
 
-#define SHOOTING_TIME 16
+#define SHOOTING_TIME 32
 
 class cOctorok : public cEnemy, public cTerrestre
 {

@@ -104,7 +104,7 @@ void cPlayer::Draw(int tex_id)
 
 	if (immune > 0 && immune % 4 > 2) glColor4f(0.2f, 0.2f, 0.2f, 0.5f);
 	DrawRect(tex_id,xo,yf,xf,yo);
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	if (immune > 0 && immune % 4 > 2) glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void cPlayer::Stop()

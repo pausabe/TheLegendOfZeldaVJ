@@ -3,7 +3,7 @@
 #include "cTerrestre.h"
 #include "cEnemy.h"
 
-#define SPEED 16
+#define SPEED 12
 
 class cProjectil : public cEnemy, public cTerrestre
 {
