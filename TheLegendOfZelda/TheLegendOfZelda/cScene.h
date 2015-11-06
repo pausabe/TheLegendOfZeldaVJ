@@ -10,7 +10,7 @@
 #define FILENAME		"level"
 #define FILENAME_EXT	".txt"
 
-#define TILE_SIZE		64
+#define TILE_SIZE		48
 #define BLOCK_SIZE		TILE_SIZE
 
 class cScene

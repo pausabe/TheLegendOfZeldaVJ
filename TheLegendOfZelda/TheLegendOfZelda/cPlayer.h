@@ -1,13 +1,19 @@
 #pragma once
 
 #include "cTerrestre.h"
+#include "cEspasa.h"
 
 #define PLAYER_START_CX		3
 #define PLAYER_START_CY		2
 #define JUMP_STEP			8
 #define JUMP_LENGTH			TILE_SIZE*2
-#define ATACK_DURATION 100
-#define IMMUNITY_DURATION 100
+#define ATACK_DURATION		10
+#define IMMUNITY_DURATION	100
+
+#define STATE_ATACKLEFT		8
+#define STATE_ATACKRIGHT	9
+#define STATE_ATACKUP		10
+#define STATE_ATACKDOWN		11
 
 class cPlayer: public cTerrestre
 {
@@ -23,15 +29,19 @@ public:
 	void SetPosition(int x, int y, Tile* map);
 	void SetTile(int tx, int ty, Tile* map);
 	void Draw(int tex_id);
+	void Stop();
 	void Logic(Tile *map);
 
 	bool isJumping();
 	void JumpBack(cRect* collider);
 	void Hit(cRect* collider);
+
+	cBicho* ThrowProjectil(Tile* map);
+
+	int getAtacking();
 	
 	bool isImmune();
 
 	void Atack(Tile * map);
-	cBicho* ThrowProjectil(Tile* map);
 
 };

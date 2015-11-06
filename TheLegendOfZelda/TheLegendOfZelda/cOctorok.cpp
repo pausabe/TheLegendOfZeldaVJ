@@ -103,9 +103,10 @@ cBicho* cOctorok::ThrowProjectil(Tile* map) {
 		cProjectil* projectil = new cProjectil();
 		int x, y;
 		GetPosition(&x, &y);
-		projectil->SetPosition(x, y, map);
+		projectil->SetPosition(x, y);
 		projectil->SetState(GetState());
 		projectil->SetWidthHeight(TILE_SIZE,TILE_SIZE);
+		projectil->UpdateMapTiles(map, -1, -1);
 		throwProjectil = false;
 		return projectil;
 	}

@@ -7,19 +7,6 @@
 #define FRAME_DELAY		4
 #define STEP_LENGTH		4
 
-#define STATE_LOOKLEFT		0
-#define STATE_LOOKRIGHT		1
-#define STATE_WALKLEFT		2
-#define STATE_WALKRIGHT		3
-#define STATE_LOOKUP		4
-#define STATE_LOOKDOWN		5
-#define STATE_WALKUP		6
-#define STATE_WALKDOWN		7
-#define STATE_ATACKLEFT		8
-#define STATE_ATACKRIGHT	9
-#define STATE_ATACKUP		10
-#define STATE_ATACKDOWN		11
-
 
 class cRect
 {
@@ -33,12 +20,14 @@ class cBicho
 {
 public:
 	cBicho(void);
-	cBicho(int x,int y,int w,int h, Tile* map);
+	cBicho(int x,int y,int w,int h);
 	~cBicho(void);
 
-	void SetPosition(int x,int y, Tile* map);
+	void SetPosition(int x,int y);
 	void GetPosition(int *x,int *y);
-	void SetTile(int tx,int ty, Tile* map);
+	int GetPosX();
+	int GetPosY();
+	void SetTile(int tx,int ty);
 	void GetTile(int *tx,int *ty);
 	void SetWidthHeight(int w,int h);
 	void GetWidthHeight(int *w,int *h);
@@ -49,13 +38,13 @@ public:
 	void GetArea(cRect *rc);
 	void DrawRect(int tex_id,float xo,float yo,float xf,float yf);
 
-	void MoveRight(Tile *map);
+	/*void MoveRight(Tile *map);
 	void MoveLeft(Tile *map);
 	void MoveUp(Tile *map);
-	void MoveDown(Tile *màp);
+	void MoveDown(Tile *map);*/
 	//void Atack(Tile * map);
 	//void Jump(int *map);
-	void Stop();
+	//void Stop();
 
 	// Updates the map tiles with the bicho position
 	// tileX0 or tileY0 = -1 indicates that the bicho has just been created
@@ -73,6 +62,7 @@ public:
 	virtual cBicho* ThrowProjectil(Tile* map) = 0;
 	
 	bool ToBeDestroyed();
+	void Destroy(Tile* map);
 
 protected:
 	int x = -1, y = -1;

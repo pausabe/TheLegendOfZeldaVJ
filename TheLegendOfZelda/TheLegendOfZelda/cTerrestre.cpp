@@ -38,10 +38,21 @@ bool cTerrestre::CollidesMapTile(Tile* map, int direction) {
 	return false;
 }
 
+void cTerrestre::Stop()
+{
+	switch (state)
+	{
+	case STATE_WALKLEFT:	state = STATE_LOOKLEFT;		break;
+	case STATE_WALKRIGHT:	state = STATE_LOOKRIGHT;	break;
+	case STATE_WALKUP:		state = STATE_LOOKUP;		break;
+	case STATE_WALKDOWN:	state = STATE_LOOKDOWN;		break;
+
+	}
+}
+
 void cTerrestre::MoveLeft(Tile *map)
 {
 	int xaux;
-	//SetWidthHeight(64, 64);
 	//Whats next tile?
 	if (((x-stepLength) % TILE_SIZE) >= TILE_SIZE - stepLength)
 	{
@@ -74,7 +85,6 @@ void cTerrestre::MoveLeft(Tile *map)
 void cTerrestre::MoveRight(Tile *map)
 {
 	int xaux;
-	//SetWidthHeight(64, 64);
 	//Whats next tile?
 	if (((x + stepLength) % TILE_SIZE) <= stepLength)
 	{
@@ -108,9 +118,8 @@ void cTerrestre::MoveRight(Tile *map)
 void cTerrestre::MoveUp(Tile *map)
 {
 	int yaux;
-	//SetWidthHeight(64, 64);
 	//Whats next tile?
-	if (((y + stepLength) % TILE_SIZE) >= TILE_SIZE / 2 + stepLength)
+	if (((y + stepLength) % TILE_SIZE) <= TILE_SIZE / 2 + stepLength)
 	{
 		yaux = y;
 		y += stepLength;
