@@ -20,14 +20,14 @@ class cBicho
 {
 public:
 	cBicho(void);
-	cBicho(int x,int y,int w,int h, Tile* map);
+	cBicho(int x,int y,int w,int h);
 	~cBicho(void);
 
-	void SetPosition(int x,int y, Tile* map);
+	void SetPosition(int x,int y);
 	void GetPosition(int *x,int *y);
 	int GetPosX();
 	int GetPosY();
-	void SetTile(int tx,int ty, Tile* map);
+	void SetTile(int tx,int ty);
 	void GetTile(int *tx,int *ty);
 	void SetWidthHeight(int w,int h);
 	void GetWidthHeight(int *w,int *h);
@@ -62,6 +62,7 @@ public:
 	virtual cBicho* ThrowProjectil(Tile* map) = 0;
 	
 	bool ToBeDestroyed();
+	void Destroy(Tile* map);
 
 protected:
 	int x = -1, y = -1;

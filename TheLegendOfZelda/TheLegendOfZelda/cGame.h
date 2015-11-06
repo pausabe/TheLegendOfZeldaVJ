@@ -8,7 +8,7 @@
 #include <vector>
 
 #define GAME_WIDTH	TILE_SIZE*16
-#define GAME_HEIGHT TILE_SIZE*11
+#define GAME_HEIGHT TILE_SIZE*13
 
 class cGame
 {
@@ -34,9 +34,11 @@ private:
 	int oneKey;
 	cScene Scene;
 	cPlayer Player;
+	cProjectil *Espasa;
 	cData Data;
 	std::vector<cBicho*> Enemies = std::vector<cBicho*>();
 	int lifes;
+	bool sKeyPressed = false;
 
 	// Detects if the bicho collisions is blocked by the player shield
 	bool ShieldBlocks(cBicho* bicho);

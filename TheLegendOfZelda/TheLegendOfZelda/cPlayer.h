@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cTerrestre.h"
+#include "cEspasa.h"
 
 #define PLAYER_START_CX		3
 #define PLAYER_START_CY		2
@@ -35,11 +36,12 @@ public:
 	void JumpBack(cRect* collider);
 	void Hit(cRect* collider);
 
+	cBicho* ThrowProjectil(Tile* map);
+
 	int getAtacking();
 	
 	bool isImmune();
 
 	void Atack(Tile * map);
-	cBicho* ThrowProjectil(Tile* map);
 
 };

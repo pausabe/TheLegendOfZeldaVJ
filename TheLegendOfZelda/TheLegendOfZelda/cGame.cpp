@@ -37,7 +37,7 @@ bool cGame::Init()
 	Player.SetTile(8, 5, Scene.GetMap());
 	Player.SetWidthHeight(TILE_SIZE, TILE_SIZE);
 	Player.SetState(STATE_LOOKDOWN);
-
+	Player.MoveLeft(Scene.GetMap());
 	lifes = 3;
 
 	//Enemies initialization
@@ -45,8 +45,10 @@ bool cGame::Init()
 	if (!res) return false;
 
 	cOctorok* c = new cOctorok();
-	c->SetTile(4, 5, Scene.GetMap());
-	//c->SetPosition(8*TILE_SIZE, 5*TILE_SIZE+16, Scene.GetMap());
+	c->SetTile(4, 5);
+	int x, y;
+	c->GetPosition(&x,&y);
+	c->UpdateMapTiles(Scene.GetMap(), -1,-1);
 	c->SetWidthHeight(TILE_SIZE, TILE_SIZE);
 	c->SetState(STATE_LOOKDOWN);
 	
@@ -90,9 +92,9 @@ bool cGame::Process()
 	if (keys[27])	res = false;
 
 	if (!Player.isJumping()) {
-		if (keys['s']) {
+		if (keys['s'] && !sKeyPressed) {
 			Player.Atack(Scene.GetMap());
-			//keys['s'] = false;
+			sKeyPressed = true;
 		}
 		if(Player.getAtacking() == -1){
 			if (keys[GLUT_KEY_UP]) {
@@ -112,15 +114,20 @@ bool cGame::Process()
 			}
 			else Player.Stop();
 		}
-
 	}
+
+	if (!keys['s']) sKeyPressed = false;
 
 	//Game Logic
 	Player.Logic(Scene.GetMap());
 
+	if (Espasa == NULL) Espasa = dynamic_cast<cEspasa*>(Player.ThrowProjectil(Scene.GetMap()));
+	else Espasa->Logic(Scene.GetMap());
+
 	for (int i = 0; i < Enemies.size(); i++) {
 		if (Enemies[i]->ToBeDestroyed()) {
 			cBicho* aux = Enemies[i];
+			aux->Destroy(Scene.GetMap());
 			Enemies.erase(Enemies.begin() + i);
 			//delete aux;
 		}
@@ -150,7 +157,7 @@ void cGame::Render()
 	Scene.Draw(Data.GetID(OVERWORLD_TILES));
 
 	Player.Draw(Data.GetID(LINK));
-
+	if (Espasa != NULL) Espasa->Draw(Data.GetID(OVERWORLD_ENEMIES));
 	for (int i = 0; i < Enemies.size(); i++) {
 		Enemies[i]->Draw(Data.GetID(OVERWORLD_ENEMIES));
 	}

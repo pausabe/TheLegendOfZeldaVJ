@@ -153,6 +153,7 @@
     <ClCompile Include="cBicho.cpp" />
     <ClCompile Include="cData.cpp" />
     <ClCompile Include="cEnemy.cpp" />
+    <ClCompile Include="cEspasa.cpp" />
     <ClCompile Include="cGame.cpp" />
     <ClCompile Include="cOctorok.cpp" />
     <ClCompile Include="cProjectil.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="cBicho.h" />
     <ClInclude Include="cData.h" />
     <ClInclude Include="cEnemy.h" />
+    <ClInclude Include="cEspasa.h" />
     <ClInclude Include="cGame.h" />
     <ClInclude Include="cOctorok.h" />
     <ClInclude Include="cProjectil.h" />

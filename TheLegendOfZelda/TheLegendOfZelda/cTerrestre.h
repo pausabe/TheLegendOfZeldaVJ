@@ -38,7 +38,7 @@ public:
 	void MoveRight(Tile *map);
 	void MoveLeft(Tile *map);
 	void MoveUp(Tile *map);
-	void MoveDown(Tile *màp);
+	void MoveDown(Tile *map);
 
 	void SetCollision(bool collision);
 

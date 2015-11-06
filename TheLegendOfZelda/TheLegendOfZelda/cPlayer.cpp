@@ -124,34 +124,50 @@ void cPlayer::Atack(Tile *map)
 	if (atacking == -1) {
 		atacking = ATACK_DURATION;
 
+		throwProjectil = true;
+
 		if (state == STATE_WALKDOWN || state == STATE_LOOKDOWN || state == STATE_ATACKDOWN) {
 			state = STATE_ATACKDOWN;
-			SetWidthHeight(64, 96);
+			SetWidthHeight(TILE_SIZE, TILE_SIZE * 3 / 2);
 
 			int x, y;
 			x = GetPosX();
 			y = GetPosY();
-			SetPosition(x, (y-32), map);
+			SetPosition(x, (y - TILE_SIZE / 2), map);
 		}
 		else if (state == STATE_WALKUP || state == STATE_LOOKUP || state == STATE_ATACKUP) {
 			state = STATE_ATACKUP;
-			SetWidthHeight(64, 96);
+			SetWidthHeight(TILE_SIZE, TILE_SIZE * 3 / 2);
 		}
 		else if (state == STATE_WALKRIGHT || state == STATE_LOOKRIGHT || state == STATE_ATACKRIGHT) {
 			SetState(STATE_ATACKRIGHT);
-			SetWidthHeight(96, 64);
+			SetWidthHeight(TILE_SIZE * 3 / 2, TILE_SIZE);
 		}
 		else if (state == STATE_WALKLEFT || state == STATE_LOOKLEFT || state == STATE_ATACKLEFT) {
 			state = STATE_ATACKLEFT;
-			SetWidthHeight(96, 64);
+			SetWidthHeight(TILE_SIZE * 3 / 2, TILE_SIZE);
 
 			int x, y;
 			x = GetPosX();
 			y = GetPosY();
-			SetPosition((x - 32), y, map);
+			SetPosition((x - TILE_SIZE / 2), y, map);
 		}
 	}
 
+}
+
+cBicho* cPlayer::ThrowProjectil(Tile* map) {
+	if (throwProjectil) {
+		cEspasa* projectil = new cEspasa();
+		int x, y;
+		GetPosition(&x, &y);
+		projectil->SetPosition(x, y);
+		projectil->SetState(GetState());
+		projectil->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+		throwProjectil = false;
+		return projectil;
+	}
+	else return nullptr;
 }
 
 void cPlayer::Logic(Tile* map) {	
@@ -160,13 +176,13 @@ void cPlayer::Logic(Tile* map) {
 		atacking--;
 	} 
 	else if (atacking == 0){
-		SetWidthHeight(64, 64);
+		SetWidthHeight(TILE_SIZE, TILE_SIZE);
 		int x, y;
 		switch (GetState()) {
 		case STATE_ATACKDOWN: 
 			x = GetPosX();
 			y = GetPosY();
-			SetPosition(x, (y + 32), map);
+			SetPosition(x, (y + TILE_SIZE/2), map);
 			SetState(STATE_LOOKDOWN);
 			break;
 		case STATE_ATACKUP:
@@ -175,7 +191,7 @@ void cPlayer::Logic(Tile* map) {
 		case STATE_ATACKLEFT:
 			x = GetPosX();
 			y = GetPosY();
-			SetPosition((x + 32), y, map);
+			SetPosition((x + TILE_SIZE/2), y, map);
 			SetState(STATE_LOOKLEFT);
 			break;
 		case STATE_ATACKRIGHT:
@@ -187,6 +203,7 @@ void cPlayer::Logic(Tile* map) {
 
 
 	if (jumping != -1) {
+		SetWidthHeight(TILE_SIZE, TILE_SIZE);
 		atacking = -1;
 		int state = GetState();
 		stepLength = JUMP_STEP;
@@ -260,9 +277,6 @@ int cPlayer::getAtacking()
 	return atacking;
 }
 
-cBicho* cPlayer::ThrowProjectil(Tile* map) {
-	return nullptr;
-}
 
 bool cPlayer::isImmune() {
 	return immune > 0;
