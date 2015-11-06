@@ -35,6 +35,13 @@ void cBicho::GetPosition(int *posx,int *posy)
 	*posx = x;
 	*posy = y;
 }
+
+int cBicho::GetPosX() {
+	return x;
+}
+int cBicho::GetPosY() {
+	return y;
+}
 void cBicho::SetTile(int tx,int ty, Tile *map)
 {
 	int x0;

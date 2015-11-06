@@ -25,6 +25,8 @@ public:
 
 	void SetPosition(int x,int y, Tile* map);
 	void GetPosition(int *x,int *y);
+	int GetPosX();
+	int GetPosY();
 	void SetTile(int tx,int ty, Tile* map);
 	void GetTile(int *tx,int *ty);
 	void SetWidthHeight(int w,int h);

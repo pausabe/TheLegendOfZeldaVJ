@@ -127,6 +127,11 @@ void cPlayer::Atack(Tile *map)
 		if (state == STATE_WALKDOWN || state == STATE_LOOKDOWN || state == STATE_ATACKDOWN) {
 			state = STATE_ATACKDOWN;
 			SetWidthHeight(64, 96);
+
+			int x, y;
+			x = GetPosX();
+			y = GetPosY();
+			SetPosition(x, (y-32), map);
 		}
 		else if (state == STATE_WALKUP || state == STATE_LOOKUP || state == STATE_ATACKUP) {
 			state = STATE_ATACKUP;
@@ -139,6 +144,11 @@ void cPlayer::Atack(Tile *map)
 		else if (state == STATE_WALKLEFT || state == STATE_LOOKLEFT || state == STATE_ATACKLEFT) {
 			state = STATE_ATACKLEFT;
 			SetWidthHeight(96, 64);
+
+			int x, y;
+			x = GetPosX();
+			y = GetPosY();
+			SetPosition((x - 32), y, map);
 		}
 	}
 
@@ -151,14 +161,21 @@ void cPlayer::Logic(Tile* map) {
 	} 
 	else if (atacking == 0){
 		SetWidthHeight(64, 64);
+		int x, y;
 		switch (GetState()) {
 		case STATE_ATACKDOWN: 
+			x = GetPosX();
+			y = GetPosY();
+			SetPosition(x, (y + 32), map);
 			SetState(STATE_LOOKDOWN);
 			break;
 		case STATE_ATACKUP:
 			SetState(STATE_LOOKUP);
 			break;
 		case STATE_ATACKLEFT:
+			x = GetPosX();
+			y = GetPosY();
+			SetPosition((x + 32), y, map);
 			SetState(STATE_LOOKLEFT);
 			break;
 		case STATE_ATACKRIGHT:
@@ -170,6 +187,7 @@ void cPlayer::Logic(Tile* map) {
 
 
 	if (jumping != -1) {
+		atacking = -1;
 		int state = GetState();
 		stepLength = JUMP_STEP;
 		switch (jumping) {
@@ -214,10 +232,22 @@ void cPlayer::JumpBack(cRect* collider) {
 	jump = JUMP_LENGTH;
 
 	int state = GetState();
-	if (state == STATE_ATACKDOWN || state == STATE_WALKDOWN) SetState(STATE_LOOKDOWN);	
-	else if (state == STATE_ATACKUP || state == STATE_WALKUP) SetState(STATE_LOOKUP);
-	else if (state == STATE_ATACKLEFT || state == STATE_WALKLEFT) SetState(STATE_LOOKLEFT);
-	else if (state == STATE_ATACKRIGHT || state == STATE_WALKRIGHT) SetState(STATE_LOOKRIGHT);
+	if (state == STATE_ATACKDOWN || state == STATE_WALKDOWN) {
+		atacking = -1;
+		SetState(STATE_LOOKDOWN);
+	}
+	else if (state == STATE_ATACKUP || state == STATE_WALKUP) {
+		atacking = -1;
+		SetState(STATE_LOOKUP);
+	}
+	else if (state == STATE_ATACKLEFT || state == STATE_WALKLEFT) {
+		atacking = -1;
+		SetState(STATE_LOOKLEFT);
+	}
+	else if (state == STATE_ATACKRIGHT || state == STATE_WALKRIGHT) {
+		atacking = -1;
+		SetState(STATE_LOOKRIGHT);
+	}
 }
 
 void cPlayer::Hit(cRect* collider) {

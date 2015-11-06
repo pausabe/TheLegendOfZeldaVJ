@@ -94,22 +94,25 @@ bool cGame::Process()
 			Player.Atack(Scene.GetMap());
 			//keys['s'] = false;
 		}
-		else if (keys[GLUT_KEY_UP]) {
-			Player.MoveUp(Scene.GetMap());
+		if(Player.getAtacking() == -1){
+			if (keys[GLUT_KEY_UP]) {
+				Player.MoveUp(Scene.GetMap());
+			}
+			else if (keys[GLUT_KEY_DOWN])
+			{
+				Player.MoveDown(Scene.GetMap());
+			}
+			else if (keys[GLUT_KEY_LEFT])
+			{
+				Player.MoveLeft(Scene.GetMap());
+			}
+			else if (keys[GLUT_KEY_RIGHT])
+			{
+				Player.MoveRight(Scene.GetMap());
+			}
+			else Player.Stop();
 		}
-		else if (keys[GLUT_KEY_DOWN])
-		{
-			Player.MoveDown(Scene.GetMap());
-		}
-		else if (keys[GLUT_KEY_LEFT])
-		{
-			Player.MoveLeft(Scene.GetMap());
-		}
-		else if (keys[GLUT_KEY_RIGHT])
-		{
-			Player.MoveRight(Scene.GetMap());
-		}
-		else if(Player.getAtacking() == -1) Player.Stop();
+
 	}
 
 	//Game Logic
