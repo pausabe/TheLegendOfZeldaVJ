@@ -14,35 +14,35 @@ void cDarknut::Draw(int tex_id)
 	switch (GetState())
 	{
 		//1
-	case STATE_LOOKLEFT:	xo = (float)((sprite_size + 14) / texture_size);	yo = 0.0f;
+	case STATE_LOOKLEFT:	xo = (float)((sprite_size + 14) * 5 / texture_size);	yo = (float)((sprite_size + 14) * 6 / texture_size);;
 		break;
 		//4
-	case STATE_LOOKRIGHT:	xo = (float)((sprite_size + 14) / texture_size) * 3;	yo = 0.0f;
+	case STATE_LOOKRIGHT:	xo = (float)((sprite_size + 14) * 7 / texture_size);	yo = (float)((sprite_size + 14) * 6 / texture_size);;
 		break;
 		//1..3
-	case STATE_WALKLEFT:	xo = (float)((sprite_size + 14) / texture_size);
-		yo = 0.0f + (GetFrame()*((float)((sprite_size + 14) * 7 / texture_size)));
+	case STATE_WALKLEFT:	xo = (float)((sprite_size + 14) * 5 / texture_size);
+		yo = (float)(sprite_size + 14) * 6 / texture_size + (GetFrame()*((float)((sprite_size + 14) / texture_size)));
 		NextFrame(2);
 		break;
 		//4..6
-	case STATE_WALKRIGHT:	xo = (float)((sprite_size + 14) / texture_size) * 3;
-		yo = 0.0f + (GetFrame()*((float)((sprite_size + 14) * 7 / texture_size)));
+	case STATE_WALKRIGHT:	xo = (float)((sprite_size + 14) * 7 / texture_size);
+		yo = (float)(sprite_size + 14) * 6 / texture_size + (GetFrame()*((float)((sprite_size + 14) / texture_size)));
 		NextFrame(2);
 		break;
 
-	case STATE_LOOKUP:		xo = (float)((sprite_size + 14) / texture_size) * 2;	yo = 0.0f;
+	case STATE_LOOKUP:		xo = (float)((sprite_size + 14) * 6 / texture_size);	yo = (float)((sprite_size + 14) * 6 / texture_size);;
 		break;
 
-	case STATE_LOOKDOWN:	xo = 0.0f;	yo = 0.0f;
+	case STATE_LOOKDOWN:	xo = (float)((sprite_size + 14) * 4 / texture_size);	yo = (float)((sprite_size + 14) * 6 / texture_size);
 		break;
 
-	case STATE_WALKUP:		xo = (float)((sprite_size + 14) / texture_size) * 2;
-		yo = 0.0f + (GetFrame()*((float)((sprite_size + 14) / texture_size)));
+	case STATE_WALKUP:		xo = (float)((sprite_size + 14) * 6 / texture_size);
+		yo = (float)(sprite_size + 14) * 6 / texture_size + (GetFrame()*((float)((sprite_size + 14) / texture_size)));
 		NextFrame(2);
 		break;
 
-	case STATE_WALKDOWN:	xo = 0.0f;
-		yo = 0.0f + (GetFrame()*((float)((sprite_size + 14) / texture_size)));
+	case STATE_WALKDOWN:	xo = (float)((sprite_size + 14) * 4 / texture_size);;
+		yo = (float)(sprite_size + 14) * 6 / texture_size + (GetFrame()*((float)((sprite_size + 14) / texture_size)));
 		NextFrame(2);
 		break;
 	}

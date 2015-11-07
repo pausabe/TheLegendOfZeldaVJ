@@ -314,8 +314,8 @@ void cBicho::UpdateMapTiles(Tile *map, int x0, int y0) {
 				if ((*bichos)[i] == this) {
 					bichos->erase(bichos->begin() + i);
 					break;
-		}
-	}
+				}
+			}
 		}
 	}
 
@@ -323,13 +323,13 @@ void cBicho::UpdateMapTiles(Tile *map, int x0, int y0) {
 	int x, y;
 	GetPosition(&x, &y);
 	if (x != -1 && y != -1) {
-	map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE].bichos.push_back(this);
-	if (x % TILE_SIZE != 0)
-		map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos.push_back(this);
-	if (y % TILE_SIZE != 0)
-		map[(((y / TILE_SIZE) + 1)*SCENE_WIDTH) + x / TILE_SIZE].bichos.push_back(this);
-	if (x % TILE_SIZE != 0 && y % TILE_SIZE != 0)
-		map[(((y / TILE_SIZE) + 1)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos.push_back(this);
+		map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE].bichos.push_back(this);
+		if (x % TILE_SIZE != 0)
+			map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos.push_back(this);
+		if (y % TILE_SIZE != 0)
+			map[(((y / TILE_SIZE) + 1)*SCENE_WIDTH) + x / TILE_SIZE].bichos.push_back(this);
+		if (x % TILE_SIZE != 0 && y % TILE_SIZE != 0)
+			map[(((y / TILE_SIZE) + 1)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos.push_back(this);
 	}
 }
 
@@ -337,7 +337,7 @@ void cBicho::UpdateMapTiles(Tile *map, int x0, int y0) {
 void cBicho::NextFrame(int max)
 {
 	delay++;
-	if(delay == FRAME_DELAY)
+	if(delay == frameDelay)
 	{
 		seq++;
 		seq%=max;
@@ -373,3 +373,12 @@ void cBicho::Destroy(Tile* map) {
 	y = -1;
 	UpdateMapTiles(map, x0, y0);
 }
+
+int cBicho::GetLifes() {
+	return lifes;
+}
+
+void cBicho::SetLifes(int l) {
+	lifes = l;
+}
+

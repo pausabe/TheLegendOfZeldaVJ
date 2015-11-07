@@ -1,12 +1,11 @@
 #pragma once
 
-#include "cTexture.h"
 #include "Globals.h"
+
+#include "cTexture.h"
 #include "cScene.h"
 
 #define FRAME_DELAY		4
-#define STEP_LENGTH		4
-
 
 class cRect
 {
@@ -60,9 +59,14 @@ public:
 	
 	virtual void Draw(int tex_id) = 0;
 	virtual cBicho* ThrowProjectil(Tile* map) = 0;
-	
+	virtual bool Blockable() = 0;
+
 	bool ToBeDestroyed();
 	void Destroy(Tile* map);
+
+	void SetLifes(int lifes);
+	int GetLifes();
+
 
 protected:
 	int x = -1, y = -1;
@@ -72,11 +76,10 @@ protected:
 	int seq, delay;
 	bool throwProjectil = false;
 	bool toBeDestroyed = false;
+	int lifes;
+	int frameDelay = FRAME_DELAY;
 
 private:
 
 	bool jumping;
-	int jump_alfa;
-	int jump_y;
-
 };

@@ -1,7 +1,9 @@
 #pragma once
 
-#include "cBicho.h"
 #include "Globals.h"
+#include "cBicho.h"
+
+#define STEP_LENGTH		4
 
 #define STATE_LOOKLEFT		0
 #define STATE_LOOKRIGHT		1
@@ -16,7 +18,6 @@
 #define STATE_ATACKDOWN		9
 #define STATE_ATACKRIGHT	10
 #define STATE_ATACKLEFT		11
-
 
 class cTerrestre : public cBicho
 {
@@ -46,5 +47,8 @@ public:
 	void MoveDown(Tile *map);
 
 	void SetCollision(bool collision);
+	
+	// Detects if the bicho collision is blocked by the self shield
+	bool ShieldBlocks(cBicho* bicho);
 
 };

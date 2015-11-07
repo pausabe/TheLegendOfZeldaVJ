@@ -270,6 +270,7 @@ void cPlayer::JumpBack(cRect* collider) {
 void cPlayer::Hit(cRect* collider) {
 	JumpBack(collider);
 	immune = IMMUNITY_DURATION;
+	lifes--;
 }
 
 int cPlayer::getAtacking()
@@ -280,4 +281,8 @@ int cPlayer::getAtacking()
 
 bool cPlayer::isImmune() {
 	return immune > 0;
+}
+
+bool cPlayer::Blockable() {
+	return true;
 }

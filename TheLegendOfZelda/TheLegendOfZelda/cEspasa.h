@@ -1,10 +1,8 @@
 #pragma once
 
-#include "cTerrestre.h"
-#include "cEnemy.h"
 #include "cProjectil.h"
-
 #define SPEED 16
+
 
 class cEspasa : public cProjectil
 {

@@ -51,11 +51,11 @@ bool cGame::Init()
 	c->SetWidthHeight(TILE_SIZE, TILE_SIZE);
 	c->SetState(STATE_LOOKDOWN);
 	
-	cDarknut* d = new cDarknut();
+	cTektike* d = new cTektike();
 	d->SetTile(6,5);
 	d->UpdateMapTiles(Scene.GetMap(), -1, -1);
 	d->SetWidthHeight(TILE_SIZE, TILE_SIZE);
-	d->SetState(STATE_LOOKDOWN);
+	d->SetState(STATE_RESTING);
 
 	Enemies.push_back(c);
 	Enemies.push_back(d);
@@ -170,24 +170,13 @@ void cGame::Render()
 	glutSwapBuffers();
 }
 
-bool cGame::ShieldBlocks(cBicho* bicho) {
-	if (!dynamic_cast<cEnemy*>(bicho)->Blockable()) return false;
-	int bichoState = bicho->GetState();
-	int playerState = Player.GetState();
-	if ((bichoState == STATE_WALKUP || bichoState == STATE_LOOKUP) && (playerState == STATE_WALKDOWN || playerState == STATE_LOOKDOWN)) return true;
-	else if ((bichoState == STATE_WALKRIGHT || bichoState == STATE_LOOKRIGHT) && (playerState == STATE_WALKLEFT || playerState == STATE_LOOKLEFT)) return true;
-	else if ((bichoState == STATE_WALKDOWN || bichoState == STATE_LOOKDOWN) && (playerState == STATE_WALKUP || playerState == STATE_LOOKUP)) return true;
-	else if ((bichoState == STATE_WALKLEFT || bichoState == STATE_LOOKLEFT) && (playerState == STATE_WALKRIGHT || playerState == STATE_LOOKRIGHT)) return true;
-	return false;
-}
 
 void cGame::DetectCollisions(std::vector<cBicho*> *bichos) {
 	for (int i = 0; i < bichos->size(); i++) {
 		cRect rt;
 		(*bichos)[i]->GetArea(&rt);
-		if (ShieldBlocks((*bichos)[i])) dynamic_cast<cTerrestre*>((*bichos)[i])->Destroy(Scene.GetMap());
+		if (Player.ShieldBlocks((*bichos)[i])) dynamic_cast<cTerrestre*>((*bichos)[i])->Destroy(Scene.GetMap());
 		else if (Player.Collides(&rt) && !Player.isImmune()) {
-			lifes--;
 			Player.Hit(&rt);
 		}
 	}
@@ -198,6 +187,7 @@ void cGame::ProcessDynamicCollisions() {
 	int x, y;
 	Player.GetPosition(&x, &y);
 	std::vector<cBicho*> *bichos = &Scene.GetMap()[(y/TILE_SIZE)*SCENE_WIDTH + x / TILE_SIZE].bichos;
+	DetectCollisions(bichos);
 
 	if (x % TILE_SIZE != 0) {
 		bichos = &Scene.GetMap()[(y / TILE_SIZE)*SCENE_WIDTH + x / TILE_SIZE + 1].bichos;

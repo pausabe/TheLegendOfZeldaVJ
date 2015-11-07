@@ -3,9 +3,9 @@
 #include "cScene.h"
 #include "cPlayer.h"
 #include "cData.h"
-#include "cEnemy.h"
 #include "cOctorok.h"
 #include "cDarknut.h"
+#include "cTektike.h"
 #include <vector>
 
 #define GAME_WIDTH	TILE_SIZE*16
@@ -41,8 +41,6 @@ private:
 	int lifes;
 	bool sKeyPressed = false;
 
-	// Detects if the bicho collisions is blocked by the player shield
-	bool ShieldBlocks(cBicho* bicho);
 	void DetectCollisions(std::vector<cBicho*> *bichos);
 	void ProcessDynamicCollisions();
 };

@@ -39,5 +39,6 @@ public:
 	bool isImmune();
 
 	void Atack(Tile * map);
+	bool Blockable();
 
 };
