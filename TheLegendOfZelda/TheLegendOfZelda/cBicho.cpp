@@ -145,7 +145,7 @@ void cBicho::DrawRect(int tex_id,float xo,float yo,float xf,float yf)
 void cBicho::UpdateMapTiles(Tile *map, int x0, int y0) {
 	
 	// Remove the bicho from original tiles
-	if (x0 >= 0 && y0 >= 0) {
+	if (x0 >= 0 && y0 >= 0 && y0 < TILE_SIZE*11 && x0 < TILE_SIZE*16) {
 		std::vector<cBicho*> *bichos = &map[((y0 / TILE_SIZE)*SCENE_WIDTH) + x0 / TILE_SIZE].bichos;
 		for (int i = 0; i < bichos->size(); i++) {
 			if ((*bichos)[i] == this) {
@@ -154,7 +154,7 @@ void cBicho::UpdateMapTiles(Tile *map, int x0, int y0) {
 			}
 		}
 
-		if (x0 % TILE_SIZE != 0) {
+		if (x0 % TILE_SIZE != 0 && x + TILE_SIZE < TILE_SIZE * 16) {
 			bichos = &map[((y0 / TILE_SIZE)*SCENE_WIDTH) + x0 / TILE_SIZE + 1].bichos;
 			for (int i = 0; i < bichos->size(); i++) {
 				if ((*bichos)[i] == this) {
@@ -164,7 +164,7 @@ void cBicho::UpdateMapTiles(Tile *map, int x0, int y0) {
 			}
 		}
 
-		if (y0 % TILE_SIZE != 0) {
+		if (y0 % TILE_SIZE != 0 && y + TILE_SIZE < TILE_SIZE * 11) {
 			bichos = &map[(((y0 / TILE_SIZE) + 1)*SCENE_WIDTH) + x0 / TILE_SIZE].bichos;
 			for (int i = 0; i < bichos->size(); i++) {
 				if ((*bichos)[i] == this) {
@@ -174,7 +174,7 @@ void cBicho::UpdateMapTiles(Tile *map, int x0, int y0) {
 			}
 		}
 
-		if (x0 % TILE_SIZE != 0 && y0 % TILE_SIZE != 0) {
+		if (x0 % TILE_SIZE != 0 && y0 % TILE_SIZE != 0 && y + TILE_SIZE < TILE_SIZE * 11 && x + TILE_SIZE < TILE_SIZE * 16) {
 			bichos = &map[(((y0 / TILE_SIZE) + 1)*SCENE_WIDTH) + x0 / TILE_SIZE + 1].bichos;
 			for (int i = 0; i < bichos->size(); i++) {
 				if ((*bichos)[i] == this) {
@@ -188,13 +188,13 @@ void cBicho::UpdateMapTiles(Tile *map, int x0, int y0) {
 	// Add the bicho to the map with the new tiles
 	int x, y;
 	GetPosition(&x, &y);
-	if (x != -1 && y != -1) {
+	if (x != -1 && y != -1 && x < TILE_SIZE*16 && y < TILE_SIZE*11) {
 		map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE].bichos.push_back(this);
-		if (x % TILE_SIZE != 0)
+		if (x % TILE_SIZE != 0 && x + TILE_SIZE < TILE_SIZE*16)
 			map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos.push_back(this);
-		if (y % TILE_SIZE != 0)
+		if (y % TILE_SIZE != 0 && y + TILE_SIZE < TILE_SIZE*11)
 			map[(((y / TILE_SIZE) + 1)*SCENE_WIDTH) + x / TILE_SIZE].bichos.push_back(this);
-		if (x % TILE_SIZE != 0 && y % TILE_SIZE != 0)
+		if (x % TILE_SIZE != 0 && y % TILE_SIZE != 0 && x + TILE_SIZE < TILE_SIZE*16 && y + TILE_SIZE < TILE_SIZE*11)
 			map[(((y / TILE_SIZE) + 1)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos.push_back(this);
 	}
 }

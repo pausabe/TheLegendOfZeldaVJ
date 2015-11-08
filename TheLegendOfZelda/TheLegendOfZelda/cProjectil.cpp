@@ -25,12 +25,15 @@ void cProjectil::Logic(Tile *map) {
 	int y0;
 	
 	GetPosition(&x0, &y0);
-	if (x0 < 0 || y0 < 0 || collision) toBeDestroyed = true;
+	if (x0 < 0 || y0 < 0 || collision) {
+		toBeDestroyed = true;
+		Destroy(map);
+	}
 	if (GetState() == STATE_LOOKLEFT || GetState() == STATE_WALKLEFT) MoveLeft(map);
 	else if (GetState() == STATE_LOOKRIGHT || GetState() == STATE_WALKRIGHT) MoveRight(map);
 	else if (GetState() == STATE_LOOKUP || GetState() == STATE_WALKUP) MoveUp(map);
 	else if (GetState() == STATE_LOOKDOWN || GetState() == STATE_WALKDOWN) MoveDown(map);
-	
+
 	if (!toBeDestroyed) UpdateMapTiles(map, x0, y0);
 }
 

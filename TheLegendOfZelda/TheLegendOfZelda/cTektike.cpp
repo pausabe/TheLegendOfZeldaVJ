@@ -60,11 +60,11 @@ void cTektike::Logic(Tile *map) {
 				targetX = length*cos(degrees*0.017453f) + x0;
 				targetY = length*sin(degrees*0.017453f) + y0;
 			}
-			xStep = (x0 - targetX) / (180/JUMP_STEP);
 			jumpY = y0;
 			if (degrees < 90) degrees = 180 - degrees;
 			if (degrees > 270) degrees = 180 + (360 - degrees);
 			maxDegree = degrees;
+			xStep = (targetX - x0) / (degrees / JUMP_STEP);
 		}
 		break;
 	case STATE_PREPARING:
@@ -81,7 +81,7 @@ void cTektike::Logic(Tile *map) {
 		float alfa = ((float)jump_alfa) * 0.017453f;
 		y = jumpY + (int)(((float)64) * sin(alfa));
 
-		if(jump_alfa > maxDegree) {
+		if(jump_alfa >= maxDegree) {
 			SetState(STATE_RESTING);
 		}
 		SetPosition(x, y);
