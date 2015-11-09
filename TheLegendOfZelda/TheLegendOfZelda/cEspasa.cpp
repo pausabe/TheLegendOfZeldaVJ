@@ -12,8 +12,8 @@ void cEspasa::Draw(int tex_id)
 	float sprite_size = 16;
 	float texture_size = 512;
 
-	yo = (float)((sprite_size + 14) * 6 / texture_size);
-	xo = (float)0;
+	yo = (float)((sprite_size + 14) / texture_size) * 6;
+	xo = (float)((sprite_size + 14) / texture_size);
 	xf = xo + (float)(sprite_size / texture_size);
 	yf = yo + (float)(sprite_size / texture_size);
 
