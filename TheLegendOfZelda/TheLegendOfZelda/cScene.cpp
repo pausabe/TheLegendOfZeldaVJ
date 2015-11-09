@@ -22,11 +22,11 @@ bool cScene::isAWall(int tile) {
 	return walls[tile];
 }
 
-bool cScene::LoadLevel(int level)
+bool cScene::LoadOverworldLevel(int level)
 {
 	bool res;
 	FILE *fd;
-	char file[16];
+	char file[32];
 	int i,j,px,py;
 	char tile[2];
 	float coordx_tile, coordy_tile;
@@ -74,6 +74,104 @@ bool cScene::LoadLevel(int level)
 			}
 
 		glEnd();
+	glEndList();
+
+	fclose(fd);
+
+	return res;
+}
+
+bool cScene::isADungeonWall(int tile) {
+	if (tile == -1) return false;
+	return true;
+}
+
+bool cScene::LoadDungeonLevel(int level)
+{
+	bool res;
+	FILE *fd;
+	char file[32];
+	int i, j, px, py;
+	char tile[2];
+	float coordx_tile, coordy_tile;
+
+	res = true;
+
+	if (level<10) sprintf(file, "%s0%d%s", (char *)DUNGEON_FILENAME, level, (char *)FILENAME_EXT);
+	else		 sprintf(file, "%s%d%s", (char *)DUNGEON_FILENAME, level, (char *)FILENAME_EXT);
+
+	fd = fopen(file, "r");
+	if (fd == NULL) return false;
+
+	id_DL = glGenLists(1);
+	glNewList(id_DL, GL_COMPILE);
+	glBegin(GL_QUADS);
+
+	glTexCoord2f((float)239 / 512, (float)171 / 512); glVertex2i(0.0f, 0.0f);
+	glTexCoord2f((float)239 / 512, (float)12 / 512); glVertex2i(0.0f, (float)TILE_SIZE * 11);
+	glTexCoord2f(0.0f, (float)12 / 512); glVertex2i((float)TILE_SIZE * 16, (float)TILE_SIZE * 11);
+	glTexCoord2f(0.0f, (float)171 / 512); glVertex2i((float)TILE_SIZE * 16, 0.0f);
+
+	
+
+	for (j = SCENE_HEIGHT - 1; j >= 0; j--)
+	{
+		px = SCENE_Xo;
+		py = SCENE_Yo + (j*TILE_SIZE);
+
+		for (i = 0; i < SCENE_WIDTH; i++)
+		{
+			fscanf(fd, "%c", &tile[0]);
+			fscanf(fd, "%c", &tile[1]);
+
+			if (tile[0] == ' ' && tile[1] == ' ') {
+				map[(j*SCENE_WIDTH) + i].tileId = -1;
+				if (i == 0 || j == 0 || i == SCENE_WIDTH - 1 || j == SCENE_HEIGHT - 1) map[(j*SCENE_WIDTH) + i].isWall = true;
+				else map[(j*SCENE_WIDTH) + i].isWall = false;
+			}
+			else {
+				map[(j*SCENE_WIDTH) + i].tileId = atoi(tile);
+				map[(j*SCENE_WIDTH) + i].isWall = isADungeonWall(atoi(tile));
+			}
+			int tileId = map[(j*SCENE_WIDTH) + i].tileId;
+
+			
+			if (tileId != -1) {
+
+				float tile_height = (float)16 / 512; // Size of the tile in the texture 
+				float tile_width = (float)16 / 512; // Size of the tile in the texture 
+				float x0 = (float)240 / 512;
+				float y0 = 0.0;
+				int auxTile = tileId;
+				float w = 1, h = 1;
+				int columns = 4;
+				if (tileId <= 11) { 
+					tile_height = (float)20 / 512; 
+					h = 1.25f;
+				} else if (tileId > 11 && tileId <= 28) {
+					auxTile = tileId - 12;
+					y0 = (float)60 / 512;
+				}
+				else {
+					auxTile = tileId - 29;
+					x0 += (float)16 * 4 / 512;
+					tile_width = (float)20 / 512;
+					w = 1.25f;
+				}
+				coordx_tile = x0 + auxTile % columns * tile_width;// (float)1 / 256 + map[(j*SCENE_WIDTH) + i].tileId % 15 * (float)17 / 256;
+				coordy_tile = y0 + (int)auxTile / columns * tile_height;// row * (float)17 / 256;
+
+				glTexCoord2f(coordx_tile, coordy_tile + tile_height); glVertex2i(px, py + (1 - h)*BLOCK_SIZE);
+				glTexCoord2f(coordx_tile + tile_width, coordy_tile + tile_height);    glVertex2i(px + abs(w)*BLOCK_SIZE, py + (1 - h)*BLOCK_SIZE);
+				glTexCoord2f(coordx_tile + tile_width, coordy_tile); glVertex2i(px + abs(w)*BLOCK_SIZE, py + abs(h)*BLOCK_SIZE + (1 - h)*BLOCK_SIZE);
+				glTexCoord2f(coordx_tile, coordy_tile); glVertex2i(px, py + abs(h)*BLOCK_SIZE + (1 - h)*BLOCK_SIZE);
+			}
+			px += TILE_SIZE;
+		}
+		fscanf(fd, "%c", &tile); //pass enter
+	}
+	
+	glEnd();
 	glEndList();
 
 	fclose(fd);

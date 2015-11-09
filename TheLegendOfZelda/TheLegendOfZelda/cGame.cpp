@@ -28,12 +28,18 @@ bool cGame::Init()
 	//Scene initialization
 	res = Data.LoadImage(OVERWORLD_TILES, "resources/overworld_tiles.png", GL_RGB);
 	if (!res) return false;
-	res = Scene.LoadLevel(1);
+	res = Data.LoadImage(DUNGEON_TILES, "resources/dungeon_tiles.png", GL_RGBA);
+	if (!res) return false;
+	res = Data.LoadImage(OVERWORLD_ENEMIES, "resources/overworld_enemies.png", GL_RGBA);
+	if (!res) return false;
+	res = Data.LoadImage(LINK, "resources/link.png", GL_RGBA);
+	if (!res) return false;
+
+	//res = Scene.LoadOverworldLevel(1);
+	res = Scene.LoadDungeonLevel(1); 
 	if (!res) return false;
 
 	//Player initialization
-	res = Data.LoadImage(LINK, "resources/link.png", GL_RGBA);
-	if (!res) return false;
 	Player.SetTile(8, 5, Scene.GetMap());
 	Player.SetWidthHeight(TILE_SIZE, TILE_SIZE);
 	Player.SetState(STATE_LOOKDOWN);
@@ -41,8 +47,6 @@ bool cGame::Init()
 	lifes = 3;
 
 	//Enemies initialization
-	res = Data.LoadImage(OVERWORLD_ENEMIES, "resources/overworld_enemies.png", GL_RGBA);
-	if (!res) return false;
 
 	cOctorok* c = new cOctorok();
 	c->SetTile(4, 5);
@@ -159,7 +163,7 @@ void cGame::Render()
 	
 	glLoadIdentity();
 
-	Scene.Draw(Data.GetID(OVERWORLD_TILES));
+	Scene.Draw(Data.GetID(DUNGEON_TILES));
 
 	Player.Draw(Data.GetID(LINK));
 	if (Espasa != NULL) Espasa->Draw(Data.GetID(LINK));
