@@ -9,7 +9,7 @@ void cGanon::Draw(int tex_id)
 
 	float sprite_size = 32;
 	float texture_size = 512;
-
+	
 	//hi ha 14 pixels en blanc que hem d'anar saltant
 	if (GetState() == STATE_VISIBLE)
 	{
