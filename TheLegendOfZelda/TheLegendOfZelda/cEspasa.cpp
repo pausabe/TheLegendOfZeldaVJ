@@ -12,15 +12,38 @@ void cEspasa::Draw(int tex_id)
 	float sprite_size = 16;
 	float texture_size = 512;
 
-	float xxx = 30;
-	float yyy = 194;
+	if (!deadSword) {
+		float xxx, yyy;
+		yyy = 194;
 
-	xo = (float)(xxx / texture_size);
-	yo = ((float)(yyy / texture_size));
-	xf = xo + (float)(sprite_size / texture_size);
-	yf = yo + (float)(sprite_size / texture_size);
+		int state = GetState();
 
-	DrawRect(tex_id, xo, yf, xf, yo);
+		if(state== STATE_ATACKDOWN || state == STATE_LOOKDOWN || state == STATE_WALKDOWN) xxx = 0;
+		else if (state == STATE_ATACKUP || state == STATE_LOOKUP || state == STATE_WALKUP) xxx = 60;
+		else if (state == STATE_ATACKRIGHT || state == STATE_LOOKRIGHT || state == STATE_WALKRIGHT) xxx = 90;
+		else if (state == STATE_ATACKLEFT || state == STATE_LOOKLEFT || state == STATE_WALKLEFT) xxx = 30;
+
+		xo = (float)(xxx / texture_size);
+		yo = ((float)(yyy / texture_size));
+		xf = xo + (float)(sprite_size / texture_size);
+		yf = yo + (float)(sprite_size / texture_size);
+
+		DrawRect(tex_id, xo, yf, xf, yo);
+	}
+	else {
+		float xxx = 178;
+		float yyy = 282;
+
+		float xxx2 = 196;
+		float yyy2 = 302;
+
+		xo = (float)(xxx / texture_size);
+		yo = ((float)(yyy / texture_size));
+		xf = (float)(xxx2/ texture_size);
+		yf = (float)(yyy2/ texture_size);
+
+		DrawRect(tex_id, xo, yf, xf, yo);
+	}
 }
 
 void cEspasa::Logic(Tile *map) {
@@ -28,8 +51,14 @@ void cEspasa::Logic(Tile *map) {
 	int y0;
 
 	GetPosition(&x0, &y0);
-	if (x0 < 0 || y0 < 0 || collision) toBeDestroyed = true;
-	if (GetState() == STATE_LOOKLEFT || GetState() == STATE_WALKLEFT || GetState() == STATE_ATACKLEFT) MoveLeft(map);
+	if (x0 < 0 || y0 < 0 || collision) {
+		if (!deadSword) deadSword = true;
+		else {
+			timeExplosion++;
+			if (timeExplosion == explosionDelay) toBeDestroyed = true;
+		}
+	}
+	else if (GetState() == STATE_LOOKLEFT || GetState() == STATE_WALKLEFT || GetState() == STATE_ATACKLEFT) MoveLeft(map);
 	else if (GetState() == STATE_LOOKRIGHT || GetState() == STATE_WALKRIGHT || GetState() == STATE_ATACKRIGHT) MoveRight(map);
 	else if (GetState() == STATE_LOOKUP || GetState() == STATE_WALKUP || GetState() == STATE_ATACKUP) MoveUp(map);
 	else if (GetState() == STATE_LOOKDOWN || GetState() == STATE_WALKDOWN || GetState() == STATE_ATACKDOWN) MoveDown(map);

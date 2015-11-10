@@ -2,6 +2,7 @@
 
 #include "cProjectil.h"
 #define SPEED 10
+#define explosionDelay 10
 
 
 class cEspasa : public cProjectil
@@ -17,5 +18,6 @@ public:
 	bool Blockable();
 	
 	bool deadSword = false;
+	int timeExplosion = 0;
 
 };
