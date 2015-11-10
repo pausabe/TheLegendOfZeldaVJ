@@ -28,7 +28,7 @@ void cEspasa::Logic(Tile *map) {
 	int y0;
 
 	GetPosition(&x0, &y0);
-	if (x0 < 0 || y0 < 0 || collision) Destroy(map);
+	if (x0 < 0 || y0 < 0 || collision) toBeDestroyed = true;
 	if (GetState() == STATE_LOOKLEFT || GetState() == STATE_WALKLEFT || GetState() == STATE_ATACKLEFT) MoveLeft(map);
 	else if (GetState() == STATE_LOOKRIGHT || GetState() == STATE_WALKRIGHT || GetState() == STATE_ATACKRIGHT) MoveRight(map);
 	else if (GetState() == STATE_LOOKUP || GetState() == STATE_WALKUP || GetState() == STATE_ATACKUP) MoveUp(map);
