@@ -29,23 +29,28 @@ void cGanon::Logic(Tile *map) {
 
 	GetPosition(&x0, &y0);
 
-	int move = rand() % 200;
-	if (move < 1) {
-		int x = rand() % (10*TILE_SIZE);
-		int y = rand() % (5*TILE_SIZE);
-		SetPosition(x + 2*TILE_SIZE, y + 2*TILE_SIZE);
-	}
+	if (visible == -1) {
+		int move = rand() % 200;
+		if (move < 1) {
+			int x = rand() % (10 * TILE_SIZE);
+			int y = rand() % (5 * TILE_SIZE);
+			SetPosition(x + 2 * TILE_SIZE, y + 2 * TILE_SIZE);
+		}
 
-	shooting--;
-	if (shooting == 0) {
-		throwProjectil = true;
-		shooting = SHOOTING_WAIT;
+		shooting--;
+		if (shooting == 0) {
+			throwProjectil = true;
+			shooting = SHOOTING_WAIT;
+		}
 	}
-
 	if (visible > 0) visible--;
 	else if (visible == 0) {
 		visible = -1;
 		SetState(STATE_INVISIBLE);
+		int x = rand() % (10 * TILE_SIZE);
+		int y = rand() % (5 * TILE_SIZE);
+		SetPosition(x + 2 * TILE_SIZE, y + 2 * TILE_SIZE);
+
 	}
 
 	UpdateMapTiles(map, x0, y0);

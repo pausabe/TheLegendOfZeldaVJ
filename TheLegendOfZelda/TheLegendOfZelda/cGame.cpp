@@ -37,8 +37,8 @@ bool cGame::Init()
 	res = Data.LoadImage(BOSSES, "resources/bosses.png", GL_RGBA);
 	if (!res) return false;
 
-	res = Scene.LoadOverworldLevel(1);
-	//res = Scene.LoadDungeonLevel(1); 
+	//res = Scene.LoadOverworldLevel(1);
+	res = Scene.LoadDungeonLevel(1); 
 	if (!res) return false;
 
 	//Player initialization
@@ -54,7 +54,7 @@ bool cGame::Init()
 	g->SetTile(4, 5);
 	g->UpdateMapTiles(Scene.GetMap(), -1, -1);
 	g->SetWidthHeight(TILE_SIZE*2, TILE_SIZE*2);
-	g->SetState(STATE_INVISIBLE);
+	g->SetState(STATE_VISIBLE);
 	g->SetLifes(6);
 
 	/*
@@ -173,7 +173,7 @@ void cGame::Render()
 	
 	glLoadIdentity();
 
-	Scene.Draw(Data.GetID(OVERWORLD_TILES));
+	Scene.Draw(Data.GetID(DUNGEON_TILES));
 
 	Player.Draw(Data.GetID(LINK));
 	if (Espasa != NULL) Espasa->Draw(Data.GetID(LINK));

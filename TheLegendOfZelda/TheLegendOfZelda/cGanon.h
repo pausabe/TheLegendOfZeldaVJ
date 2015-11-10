@@ -4,7 +4,7 @@
 #include "cEnemy.h"
 #include "cProjectil.h"
 
-#define VISIBLE_TIME 400
+#define VISIBLE_TIME 128
 #define SHOOTING_WAIT 32
 #define STATE_INVISIBLE 0
 #define STATE_VISIBLE 1

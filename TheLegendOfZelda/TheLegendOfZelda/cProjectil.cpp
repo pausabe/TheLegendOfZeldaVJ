@@ -46,5 +46,5 @@ bool cProjectil::Blockable() {
 }
 
 bool cProjectil::ShieldBlocks(cBicho* bicho) {
-	return false;
+	return true;
 }

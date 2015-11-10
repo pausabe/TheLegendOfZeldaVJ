@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cTerrestre.h"
+#include "cGanon.h"
 #include "cEspasa.h"
 
 #define PLAYER_START_CX		3
