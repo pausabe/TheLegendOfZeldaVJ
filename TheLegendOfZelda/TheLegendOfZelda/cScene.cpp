@@ -113,23 +113,6 @@ bool cScene::LoadDungeonLevel(int level)
 	glTexCoord2f(0.0f, (float)12 / 512);  glVertex2i((float)TILE_SIZE * 8 / 16, (float)TILE_SIZE * 8 / 16);
 	glTexCoord2f(0.0f, (float)171 / 512);  glVertex2i((float)TILE_SIZE * 8 / 16, (float)TILE_SIZE * 11 - (float)TILE_SIZE * 8 / 16);
 
-	// Fill the map with the dungeons walls
-
-	for (int i = 0; i < SCENE_WIDTH - 2; i++) {
-		map[SCENE_WIDTH + i].isWall = true;
-		map[SCENE_WIDTH + i].tileId = -1;
-	
-		map[((SCENE_HEIGHT-2)*SCENE_WIDTH) + i].isWall = true;
-		map[((SCENE_HEIGHT -2)*SCENE_WIDTH) + i].tileId = -1;
-	}
-
-	for (int j = 0; j < SCENE_HEIGHT - 2; j++) {
-		map[(j*SCENE_WIDTH) + 1].isWall = true;
-		map[(j*SCENE_WIDTH) + 1].tileId = -1;
-
-		map[(j*SCENE_WIDTH) + SCENE_WIDTH - 2].isWall = true;
-		map[(j*SCENE_WIDTH) + SCENE_WIDTH - 2].tileId = -1;
-	}
 
 	
 	// Draw doors and similar
@@ -211,7 +194,7 @@ bool cScene::LoadDungeonLevel(int level)
 			fscanf(fd, "%c", &tile[1]);
 
 			if (tile[0] != ' ' && tile[1] != ' ') {
-				map[((j+1)*SCENE_WIDTH) + i].tileId = atoi(tile);
+				map[((j+1)*SCENE_WIDTH) + i + 2].tileId = atoi(tile);
 				map[((j+1)*SCENE_WIDTH) + i + 2].isWall = isADungeonWall(atoi(tile));
 
 				int tileId = atoi(tile);
@@ -248,11 +231,33 @@ bool cScene::LoadDungeonLevel(int level)
 					glTexCoord2f(coordx_tile, coordy_tile); glVertex2i(px + BLOCK_SIZE, py + BLOCK_SIZE);
 				}
 			}
+			else {
+				map[((j + 1)*SCENE_WIDTH) + i + 2].tileId = -1;
+				map[((j + 1)*SCENE_WIDTH) + i + 2].isWall = false;
+			}
 			px += TILE_SIZE;
 		}
 		fscanf(fd, "%c", &tile); //pass enter
 
 	}
+	// Fill the map with the dungeons walls
+
+	for (int i = 0; i < SCENE_WIDTH - 2; i++) {
+		map[SCENE_WIDTH + i].isWall = true;
+		map[SCENE_WIDTH + i].tileId = -1;
+
+		map[((SCENE_HEIGHT - 2)*SCENE_WIDTH) + i].isWall = true;
+		map[((SCENE_HEIGHT - 2)*SCENE_WIDTH) + i].tileId = -1;
+	}
+
+	for (int j = 0; j < SCENE_HEIGHT - 2; j++) {
+		map[(j*SCENE_WIDTH) + 1].isWall = true;
+		map[(j*SCENE_WIDTH) + 1].tileId = -1;
+
+		map[(j*SCENE_WIDTH) + SCENE_WIDTH - 2].isWall = true;
+		map[(j*SCENE_WIDTH) + SCENE_WIDTH - 2].tileId = -1;
+	}
+
 	
 	glEnd();
 	glEndList();
