@@ -71,8 +71,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Pau\Source\Repos\Zelda4\TheLegendOfZeldaVJ\TheLegendOfZelda\glut-3.7.6-bin;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Dropbox\FIB\Quadri 7\VJ\glut-3.7.6-bin;C:\Users\Pau\Source\Repos\Zelda4\TheLegendOfZeldaVJ\TheLegendOfZelda\glut-3.7.6-bin;C:\Users\Pau\Source\Repos\TheLegendOfZeldaVJ\TheLegendOfZelda\glut-3.7.6-bin;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Dropbox\FIB\Quadri 7\VJ\TheLegendOfZeldaVJ\TheLegendOfZelda\glut-3.7.6-bin;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Dropbox\FIB\Quadri 7\VJ\glut-3.7.6-bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -156,6 +156,7 @@
     <ClCompile Include="cEnemy.cpp" />
     <ClCompile Include="cEspasa.cpp" />
     <ClCompile Include="cGame.cpp" />
+    <ClCompile Include="cGanon.cpp" />
     <ClCompile Include="cOctorok.cpp" />
     <ClCompile Include="cProjectil.cpp" />
     <ClCompile Include="cTektike.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="cEnemy.h" />
     <ClInclude Include="cEspasa.h" />
     <ClInclude Include="cGame.h" />
+    <ClInclude Include="cGanon.h" />
     <ClInclude Include="cOctorok.h" />
     <ClInclude Include="cProjectil.h" />
     <ClInclude Include="cTektike.h" />
@@ -182,6 +184,8 @@
     <ClInclude Include="Globals.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="resources\bosses.png" />
+    <Image Include="resources\dungeon_tiles.png" />
     <Image Include="resources\link.png" />
     <Image Include="resources\overworld_enemies.png" />
     <Image Include="resources\overworld_tiles.png" />
@@ -189,6 +193,7 @@
   <ItemGroup>
     <Text Include="level01.txt" />
     <Text Include="level02.txt" />
+    <Text Include="levels\dungeon01.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

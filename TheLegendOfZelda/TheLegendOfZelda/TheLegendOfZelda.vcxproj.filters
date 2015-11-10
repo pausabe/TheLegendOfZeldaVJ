@@ -57,6 +57,9 @@
     <ClCompile Include="cTektike.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
+    <ClCompile Include="cGanon.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cTexture.h">
@@ -101,6 +104,9 @@
     <ClInclude Include="cDarknut.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="cGanon.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\link.png">
@@ -112,12 +118,21 @@
     <Image Include="resources\overworld_enemies.png">
       <Filter>Archivos de recursos</Filter>
     </Image>
+    <Image Include="resources\dungeon_tiles.png">
+      <Filter>Archivos de recursos</Filter>
+    </Image>
+    <Image Include="resources\bosses.png">
+      <Filter>Archivos de recursos</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="level01.txt">
       <Filter>Archivos de recursos</Filter>
     </Text>
     <Text Include="level02.txt">
+      <Filter>Archivos de recursos</Filter>
+    </Text>
+    <Text Include="levels\dungeon01.txt">
       <Filter>Archivos de recursos</Filter>
     </Text>
   </ItemGroup>
