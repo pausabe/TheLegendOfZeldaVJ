@@ -1,7 +1,7 @@
 #pragma once
 
 #include "cProjectil.h"
-#define SPEED 16
+#define SPEED 10
 
 
 class cEspasa : public cProjectil
@@ -15,5 +15,7 @@ public:
 	cBicho* ThrowProjectil(Tile* map);
 
 	bool Blockable();
+	
+	bool deadSword = false;
 
 };

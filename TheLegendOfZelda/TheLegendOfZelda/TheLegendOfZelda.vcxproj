@@ -71,8 +71,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\Dropbox\FIB\Quadri 7\VJ\TheLegendOfZeldaVJ\TheLegendOfZelda\glut-3.7.6-bin;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Dropbox\FIB\Quadri 7\VJ\glut-3.7.6-bin;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Pau\Source\Repos\Zelda4\TheLegendOfZeldaVJ\TheLegendOfZelda\glut-3.7.6-bin;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Pau\Source\Repos\Zelda4\TheLegendOfZeldaVJ\TheLegendOfZelda\glut-3.7.6-bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
