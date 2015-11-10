@@ -22,11 +22,9 @@ public:
 	cPlayer();
 	~cPlayer();
 
-	void SetPosition(int x, int y, Tile* map);
-	void SetTile(int tx, int ty, Tile* map);
 	void Draw(int tex_id);
 	void Stop();
-	void Logic(Tile *map);
+	void Logic(Tile* map);
 
 	bool isJumping();
 	void JumpBack(cRect* collider);
@@ -38,7 +36,7 @@ public:
 	
 	bool isImmune();
 
-	void Atack(Tile * map);
+	void Atack();
 	bool Blockable();
 
 };

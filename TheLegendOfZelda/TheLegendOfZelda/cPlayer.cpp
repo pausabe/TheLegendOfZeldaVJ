@@ -4,17 +4,6 @@
 cPlayer::cPlayer() {}
 cPlayer::~cPlayer(){}
 
-void cPlayer::SetPosition(int posx, int posy, Tile* map)
-{
-	x = posx;
-	y = posy;
-}
-void cPlayer::SetTile(int tx, int ty, Tile *map)
-{
-	x = tx * TILE_SIZE;
-	y = ty * TILE_SIZE;
-}
-
 void cPlayer::Draw(int tex_id)
 {	
 	float xo,yo,xf,yf;
@@ -119,7 +108,7 @@ void cPlayer::Stop()
 	}
 }
 
-void cPlayer::Atack(Tile *map)
+void cPlayer::Atack()
 {
 	if (atacking == -1) {
 		atacking = ATACK_DURATION;
@@ -133,7 +122,7 @@ void cPlayer::Atack(Tile *map)
 			int x, y;
 			x = GetPosX();
 			y = GetPosY();
-			SetPosition(x, (y - TILE_SIZE / 2), map);
+			SetPosition(x, (y - TILE_SIZE / 2));
 		}
 		else if (state == STATE_WALKUP || state == STATE_LOOKUP || state == STATE_ATACKUP) {
 			state = STATE_ATACKUP;
@@ -150,7 +139,7 @@ void cPlayer::Atack(Tile *map)
 			int x, y;
 			x = GetPosX();
 			y = GetPosY();
-			SetPosition((x - TILE_SIZE / 2), y, map);
+			SetPosition((x - TILE_SIZE / 2), y);
 		}
 	}
 
@@ -170,7 +159,7 @@ cBicho* cPlayer::ThrowProjectil(Tile* map) {
 	else return nullptr;
 }
 
-void cPlayer::Logic(Tile* map) {	
+void cPlayer::Logic(Tile* map) {
 
 	if (atacking > 0) {
 		atacking--;
@@ -182,7 +171,7 @@ void cPlayer::Logic(Tile* map) {
 		case STATE_ATACKDOWN: 
 			x = GetPosX();
 			y = GetPosY();
-			SetPosition(x, (y + TILE_SIZE/2), map);
+			SetPosition(x, (y + TILE_SIZE/2));
 			SetState(STATE_LOOKDOWN);
 			break;
 		case STATE_ATACKUP:
@@ -191,7 +180,7 @@ void cPlayer::Logic(Tile* map) {
 		case STATE_ATACKLEFT:
 			x = GetPosX();
 			y = GetPosY();
-			SetPosition((x + TILE_SIZE/2), y, map);
+			SetPosition((x + TILE_SIZE/2), y);
 			SetState(STATE_LOOKLEFT);
 			break;
 		case STATE_ATACKRIGHT:

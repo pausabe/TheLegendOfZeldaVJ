@@ -6,6 +6,7 @@
 #include "cOctorok.h"
 #include "cDarknut.h"
 #include "cTektike.h"
+#include "cGanon.h"
 #include <vector>
 
 #define GAME_WIDTH	TILE_SIZE*16

@@ -82,7 +82,7 @@ bool cScene::LoadOverworldLevel(int level)
 }
 
 bool cScene::isADungeonWall(int tile) {
-	return false;
+	return true;
 }
 
 bool cScene::LoadDungeonLevel(int level)
@@ -107,8 +107,8 @@ bool cScene::LoadDungeonLevel(int level)
 	glBegin(GL_QUADS);
 
 	glTexCoord2f((float)239 / 512, (float)171 / 512); glVertex2i((float)TILE_SIZE * 16 - (float)TILE_SIZE * 8 / 16, (float)TILE_SIZE * 11 - (float)TILE_SIZE * 8 / 16);
-	glTexCoord2f((float)239 / 512, (float)12 / 512); 	glVertex2i((float)TILE_SIZE * 16 - (float)TILE_SIZE * 8 / 16, 0.0f); 
-	glTexCoord2f(0.0f, (float)12 / 512);  glVertex2i((float)TILE_SIZE * 8 / 16, 0.0f);
+	glTexCoord2f((float)239 / 512, (float)12 / 512); 	glVertex2i((float)TILE_SIZE * 16 - (float)TILE_SIZE * 8 / 16, (float)TILE_SIZE * 8 / 16);
+	glTexCoord2f(0.0f, (float)12 / 512);  glVertex2i((float)TILE_SIZE * 8 / 16, (float)TILE_SIZE * 8 / 16);
 	glTexCoord2f(0.0f, (float)171 / 512);  glVertex2i((float)TILE_SIZE * 8 / 16, (float)TILE_SIZE * 11 - (float)TILE_SIZE * 8 / 16);
 
 	// Fill the map with the dungeons walls
@@ -140,7 +140,7 @@ bool cScene::LoadDungeonLevel(int level)
 		int tile_height = 32;
 		int tile_width = 20;
 		px = TILE_SIZE*(float)12/16;
-		py = TILE_SIZE*(float)68/16;
+		py = TILE_SIZE*(float)72/16;
 		glTexCoord2f(coordx_tile, coordy_tile + (float) tile_height/512); glVertex2i(px, py + TILE_SIZE*(float)(tile_height+2)/16);
 		glTexCoord2f(coordx_tile + (float)tile_width/512, coordy_tile + (float)tile_height/512);    glVertex2i(px + TILE_SIZE*(float)tile_width/16, py + TILE_SIZE*(float)(tile_height+2) / 16);
 		glTexCoord2f(coordx_tile + (float)tile_width/512, coordy_tile); glVertex2i(px + TILE_SIZE*(float)tile_width / 16, py);
@@ -156,7 +156,7 @@ bool cScene::LoadDungeonLevel(int level)
 		int tile_height = 20;
 		int tile_width = 32;
 		px = TILE_SIZE*(float)112 / 16;
-		py = TILE_SIZE*((float)(12 + 20 + 16 * 7) / 16);
+		py = TILE_SIZE*((float)(33 + 16 * 7) / 16);
 		glTexCoord2f(coordx_tile, coordy_tile + (float)tile_height / 512); glVertex2i(px, py + TILE_SIZE*(float)tile_height / 16);
 		glTexCoord2f(coordx_tile + (float)tile_width / 512, coordy_tile + (float)tile_height / 512);    glVertex2i(px + TILE_SIZE*(float)(tile_width+1)/ 16, py + TILE_SIZE*(float)tile_height / 16);
 		glTexCoord2f(coordx_tile + (float)tile_width / 512, coordy_tile); glVertex2i(px + TILE_SIZE*(float)(tile_width+1) / 16, py);
@@ -172,7 +172,7 @@ bool cScene::LoadDungeonLevel(int level)
 		int tile_height = 32;
 		int tile_width = 20;
 		px = TILE_SIZE*((float)13 + 20 + 12*16) / 16;
-		py = TILE_SIZE*(float)68 / 16;
+		py = TILE_SIZE*(float)72 / 16;
 		glTexCoord2f(coordx_tile, coordy_tile + (float)tile_height / 512); glVertex2i(px, py + TILE_SIZE*(float)(tile_height + 2) / 16);
 		glTexCoord2f(coordx_tile + (float)tile_width / 512, coordy_tile + (float)tile_height / 512);    glVertex2i(px + TILE_SIZE*(float)tile_width / 16, py + TILE_SIZE*(float)(tile_height + 2) / 16);
 		glTexCoord2f(coordx_tile + (float)tile_width / 512, coordy_tile); glVertex2i(px + TILE_SIZE*(float)tile_width / 16, py);
@@ -188,7 +188,7 @@ bool cScene::LoadDungeonLevel(int level)
 		int tile_height = 20;
 		int tile_width = 32;
 		px = TILE_SIZE*(float)112 / 16;
-		py = TILE_SIZE*((float)(5) / 16);
+		py = TILE_SIZE*((float) 12 / 16);
 		glTexCoord2f(coordx_tile, coordy_tile + (float)tile_height / 512); glVertex2i(px, py + TILE_SIZE*(float)tile_height / 16);
 		glTexCoord2f(coordx_tile + (float)tile_width / 512, coordy_tile + (float)tile_height / 512);    glVertex2i(px + TILE_SIZE*(float)(tile_width + 1) / 16, py + TILE_SIZE*(float)tile_height / 16);
 		glTexCoord2f(coordx_tile + (float)tile_width / 512, coordy_tile); glVertex2i(px + TILE_SIZE*(float)(tile_width + 1) / 16, py);
@@ -198,21 +198,21 @@ bool cScene::LoadDungeonLevel(int level)
 
 	
 	fscanf(fd, "%c", &tile[0]);
-	py = SCENE_Yo + (8 * TILE_SIZE);
 	for (j = SCENE_HEIGHT - 4; j >= 0; j--)
 	{
 		px = SCENE_Xo + (float)TILE_SIZE * 2;
-		py -= (float)TILE_SIZE * 1/16;
+		py = SCENE_Yo + (j * TILE_SIZE) + TILE_SIZE;
+
 		for (i = 0; i < SCENE_WIDTH - 4; i++)
 		{
 			fscanf(fd, "%c", &tile[0]);
 			fscanf(fd, "%c", &tile[1]);
 
 			if (tile[0] != ' ' && tile[1] != ' ') {
-				map[(j*SCENE_WIDTH) + i + 1].tileId = atoi(tile);
-				map[(j*SCENE_WIDTH) + i + 1].isWall = isADungeonWall(atoi(tile));
+				map[((j+1)*SCENE_WIDTH) + i].tileId = atoi(tile);
+				map[((j+1)*SCENE_WIDTH) + i + 2].isWall = isADungeonWall(atoi(tile));
 
-				int tileId = map[(j*SCENE_WIDTH) + i + 1].tileId;
+				int tileId = atoi(tile);
 
 				if (tileId != -1) {
 
@@ -249,7 +249,6 @@ bool cScene::LoadDungeonLevel(int level)
 			px += TILE_SIZE;
 		}
 		fscanf(fd, "%c", &tile); //pass enter
-		py -= TILE_SIZE;
 
 	}
 	

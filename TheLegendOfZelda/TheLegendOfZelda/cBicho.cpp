@@ -142,6 +142,15 @@ void cBicho::DrawRect(int tex_id,float xo,float yo,float xf,float yf)
 	glDisable(GL_TEXTURE_2D);
 }
 
+void cBicho::RemoveBichoFromVector(std::vector<cBicho*> *bichos, cBicho*) {
+	for (int i = 0; i < bichos->size(); i++) {
+		if ((*bichos)[i] == this) {
+			bichos->erase(bichos->begin() + i);
+			break;
+		}
+	}
+}
+
 void cBicho::UpdateMapTiles(Tile *map, int x0, int y0) {
 	
 	// Remove the bicho from original tiles
@@ -154,7 +163,7 @@ void cBicho::UpdateMapTiles(Tile *map, int x0, int y0) {
 			}
 		}
 
-		if (x0 % TILE_SIZE != 0 && x + TILE_SIZE < TILE_SIZE * 16) {
+		if (x0 % TILE_SIZE != 0 && x0 + TILE_SIZE < TILE_SIZE * 16) {
 			bichos = &map[((y0 / TILE_SIZE)*SCENE_WIDTH) + x0 / TILE_SIZE + 1].bichos;
 			for (int i = 0; i < bichos->size(); i++) {
 				if ((*bichos)[i] == this) {
@@ -164,7 +173,7 @@ void cBicho::UpdateMapTiles(Tile *map, int x0, int y0) {
 			}
 		}
 
-		if (y0 % TILE_SIZE != 0 && y + TILE_SIZE < TILE_SIZE * 11) {
+		if (y0 % TILE_SIZE != 0 && y0 + TILE_SIZE < TILE_SIZE * 11) {
 			bichos = &map[(((y0 / TILE_SIZE) + 1)*SCENE_WIDTH) + x0 / TILE_SIZE].bichos;
 			for (int i = 0; i < bichos->size(); i++) {
 				if ((*bichos)[i] == this) {
@@ -174,7 +183,7 @@ void cBicho::UpdateMapTiles(Tile *map, int x0, int y0) {
 			}
 		}
 
-		if (x0 % TILE_SIZE != 0 && y0 % TILE_SIZE != 0 && y + TILE_SIZE < TILE_SIZE * 11 && x + TILE_SIZE < TILE_SIZE * 16) {
+		if (x0 % TILE_SIZE != 0 && y0 % TILE_SIZE != 0 && y0 + TILE_SIZE < TILE_SIZE * 11 && x0 + TILE_SIZE < TILE_SIZE * 16) {
 			bichos = &map[(((y0 / TILE_SIZE) + 1)*SCENE_WIDTH) + x0 / TILE_SIZE + 1].bichos;
 			for (int i = 0; i < bichos->size(); i++) {
 				if ((*bichos)[i] == this) {
@@ -248,3 +257,7 @@ void cBicho::SetLifes(int l) {
 	lifes = l;
 }
 
+void cBicho::Hit(Tile* map) {
+	lifes--;
+	if (lifes == 0) Destroy(map);
+}

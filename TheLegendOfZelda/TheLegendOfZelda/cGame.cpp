@@ -34,20 +34,29 @@ bool cGame::Init()
 	if (!res) return false;
 	res = Data.LoadImage(LINK, "resources/link.png", GL_RGBA);
 	if (!res) return false;
+	res = Data.LoadImage(BOSSES, "resources/bosses.png", GL_RGBA);
+	if (!res) return false;
 
 	//res = Scene.LoadOverworldLevel(1);
 	res = Scene.LoadDungeonLevel(1); 
 	if (!res) return false;
 
 	//Player initialization
-	Player.SetTile(8, 5, Scene.GetMap());
+	Player.SetTile(8, 5);
 	Player.SetWidthHeight(TILE_SIZE, TILE_SIZE);
 	Player.SetState(STATE_LOOKDOWN);
 	Player.MoveLeft(Scene.GetMap());
-	lifes = 3;
+	lifes = 6;
 
 	//Enemies initialization
 
+	cGanon* g = new cGanon();
+	g->SetTile(4, 5);
+	g->UpdateMapTiles(Scene.GetMap(), -1, -1);
+	g->SetWidthHeight(TILE_SIZE*2, TILE_SIZE*2);
+	g->SetState(STATE_VISIBLE);
+
+	/*
 	cOctorok* c = new cOctorok();
 	c->SetTile(4, 5);
 	int x, y;
@@ -60,9 +69,9 @@ bool cGame::Init()
 	d->UpdateMapTiles(Scene.GetMap(), -1, -1);
 	d->SetWidthHeight(TILE_SIZE, TILE_SIZE);
 	d->SetState(STATE_RESTING);
-
-	Enemies.push_back(c);
-	Enemies.push_back(d);
+	*/
+	Enemies.push_back(g);
+	//Enemies.push_back(d);
 	return res;
 }
 
@@ -101,7 +110,7 @@ bool cGame::Process()
 
 	if (!Player.isJumping()) {
 		if ((keys['s'] || keys['S'])&& !sKeyPressed) {
-			Player.Atack(Scene.GetMap());
+			Player.Atack();
 			sKeyPressed = true;
 		}
 		if(Player.getAtacking() == -1){
@@ -168,7 +177,11 @@ void cGame::Render()
 	Player.Draw(Data.GetID(LINK));
 	if (Espasa != NULL) Espasa->Draw(Data.GetID(LINK));
 	for (int i = 0; i < Enemies.size(); i++) {
-		Enemies[i]->Draw(Data.GetID(OVERWORLD_ENEMIES));
+		int w, h;
+		Enemies[i]->GetWidthHeight(&w, &h);
+		if (w == 2*TILE_SIZE) // It's Ganon
+			Enemies[i]->Draw(Data.GetID(BOSSES));
+		else Enemies[i]->Draw(Data.GetID(OVERWORLD_ENEMIES));
 	}
 
 	glutSwapBuffers();

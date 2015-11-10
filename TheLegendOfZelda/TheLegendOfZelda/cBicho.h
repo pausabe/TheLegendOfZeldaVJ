@@ -45,7 +45,8 @@ public:
 	//void Jump(int *map);
 	//void Stop();
 
-	// Updates the map tiles with the bicho position
+	void RemoveBichoFromVector(std::vector<cBicho*> *bichos, cBicho*);
+		// Updates the map tiles with the bicho position
 	// tileX0 or tileY0 = -1 indicates that the bicho has just been created
 	void UpdateMapTiles(Tile *map, int tileX0, int tileY0);
 
@@ -67,6 +68,7 @@ public:
 	void SetLifes(int lifes);
 	int GetLifes();
 
+	void Hit(Tile* map);
 
 protected:
 	int x = -1, y = -1;
