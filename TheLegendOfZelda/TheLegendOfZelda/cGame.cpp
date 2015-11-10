@@ -56,7 +56,7 @@ bool cGame::Init()
 	g->SetTile(4, 5);
 	g->UpdateMapTiles(Scene.GetMap(), -1, -1);
 	g->SetWidthHeight(TILE_SIZE*2, TILE_SIZE*2);
-	g->SetState(STATE_VISIBLE);
+	g->SetState(STATE_INVISIBLE);
 	g->SetLifes(6);
 
 	/*
@@ -73,7 +73,7 @@ bool cGame::Init()
 	d->SetWidthHeight(TILE_SIZE, TILE_SIZE);
 	d->SetState(STATE_RESTING);
 	*/
-	Enemies.push_back(g);
+	//Enemies.push_back(g);
 	//Enemies.push_back(d);
 	return res;
 }

@@ -92,6 +92,7 @@ bool cScene::LoadDungeonLevel(int level)
 	bool res;
 	FILE *fd;
 	char file[32];
+	char l,t,r,b;
 	int i, j, px, py;
 	char tile[2];
 	float coordx_tile, coordy_tile;
@@ -117,11 +118,11 @@ bool cScene::LoadDungeonLevel(int level)
 	
 	// Draw doors and similar
 	// LEFT
-	fscanf(fd, "%c", &tile[0]);
-	if (tile[0] != ' ') {
-		//tile[1] = '0';
+	fscanf(fd, "%c", &l);
+	if (l != ' ') {
+
 		coordx_tile = (float)324/512;
-		coordy_tile = atoi(&tile[0])*(float)32/512;
+		coordy_tile = atoi(&l)*(float)32/512;
 		int tile_height = 32;
 		int tile_width = 20;
 		px = TILE_SIZE*(float)12/16;
@@ -134,10 +135,10 @@ bool cScene::LoadDungeonLevel(int level)
 	}
 
 	// TOP
-	fscanf(fd, "%c", &tile[0]);
-	if (tile[0] != ' ') {
+	fscanf(fd, "%c", &t);
+	if (t != ' ') {
 		coordx_tile = (float)272 / 512;
-		coordy_tile = atoi(tile)*(float)20 / 512;
+		coordy_tile = atoi(&t)*(float)20 / 512;
 		int tile_height = 20;
 		int tile_width = 32;
 		px = TILE_SIZE*(float)112 / 16;
@@ -150,10 +151,10 @@ bool cScene::LoadDungeonLevel(int level)
 	}
 
 	// RIGHT
-	fscanf(fd, "%c", &tile[0]);
-	if (tile[0] != ' ') {
+	fscanf(fd, "%c", &r);
+	if (r != ' ') {
 		coordx_tile = (float)304 / 512;
-		coordy_tile = atoi(&tile[0])*(float)32 / 512;
+		coordy_tile = atoi(&r)*(float)32 / 512;
 		int tile_height = 32;
 		int tile_width = 20;
 		px = TILE_SIZE*((float)13 + 20 + 12*16) / 16;
@@ -166,10 +167,10 @@ bool cScene::LoadDungeonLevel(int level)
 	}
 
 	// BOTTOM
-	fscanf(fd, "%c", &tile[0]);
-	if (tile[0] != ' ') {
+	fscanf(fd, "%c", &b);
+	if (b != ' ') {
 		coordx_tile = (float)240 / 512;
-		coordy_tile = atoi(tile)*(float)20 / 512;
+		coordy_tile = atoi(&b)*(float)20 / 512;
 		int tile_height = 20;
 		int tile_width = 32;
 		px = TILE_SIZE*(float)112 / 16;
@@ -242,12 +243,13 @@ bool cScene::LoadDungeonLevel(int level)
 	}
 	// Fill the map with the dungeons walls
 
-	for (int i = 0; i < SCENE_WIDTH - 2; i++) {
+	for (int i = 0; i < SCENE_WIDTH - 1; i++) {
 		map[SCENE_WIDTH + i].isWall = true;
 		map[SCENE_WIDTH + i].tileId = -1;
-
+		
 		map[((SCENE_HEIGHT - 2)*SCENE_WIDTH) + i].isWall = true;
 		map[((SCENE_HEIGHT - 2)*SCENE_WIDTH) + i].tileId = -1;
+		
 	}
 
 	for (int j = 0; j < SCENE_HEIGHT - 2; j++) {
@@ -258,7 +260,28 @@ bool cScene::LoadDungeonLevel(int level)
 		map[(j*SCENE_WIDTH) + SCENE_WIDTH - 2].tileId = -1;
 	}
 
+	// Open the gates if necessary	
+	// Left
+	map[5 * SCENE_WIDTH + 1].tileId = -1;
+	map[5 * SCENE_WIDTH + 1].isWall = atoi(&l) != 0;
 	
+	// Top
+	map[(SCENE_HEIGHT - 2) * SCENE_WIDTH + 7].tileId = -1;
+	map[(SCENE_HEIGHT - 2) * SCENE_WIDTH + 7].isWall = atoi(&t) != 0;
+	map[(SCENE_HEIGHT - 2) * SCENE_WIDTH + 8].tileId = -1;
+	map[(SCENE_HEIGHT - 2) * SCENE_WIDTH + 8].isWall = atoi(&t) != 0;
+	
+	// Bottom
+	map[SCENE_WIDTH + 7].tileId = -1;
+	map[SCENE_WIDTH + 7].isWall = atoi(&t) != 0;
+	map[SCENE_WIDTH + 8].tileId = -1;
+	map[SCENE_WIDTH + 8].isWall = atoi(&t) != 0;
+
+	// Right
+	map[5 * SCENE_WIDTH + SCENE_WIDTH - 2].tileId = -1;
+	map[5 * SCENE_WIDTH + SCENE_WIDTH - 2].isWall = atoi(&r) != 0;
+
+
 	glEnd();
 	glEndList();
 
