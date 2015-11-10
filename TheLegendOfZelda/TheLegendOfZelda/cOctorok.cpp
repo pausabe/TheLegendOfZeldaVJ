@@ -116,3 +116,7 @@ cBicho* cOctorok::ThrowProjectil(Tile* map) {
 bool cOctorok::Blockable() {
 	return false;
 }
+
+bool cOctorok::ShieldBlocks(cBicho* bicho) {
+	return false;
+}

@@ -71,10 +71,10 @@ bool cGanon::Blockable() {
 	return false;
 }
 
-void cGanon::Hit(Tile* map) {
+void cGanon::Hit() {
 	if (visible == -1) {
 		lifes--;
-		if (lifes == 0) Destroy(map);
+		if (lifes == 0) toBeDestroyed = true;
 		else {
 			visible = VISIBLE_TIME;
 			SetState(STATE_VISIBLE);
@@ -119,13 +119,18 @@ void cGanon::UpdateMapTiles(Tile *map, int x0, int y0) {
 	int x, y;
 	GetPosition(&x, &y);
 	if (x != -1 && y != -1 && x < TILE_SIZE * 16 && y < TILE_SIZE * 11) {
-		map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE].bichos.push_back(this);
-		map[(((y + 1) / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE].bichos.push_back(this);
+		map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE].bichos.push_back(this);			
+		std::vector<cBicho*>* bichos = &map[(((y / TILE_SIZE))*SCENE_WIDTH) + x / TILE_SIZE].bichos;
+
+		map[((y / TILE_SIZE + 1)*SCENE_WIDTH) + x / TILE_SIZE].bichos.push_back(this);
+		bichos = &map[((y / TILE_SIZE + 1)*SCENE_WIDTH) + x / TILE_SIZE].bichos;
 		map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos.push_back(this);
-		map[(((y + 1) / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos.push_back(this);
+		bichos = &map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos;
+		map[((y / TILE_SIZE + 1)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos.push_back(this);
+		bichos = &map[((y / TILE_SIZE + 1)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos;
 		if (x % TILE_SIZE != 0 && x + TILE_SIZE < TILE_SIZE * 16) {
 			map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE + 2].bichos.push_back(this);
-			map[(((y + 1) / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE + 2].bichos.push_back(this);
+			map[((y / TILE_SIZE + 1)*SCENE_WIDTH) + x / TILE_SIZE + 2].bichos.push_back(this);
 		}
 		if (y % TILE_SIZE != 0 && y + TILE_SIZE < TILE_SIZE * 11) {
 			map[(((y / TILE_SIZE) + 2)*SCENE_WIDTH) + x / TILE_SIZE].bichos.push_back(this);
@@ -134,4 +139,8 @@ void cGanon::UpdateMapTiles(Tile *map, int x0, int y0) {
 		if (x % TILE_SIZE != 0 && y % TILE_SIZE != 0 && x + TILE_SIZE < TILE_SIZE * 16 && y + TILE_SIZE < TILE_SIZE * 11)
 			map[(((y / TILE_SIZE) + 2)*SCENE_WIDTH) + x / TILE_SIZE + 2].bichos.push_back(this);
 	}
+}
+
+bool cGanon::ShieldBlocks(cBicho* bicho) {
+	return false;
 }

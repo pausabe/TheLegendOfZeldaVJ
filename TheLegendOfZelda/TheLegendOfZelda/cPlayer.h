@@ -36,7 +36,10 @@ public:
 	
 	bool isImmune();
 
-	void Atack();
+	void Atack(Tile* map);
 	bool Blockable();
+
+	void DetectAtackCollisions(cRect swordArea, std::vector<cBicho*> *bichos);
+	bool ShieldBlocks(cBicho* bicho);
 
 };

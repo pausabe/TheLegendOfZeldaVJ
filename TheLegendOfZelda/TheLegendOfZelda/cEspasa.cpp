@@ -43,3 +43,7 @@ cBicho* cEspasa::ThrowProjectil(Tile* map) {
 bool cEspasa::Blockable() {
 	return true;
 }
+
+bool cEspasa::ShieldBlocks(cBicho* bicho) {
+	return false;
+}

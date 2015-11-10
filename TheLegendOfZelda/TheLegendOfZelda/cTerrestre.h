@@ -49,6 +49,6 @@ public:
 	void SetCollision(bool collision);
 	
 	// Detects if the bicho collision is blocked by the self shield
-	bool ShieldBlocks(cBicho* bicho);
+	virtual bool ShieldBlocks(cBicho* bicho) = 0;
 
 };

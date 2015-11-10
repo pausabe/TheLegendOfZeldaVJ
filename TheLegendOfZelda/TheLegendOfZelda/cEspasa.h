@@ -17,5 +17,7 @@ public:
 	bool Blockable();
 	
 	bool deadSword = false;
+	bool ShieldBlocks(cBicho* bicho);
+
 
 };
