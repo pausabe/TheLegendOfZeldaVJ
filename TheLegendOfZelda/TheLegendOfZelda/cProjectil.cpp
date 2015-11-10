@@ -27,7 +27,7 @@ void cProjectil::Logic(Tile *map) {
 	GetPosition(&x0, &y0);
 	if (x0 < 0 || y0 < 0 || collision) {
 		toBeDestroyed = true;
-		Destroy(map);
+		//Destroy(map);
 	}
 	if (GetState() == STATE_LOOKLEFT || GetState() == STATE_WALKLEFT) MoveLeft(map);
 	else if (GetState() == STATE_LOOKRIGHT || GetState() == STATE_WALKRIGHT) MoveRight(map);
