@@ -87,6 +87,8 @@ bool cScene::isADungeonWall(int tile) {
 
 bool cScene::LoadDungeonLevel(int level)
 {
+
+
 	bool res;
 	FILE *fd;
 	char file[32];

@@ -15,6 +15,7 @@
 class cPlayer: public cTerrestre
 {
 private:
+	bool inDungeonTile = false;
 	int jumping = -1;
 	int atacking = -1;
 	int jump;
@@ -42,5 +43,7 @@ public:
 
 	void DetectAtackCollisions(cRect swordArea, std::vector<cBicho*> *bichos);
 	bool ShieldBlocks(cBicho* bicho);
+
+	//bool inDungeonTile();
 
 };

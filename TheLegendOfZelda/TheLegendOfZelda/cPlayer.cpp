@@ -235,6 +235,14 @@ cBicho* cPlayer::ThrowProjectil(Tile* map) {
 
 void cPlayer::Logic(Tile* map) {
 
+	/*int tile_x, tile_y;
+	GetTile(&tile_x, &tile_y);
+
+	if (!inDungeonTile && map[tile_x + (tile_y*SCENE_WIDTH)].tileId == 19) {
+		inDungeonTile = true;
+	}
+	else inDungeonTile = false;*/
+
 	if (atacking > 0) {
 		atacking--;
 	} 
@@ -360,3 +368,9 @@ bool cPlayer::ShieldBlocks(cBicho* bicho) {
 	else if ((bichoState == STATE_WALKLEFT || bichoState == STATE_LOOKLEFT) && (selfState == STATE_WALKRIGHT || selfState == STATE_LOOKRIGHT)) return true;
 	return false;
 }
+/*
+bool cPlayer::inDungeonTile()
+{
+	return inDungeonTile;
+}
+*/

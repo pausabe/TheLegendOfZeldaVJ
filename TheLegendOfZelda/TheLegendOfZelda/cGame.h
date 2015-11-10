@@ -41,7 +41,7 @@ public:
 	void setStateScene(int ss);
 
 private:
-	int stateScene = STATE_OVERWORLD_01;
+	int stateScene;
 
 	unsigned char keys[256];
 	char selKey;
