@@ -12,6 +12,13 @@
 #define GAME_WIDTH	TILE_SIZE*16
 #define GAME_HEIGHT TILE_SIZE*13
 
+#define STATE_OVERWORLD_01 5
+#define STATE_OVERWORLD_02 6
+#define STATE_OVERWORLD_03 7
+#define STATE_DUNGEON_01 8
+#define STATE_DUNGEON_02 9
+#define STATE_DUNGEON_03 10
+
 class cGame
 {
 public:
@@ -30,10 +37,16 @@ public:
 	//Output
 	void Render();
 
+	int getStateScene();
+	void setStateScene(int ss);
+
 private:
+	int stateScene = STATE_OVERWORLD_01;
+
 	unsigned char keys[256];
 	char selKey;
 	int oneKey;
+
 	cScene Scene;
 	cPlayer Player;
 	cProjectil *Espasa;

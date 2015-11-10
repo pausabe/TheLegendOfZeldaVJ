@@ -23,6 +23,8 @@ public:
 	void GetSize(int img,int *w,int *h);
 	bool LoadImage(int img,char *filename,int type = GL_RGBA);
 
+
 private:
+	//int stateScene = STATE_OVERWORLD_01;
 	cTexture texture[NUM_IMG];
 };

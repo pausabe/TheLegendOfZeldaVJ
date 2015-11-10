@@ -9,6 +9,7 @@
 #define STATE_INVISIBLE 0
 #define STATE_VISIBLE 0
 
+
 class cGanon : public cEnemy, public cTerrestre
 {
 

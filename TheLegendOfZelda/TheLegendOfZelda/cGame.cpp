@@ -37,8 +37,8 @@ bool cGame::Init()
 	res = Data.LoadImage(BOSSES, "resources/bosses.png", GL_RGBA);
 	if (!res) return false;
 
-	//res = Scene.LoadOverworldLevel(1);
-	res = Scene.LoadDungeonLevel(1); 
+	res = Scene.LoadOverworldLevel(1);
+	//res = Scene.LoadDungeonLevel(1); 
 	if (!res) return false;
 
 	//Player initialization
@@ -172,7 +172,14 @@ void cGame::Render()
 	
 	glLoadIdentity();
 
-	Scene.Draw(Data.GetID(DUNGEON_TILES));
+	int numTexture;
+
+	switch (stateScene) {
+		case STATE_OVERWORLD_01: numTexture = OVERWORLD_TILES; break;
+		case STATE_DUNGEON_01: numTexture = DUNGEON_TILES; break;
+	}
+
+	Scene.Draw(Data.GetID(numTexture));
 
 	Player.Draw(Data.GetID(LINK));
 	if (Espasa != NULL) Espasa->Draw(Data.GetID(LINK));
@@ -185,6 +192,16 @@ void cGame::Render()
 	}
 
 	glutSwapBuffers();
+}
+
+int cGame::getStateScene()
+{
+	return stateScene;
+}
+
+void cGame::setStateScene(int ss)
+{
+	stateScene = ss;
 }
 
 
