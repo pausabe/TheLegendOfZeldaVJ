@@ -28,6 +28,7 @@ bool cScene::LoadOverworldLevel(int level)
 	FILE *fd;
 	char file[32];
 	int i,j,px,py;
+	char auxT[3];
 	char tile[2];
 	float coordx_tile, coordy_tile;
 
@@ -50,13 +51,26 @@ bool cScene::LoadOverworldLevel(int level)
 
 				for(i=0;i<SCENE_WIDTH;i++)
 				{
-					fscanf(fd,"%c",&tile[0]);
-					fscanf(fd, "%c", &tile[1]);
-					
-					if(tile[0]==' ') map[(j*SCENE_WIDTH) + i].tileId = atoi(tile);
-					else map[(j*SCENE_WIDTH) + i].tileId = atoi(tile);
+					fscanf(fd,"%c",&auxT[0]);
+					fscanf(fd, "%c", &auxT[1]);
+					if(auxT[1] != ',') fscanf(fd, "%c", &auxT[2]);
 
-					map[(j*SCENE_WIDTH) + i].isWall = isAWall(atoi(tile));
+						//if(tile[0]==' ') map[(j*SCENE_WIDTH) + i].tileId = atoi(tile);
+						//else map[(j*SCENE_WIDTH) + i].tileId = atoi(tile);
+
+					tile[0] = auxT[0];
+					if (auxT[1] != ',') 
+						tile[1] = auxT[1];
+					else {
+						tile[0] = '0';
+						tile[1] = auxT[0];
+					}
+
+					int caca = atoi(tile) - 1;
+
+					map[(j*SCENE_WIDTH) + i].tileId = atoi(tile)-1;
+
+					map[(j*SCENE_WIDTH) + i].isWall = isAWall(atoi(tile)-1);
 
 					coordx_tile = (float) 1 / 256 + map[(j*SCENE_WIDTH) + i].tileId % 15 * (float) 17 / 256;
 					int row = (int) map[(j*SCENE_WIDTH) + i].tileId / 15;

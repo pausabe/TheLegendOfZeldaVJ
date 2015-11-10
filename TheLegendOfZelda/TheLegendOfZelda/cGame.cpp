@@ -39,10 +39,6 @@ bool cGame::Init()
 	res = Data.LoadImage(BOSSES, "resources/bosses.png", GL_RGBA);
 	if (!res) return false;
 
-	//res = Scene.LoadOverworldLevel(1);
-	//res = Scene.LoadDungeonLevel(1); 
-	//if (!res) return false;
-
 	//Player initialization
 	Player.SetTile(8, 5);
 	Player.SetWidthHeight(TILE_SIZE, TILE_SIZE);
@@ -168,6 +164,21 @@ bool cGame::Process()
 	return res;
 }
 
+void cGame::setSceneState() {
+	int tile_x, tile_y;
+	Player.GetTile(&tile_x, &tile_y);
+
+	int x, y;
+	Player.GetPosition(&x, &y);
+
+	if (stateScene == STATE_OVERWORLD_01 && Scene.GetMap()[tile_x + (tile_y*SCENE_WIDTH)].tileId == 19)
+		stateScene = STATE_DUNGEON_01;
+	else if (stateScene == STATE_OVERWORLD_01 && /* (x == 7 || tile_x == 8) && */ y == 0)
+		stateScene = STATE_OVERWORLD_02;
+	else if (stateScene == STATE_OVERWORLD_01 && x == 0)
+		stateScene = STATE_OVERWORLD_04;
+}
+
 //Output
 void cGame::Render()
 {
@@ -179,16 +190,25 @@ void cGame::Render()
 
 	int x, y;
 
-	int tile_x, tile_y;
-	Player.GetTile(&tile_x, &tile_y);
-
-	if (stateScene==STATE_OVERWORLD_01 && Scene.GetMap()[tile_x + (tile_y*SCENE_WIDTH)].tileId == 19) 
-		stateScene = STATE_DUNGEON_01;
+	setSceneState();
 
 	switch (stateScene) {
 		case STATE_OVERWORLD_01: 
 			numTexture = OVERWORLD_TILES; 
 			Scene.LoadOverworldLevel(1);
+			break;
+		case STATE_OVERWORLD_02:
+			numTexture = OVERWORLD_TILES;
+			Scene.LoadOverworldLevel(2);
+			break;
+		case STATE_OVERWORLD_03:
+			numTexture = OVERWORLD_TILES;
+			Scene.LoadOverworldLevel(3);
+			break;
+		case STATE_OVERWORLD_04:
+			numTexture = OVERWORLD_TILES;
+			Scene.LoadOverworldLevel(4);
+			Player.SetTile(15,5);
 			break;
 		case STATE_DUNGEON_01: 
 			numTexture = DUNGEON_TILES;

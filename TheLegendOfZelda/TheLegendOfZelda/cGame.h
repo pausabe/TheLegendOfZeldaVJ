@@ -15,9 +15,11 @@
 #define STATE_OVERWORLD_01 5
 #define STATE_OVERWORLD_02 6
 #define STATE_OVERWORLD_03 7
-#define STATE_DUNGEON_01 8
-#define STATE_DUNGEON_02 9
-#define STATE_DUNGEON_03 10
+#define STATE_OVERWORLD_04 8
+
+#define STATE_DUNGEON_01 15
+#define STATE_DUNGEON_02 16
+#define STATE_DUNGEON_03 17
 
 class cGame
 {
@@ -41,6 +43,7 @@ public:
 	void setStateScene(int ss);
 
 private:
+	void setSceneState();
 	int stateScene;
 
 	unsigned char keys[256];
