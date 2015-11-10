@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cTerrestre.h"
+#include "cGanon.h"
 #include "cEspasa.h"
 
 #define PLAYER_START_CX		3
@@ -36,7 +37,10 @@ public:
 	
 	bool isImmune();
 
-	void Atack();
+	void Atack(Tile* map);
 	bool Blockable();
+
+	void DetectAtackCollisions(cRect swordArea, std::vector<cBicho*> *bichos);
+	bool ShieldBlocks(cBicho* bicho);
 
 };

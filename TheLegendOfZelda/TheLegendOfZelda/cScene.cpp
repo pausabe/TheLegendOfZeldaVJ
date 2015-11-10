@@ -63,10 +63,10 @@ bool cScene::LoadOverworldLevel(int level)
 					coordy_tile = (float)1 / 256 + row * (float)17 / 256;
 
 					float tile_size = (float)16 / 256; // Size of the tile in the texture 
-					glTexCoord2f(coordx_tile, coordy_tile + tile_size); glVertex2i(px, py + BLOCK_SIZE);
-					glTexCoord2f(coordx_tile + tile_size, coordy_tile + tile_size);    glVertex2i(px + BLOCK_SIZE, py + BLOCK_SIZE);
-					glTexCoord2f(coordx_tile + tile_size, coordy_tile);   glVertex2i(px + BLOCK_SIZE, py);
-					glTexCoord2f(coordx_tile, coordy_tile);  glVertex2i(px, py);
+					glTexCoord2f(coordx_tile, coordy_tile + tile_size); glVertex2i(px, py);
+					glTexCoord2f(coordx_tile + tile_size, coordy_tile + tile_size);   glVertex2i(px + BLOCK_SIZE, py);
+					glTexCoord2f(coordx_tile + tile_size, coordy_tile);    glVertex2i(px + BLOCK_SIZE, py + BLOCK_SIZE);
+					glTexCoord2f(coordx_tile, coordy_tile);   glVertex2i(px, py + BLOCK_SIZE);
 
 					px+=TILE_SIZE;
 				}

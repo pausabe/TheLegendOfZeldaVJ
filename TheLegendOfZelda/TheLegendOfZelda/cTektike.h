@@ -31,5 +31,5 @@ public:
 	void Logic(Tile *map);
 	cBicho* ThrowProjectil(Tile* map);
 	bool Blockable();
-
+	bool ShieldBlocks(cBicho* bicho);
 };

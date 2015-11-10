@@ -89,3 +89,14 @@ cBicho* cDarknut::ThrowProjectil(Tile* map) {
 bool cDarknut::Blockable() {
 	return false;
 }
+
+bool cDarknut::ShieldBlocks(cBicho* bicho) {
+	if (!bicho->Blockable()) return false;
+	int bichoState = bicho->GetState();
+	int selfState = GetState();
+	if ((bichoState == STATE_WALKUP || bichoState == STATE_LOOKUP) && (selfState == STATE_WALKDOWN || selfState == STATE_LOOKDOWN)) return true;
+	else if ((bichoState == STATE_WALKRIGHT || bichoState == STATE_LOOKRIGHT) && (selfState == STATE_WALKLEFT || selfState == STATE_LOOKLEFT)) return true;
+	else if ((bichoState == STATE_WALKDOWN || bichoState == STATE_LOOKDOWN) && (selfState == STATE_WALKUP || selfState == STATE_LOOKUP)) return true;
+	else if ((bichoState == STATE_WALKLEFT || bichoState == STATE_LOOKLEFT) && (selfState == STATE_WALKRIGHT || selfState == STATE_LOOKRIGHT)) return true;
+	return false;
+}

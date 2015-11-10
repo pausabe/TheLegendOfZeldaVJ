@@ -108,12 +108,27 @@ void cPlayer::Stop()
 	}
 }
 
-void cPlayer::Atack()
+void cPlayer::DetectAtackCollisions(cRect swordArea, std::vector<cBicho*> *bichos) {
+	for (int i = 0; i < bichos->size(); i++) {
+		cRect rt;
+		(*bichos)[i]->GetArea(&rt);
+		if (!dynamic_cast<cTerrestre*>((*bichos)[i])->ShieldBlocks(this) && (*bichos)[i]->Collides(&swordArea)) {
+			int w, h;
+			(*bichos)[i]->GetWidthHeight(&w, &h);
+			if (w == TILE_SIZE*2) dynamic_cast<cGanon*>((*bichos)[i])->Hit();
+			else ((*bichos)[i])->Hit();
+		}
+	}
+}
+
+void cPlayer::Atack(Tile* map)
 {
 	if (atacking == -1) {
 		atacking = ATACK_DURATION;
 
-		throwProjectil = true;
+		if (GetLifes() == 6) throwProjectil = true;
+
+		cRect swordArea;
 
 		if (state == STATE_WALKDOWN || state == STATE_LOOKDOWN || state == STATE_ATACKDOWN) {
 			state = STATE_ATACKDOWN;
@@ -122,15 +137,61 @@ void cPlayer::Atack()
 			int x, y;
 			x = GetPosX();
 			y = GetPosY();
-			SetPosition(x, (y - TILE_SIZE / 2));
+			y = y - TILE_SIZE / 2;
+			SetPosition(x, y);
+
+			swordArea.bottom = y;
+			swordArea.left = x + TILE_SIZE*(float)7/16;
+			swordArea.top = swordArea.bottom + TILE_SIZE*(float) 11 / 16;
+			swordArea.right = swordArea.left + TILE_SIZE*(float) 3 / 16;
+
+			std::vector<cBicho*> *bichos = &map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE].bichos;
+			DetectAtackCollisions(swordArea, bichos);
+			bichos = &map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos;
+			DetectAtackCollisions(swordArea, bichos);
+
 		}
 		else if (state == STATE_WALKUP || state == STATE_LOOKUP || state == STATE_ATACKUP) {
 			state = STATE_ATACKUP;
 			SetWidthHeight(TILE_SIZE, TILE_SIZE * 3 / 2);
+
+			swordArea.top = y + TILE_SIZE*3/2;
+			swordArea.left = x + TILE_SIZE*(float)7 / 16;
+			swordArea.bottom = swordArea.top - TILE_SIZE*(float)11 / 16;
+			swordArea.right = swordArea.left + TILE_SIZE*(float)3 / 16;
+
+			std::vector<cBicho*> *bichos = &map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE].bichos;
+			DetectAtackCollisions(swordArea, bichos);
+			
+			bichos = &map[((y / TILE_SIZE + 1)*SCENE_WIDTH) + x / TILE_SIZE].bichos;
+			DetectAtackCollisions(swordArea, bichos);
+		
+			bichos = &map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos;
+			DetectAtackCollisions(swordArea, bichos);
+			
+			bichos = &map[((y / TILE_SIZE + 1)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos;
+			DetectAtackCollisions(swordArea, bichos);
 		}
 		else if (state == STATE_WALKRIGHT || state == STATE_LOOKRIGHT || state == STATE_ATACKRIGHT) {
 			SetState(STATE_ATACKRIGHT);
 			SetWidthHeight(TILE_SIZE * 3 / 2, TILE_SIZE);
+
+			swordArea.bottom = y + TILE_SIZE*(float)5 / 16;
+			swordArea.right = x + TILE_SIZE*3/2;
+			swordArea.top = swordArea.bottom + TILE_SIZE*(float)3 / 16;
+			swordArea.left = swordArea.right - TILE_SIZE*(float)11 / 16;
+
+			std::vector<cBicho*> *bichos = &map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE].bichos;
+			DetectAtackCollisions(swordArea, bichos);
+
+			bichos = &map[((y / TILE_SIZE + 1)*SCENE_WIDTH) + x / TILE_SIZE].bichos;
+			DetectAtackCollisions(swordArea, bichos);
+
+			bichos = &map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos;
+			DetectAtackCollisions(swordArea, bichos);
+
+			bichos = &map[((y / TILE_SIZE + 1)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos;
+			DetectAtackCollisions(swordArea, bichos);
 		}
 		else if (state == STATE_WALKLEFT || state == STATE_LOOKLEFT || state == STATE_ATACKLEFT) {
 			state = STATE_ATACKLEFT;
@@ -139,7 +200,20 @@ void cPlayer::Atack()
 			int x, y;
 			x = GetPosX();
 			y = GetPosY();
-			SetPosition((x - TILE_SIZE / 2), y);
+			x = x - TILE_SIZE / 2;
+			SetPosition(x, y);
+
+			swordArea.bottom = y + TILE_SIZE*(float)5/16;
+			swordArea.left = x;
+			swordArea.top = swordArea.bottom + TILE_SIZE*(float)3 / 16;
+			swordArea.right = swordArea.left + TILE_SIZE*(float)11 / 16;
+
+
+			std::vector<cBicho*> *bichos = &map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE].bichos;
+			DetectAtackCollisions(swordArea, bichos);
+			bichos = &map[((y / TILE_SIZE + 1)*SCENE_WIDTH) + x / TILE_SIZE].bichos;
+			DetectAtackCollisions(swordArea, bichos);
+
 		}
 	}
 
@@ -274,4 +348,15 @@ bool cPlayer::isImmune() {
 
 bool cPlayer::Blockable() {
 	return true;
+}
+
+bool cPlayer::ShieldBlocks(cBicho* bicho) {
+	if (!bicho->Blockable()) return false;
+	int bichoState = bicho->GetState();
+	int selfState = GetState();
+	if ((bichoState == STATE_WALKUP || bichoState == STATE_LOOKUP) && (selfState == STATE_WALKDOWN || selfState == STATE_LOOKDOWN)) return true;
+	else if ((bichoState == STATE_WALKRIGHT || bichoState == STATE_LOOKRIGHT) && (selfState == STATE_WALKLEFT || selfState == STATE_LOOKLEFT)) return true;
+	else if ((bichoState == STATE_WALKDOWN || bichoState == STATE_LOOKDOWN) && (selfState == STATE_WALKUP || selfState == STATE_LOOKUP)) return true;
+	else if ((bichoState == STATE_WALKLEFT || bichoState == STATE_LOOKLEFT) && (selfState == STATE_WALKRIGHT || selfState == STATE_LOOKRIGHT)) return true;
+	return false;
 }

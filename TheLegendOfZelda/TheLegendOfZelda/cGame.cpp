@@ -46,7 +46,7 @@ bool cGame::Init()
 	Player.SetWidthHeight(TILE_SIZE, TILE_SIZE);
 	Player.SetState(STATE_LOOKDOWN);
 	Player.MoveLeft(Scene.GetMap());
-	lifes = 6;
+	Player.SetLifes(6);
 
 	//Enemies initialization
 
@@ -55,6 +55,7 @@ bool cGame::Init()
 	g->UpdateMapTiles(Scene.GetMap(), -1, -1);
 	g->SetWidthHeight(TILE_SIZE*2, TILE_SIZE*2);
 	g->SetState(STATE_VISIBLE);
+	g->SetLifes(6);
 
 	/*
 	cOctorok* c = new cOctorok();
@@ -110,7 +111,7 @@ bool cGame::Process()
 
 	if (!Player.isJumping()) {
 		if ((keys['s'] || keys['S'])&& !sKeyPressed) {
-			Player.Atack();
+			Player.Atack(Scene.GetMap());
 			sKeyPressed = true;
 		}
 		if(Player.getAtacking() == -1){

@@ -68,7 +68,7 @@ public:
 	void SetLifes(int lifes);
 	int GetLifes();
 
-	void Hit(Tile* map);
+	void Hit();
 
 protected:
 	int x = -1, y = -1;

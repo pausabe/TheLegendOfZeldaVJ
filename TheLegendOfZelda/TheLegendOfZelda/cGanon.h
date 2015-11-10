@@ -4,10 +4,10 @@
 #include "cEnemy.h"
 #include "cProjectil.h"
 
-#define VISIBLE_TIME 16
+#define VISIBLE_TIME 128
 #define SHOOTING_WAIT 32
 #define STATE_INVISIBLE 0
-#define STATE_VISIBLE 0
+#define STATE_VISIBLE 1
 
 
 class cGanon : public cEnemy, public cTerrestre
@@ -26,6 +26,7 @@ public:
 	cBicho* ThrowProjectil(Tile* map);
 	bool Blockable();
 
-	void Hit(Tile* map);
+	void Hit();
 	void UpdateMapTiles(Tile *map, int x0, int y0);
+	bool ShieldBlocks(cBicho* bicho);
 };

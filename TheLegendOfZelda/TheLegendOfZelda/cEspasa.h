@@ -18,6 +18,8 @@ public:
 	bool Blockable();
 	
 	bool deadSword = false;
+
 	int timeExplosion = 0;
+	bool ShieldBlocks(cBicho* bicho);
 
 };

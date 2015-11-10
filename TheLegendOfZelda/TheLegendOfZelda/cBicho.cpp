@@ -142,11 +142,10 @@ void cBicho::DrawRect(int tex_id,float xo,float yo,float xf,float yf)
 	glDisable(GL_TEXTURE_2D);
 }
 
-void cBicho::RemoveBichoFromVector(std::vector<cBicho*> *bichos, cBicho*) {
+void cBicho::RemoveBichoFromVector(std::vector<cBicho*> *bichos, cBicho* bicho) {
 	for (int i = 0; i < bichos->size(); i++) {
-		if ((*bichos)[i] == this) {
+		if ((*bichos)[i] == bicho) {
 			bichos->erase(bichos->begin() + i);
-			break;
 		}
 	}
 }
@@ -257,7 +256,8 @@ void cBicho::SetLifes(int l) {
 	lifes = l;
 }
 
-void cBicho::Hit(Tile* map) {
+void cBicho::Hit() {
 	lifes--;
-	if (lifes == 0) Destroy(map);
+	if (lifes == 0) toBeDestroyed = true;
 }
+

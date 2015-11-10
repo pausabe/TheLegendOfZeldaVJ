@@ -97,3 +97,7 @@ cBicho* cTektike::ThrowProjectil(Tile* map) {
 bool cTektike::Blockable() {
 	return false;
 }
+
+bool cTektike::ShieldBlocks(cBicho* bicho) {
+	return false;
+}

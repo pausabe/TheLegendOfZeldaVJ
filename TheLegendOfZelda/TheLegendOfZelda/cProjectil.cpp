@@ -44,3 +44,7 @@ cBicho* cProjectil::ThrowProjectil(Tile* map) {
 bool cProjectil::Blockable() {
 	return true;
 }
+
+bool cProjectil::ShieldBlocks(cBicho* bicho) {
+	return true;
+}
