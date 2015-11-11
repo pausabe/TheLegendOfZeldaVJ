@@ -12,8 +12,6 @@ cGame::~cGame(void)
 
 bool cGame::Init()
 {
-	stateScene = STATE_OVERWORLD_01;
-
 	oneKey = true;
 	bool res=true;
 
@@ -39,6 +37,14 @@ bool cGame::Init()
 	res = Data.LoadImage(BOSSES, "resources/bosses.png", GL_RGBA);
 	if (!res) return false;
 
+
+
+	stateScene = STATE_OVERWORLD_01;
+	lastStateScene = STATE_OVERWORLD_01;
+	lastNumTexture = OVERWORLD_TILES;
+	Scene.LoadOverworldLevel(1);
+
+
 	//Player initialization
 	Player.SetTile(8, 5);
 	Player.SetWidthHeight(TILE_SIZE, TILE_SIZE);
@@ -48,12 +54,12 @@ bool cGame::Init()
 
 	//Enemies initialization
 
-	cGanon* g = new cGanon();
+	/*cGanon* g = new cGanon();
 	g->SetTile(4, 5);
 	g->UpdateMapTiles(Scene.GetMap(), -1, -1);
 	g->SetWidthHeight(TILE_SIZE*2, TILE_SIZE*2);
 	g->SetState(STATE_INVISIBLE);
-	g->SetLifes(6);
+	g->SetLifes(6);*/
 
 	/*
 	cOctorok* c = new cOctorok();
@@ -173,10 +179,20 @@ void cGame::setSceneState() {
 
 	if (stateScene == STATE_OVERWORLD_01 && Scene.GetMap()[tile_x + (tile_y*SCENE_WIDTH)].tileId == 19)
 		stateScene = STATE_DUNGEON_01;
-	else if (stateScene == STATE_OVERWORLD_01 && /* (x == 7 || tile_x == 8) && */ y == 0)
-		stateScene = STATE_OVERWORLD_02;
+	else if (stateScene == STATE_DUNGEON_01 &&  y == 48)
+		stateScene = STATE_OVERWORLD_01;
+	else if (stateScene == STATE_OVERWORLD_01 &&  y == 480)
+		stateScene = STATE_OVERWORLD_03;
 	else if (stateScene == STATE_OVERWORLD_01 && x == 0)
 		stateScene = STATE_OVERWORLD_04;
+	else if (stateScene == STATE_OVERWORLD_01 && x == 720)
+		stateScene = STATE_OVERWORLD_02;
+	else if (stateScene == STATE_OVERWORLD_02 && x == 0)
+		stateScene = STATE_OVERWORLD_01;
+	else if (stateScene == STATE_OVERWORLD_03 && y == 0)
+		stateScene = STATE_OVERWORLD_01;
+	else if (stateScene == STATE_OVERWORLD_04 && x == 720)
+		stateScene = STATE_OVERWORLD_01;
 }
 
 //Output
@@ -192,30 +208,72 @@ void cGame::Render()
 
 	setSceneState();
 
-	switch (stateScene) {
-		case STATE_OVERWORLD_01: 
-			numTexture = OVERWORLD_TILES; 
+	if (lastStateScene != stateScene) {
+		switch (stateScene) {
+		case STATE_OVERWORLD_01:
+			numTexture = OVERWORLD_TILES;
 			Scene.LoadOverworldLevel(1);
+			if(lastStateScene==STATE_OVERWORLD_02) Player.SetTile(15, 5);
+			else if (lastStateScene == STATE_OVERWORLD_03) {
+				Player.SetTile(8, 10);
+				//cutrissim
+				c->Destroy(Scene.GetMap());
+				//cutrissim
+			}
+			else if (lastStateScene == STATE_OVERWORLD_04) {
+				Player.SetTile(0, 5);
+				//cutrissim
+				d->Destroy(Scene.GetMap());
+				//cutrissim
+			}
+			else if (lastStateScene == STATE_DUNGEON_01) {
+				Player.SetTile(4, 9);
+			}
 			break;
 		case STATE_OVERWORLD_02:
 			numTexture = OVERWORLD_TILES;
 			Scene.LoadOverworldLevel(2);
+			Player.SetTile(0, 5);
 			break;
 		case STATE_OVERWORLD_03:
 			numTexture = OVERWORLD_TILES;
 			Scene.LoadOverworldLevel(3);
+			Player.SetTile(8, 0);
+
+			//cutrissim
+			c = new cOctorok();
+			c->SetTile(4, 5);
+			c->UpdateMapTiles(Scene.GetMap(), -1, -1);
+			c->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+			c->SetState(STATE_LOOKDOWN);
+			Enemies.push_back(c);
+			//cutrissim
 			break;
 		case STATE_OVERWORLD_04:
 			numTexture = OVERWORLD_TILES;
 			Scene.LoadOverworldLevel(4);
-			Player.SetPosition(15*TILE_SIZE,Player.GetPosY());
+
+			Player.SetTile(15, 5);
+
+			//cutrissim
+			d = new cTektike();
+			d->SetTile(6, 5);
+			d->UpdateMapTiles(Scene.GetMap(), -1, -1);
+			d->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+			d->SetState(STATE_RESTING);
+			Enemies.push_back(d);
+			//cutrissim
 			break;
-		case STATE_DUNGEON_01: 
+		case STATE_DUNGEON_01:
 			numTexture = DUNGEON_TILES;
 			Scene.LoadDungeonLevel(1);
+			Player.SetTile(8, 1);
 			break;
+		}
+		lastNumTexture = numTexture;
+		lastStateScene = stateScene;
 	}
-
+	else numTexture = lastNumTexture;
 
 	Scene.Draw(Data.GetID(numTexture));
 

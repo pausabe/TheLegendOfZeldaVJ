@@ -10,6 +10,7 @@
 #define JUMP_LENGTH			TILE_SIZE*2
 #define ATACK_DURATION		10
 #define IMMUNITY_DURATION	100
+#define STEP_LENGTH		4
 
 
 class cPlayer: public cTerrestre
