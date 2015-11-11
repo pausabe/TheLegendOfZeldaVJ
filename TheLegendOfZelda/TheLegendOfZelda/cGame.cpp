@@ -1,7 +1,6 @@
 #include "cGame.h"
 #include "Globals.h"
 
-
 cGame::cGame(void)
 {
 }
@@ -14,6 +13,14 @@ bool cGame::Init()
 {
 	oneKey = true;
 	bool res=true;
+
+	/*if (!Buffer.loadFromFile("sound.wav"))
+	{
+		res = false;
+	}*/
+	//sf::Sound Sound;
+	//Sound.setBuffer(Buffer);
+	//Sound.play();
 
 	//Graphics initialization
 	glClearColor(0.0f,0.0f,0.0f,0.0f);
@@ -42,6 +49,8 @@ bool cGame::Init()
 	stateScene = STATE_OVERWORLD_01;
 	lastStateScene = STATE_OVERWORLD_01;
 	lastNumTexture = OVERWORLD_TILES;
+
+	//createPanel();
 	Scene.LoadOverworldLevel(1);
 
 
@@ -170,6 +179,76 @@ bool cGame::Process()
 	return res;
 }
 
+void cGame::createPanel()
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glLoadIdentity();
+
+	glTranslatef(0.0f, 0.0f, -10.0f);
+
+	glPushMatrix();
+	//glRotatef(alfa, 1.0f, 0.0f, 0.0f);
+	glBegin(GL_TRIANGLES);
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(3.0f, 1.0f, 0.0f);
+	glColor3f(0.0f, 1.0f, 0.0f);
+	glVertex3f(2.0f, -1.0f, 0.0f);
+	glColor3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(4.0f, -1.0f, 0.0f);
+	glEnd();
+	glPopMatrix();
+
+	glPushMatrix();
+	//glRotatef(2.0f*alfa, 0.0f, 0.0f, 1.0f);
+	glBegin(GL_QUADS);
+	glColor3f(1.0f, 1.0f, 0.0f);
+	glVertex3f(-1.0f, 1.0f, 0.0f);
+	glVertex3f(1.0f, 1.0f, 0.0f);
+	glVertex3f(1.0f, -1.0f, 0.0f);
+	glColor3f(0.0f, 1.0f, 0.0f);
+	glVertex3f(-1.0f, -1.0f, 0.0f);
+	glEnd();
+	glPopMatrix();
+
+	glBegin(GL_POINTS);
+	glColor3f(0.0f, 1.0f, 1.0f);
+	glVertex3f(-0.0f, 2.0f, 0.0f);
+	glVertex3f(-0.0f, 2.1f, 0.0f);
+	glVertex3f(-0.0f, 2.2f, 0.0f);
+	glVertex3f(-0.0f, 2.3f, 0.0f);
+	glVertex3f(-0.0f, 2.4f, 0.0f);
+	glEnd();
+
+	glBegin(GL_LINES);
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glVertex3f(-1.0f, 3.0f, 0.0f);
+	glVertex3f(1.0f, 3.0f, 0.0f);
+	glVertex3f(-1.0f, 3.5f, 0.0f);
+	glVertex3f(1.0f, 3.5f, 0.0f);
+	glEnd();
+
+	glPushMatrix();
+	//glTranslatef(0.0f, 0.0f, (alfa / 200.0f));
+	glBegin(GL_QUAD_STRIP);
+	glColor3f(1.0f, 0.0f, 1.0f);
+	glVertex3f(-2.0f, 0.0f, 0.0f);
+	glColor3f(1.0f, 1.0f, 0.0f);
+	glVertex3f(-2.0f, -1.0f, 0.0f);
+	glColor3f(0.0f, 1.0f, 1.0f);
+	glVertex3f(-3.0f, 0.0f, 0.0f);
+	glColor3f(0.5f, 0.5f, 0.5f);
+	glVertex3f(-3.0f, -1.0f, 0.0f);
+	glColor3f(0.5f, 1.5f, 0.5f);
+	glVertex3f(-4.0f, 0.5f, 0.0f);
+	glColor3f(1.5f, 0.5f, 0.5f);
+	glVertex3f(-4.0f, -1.5f, 0.0f);
+	glEnd();
+	glPopMatrix();
+
+	glutSwapBuffers();
+
+}
+
 void cGame::setSceneState() {
 	int tile_x, tile_y;
 	Player.GetTile(&tile_x, &tile_y);
@@ -201,6 +280,8 @@ void cGame::Render()
 	glClear(GL_COLOR_BUFFER_BIT);
 	
 	glLoadIdentity();
+
+	//createPanel();
 
 	int numTexture;
 

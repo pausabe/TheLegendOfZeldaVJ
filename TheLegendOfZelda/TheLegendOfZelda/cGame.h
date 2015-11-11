@@ -43,6 +43,7 @@ public:
 	void setStateScene(int ss);
 
 private:
+	void createPanel();
 	void setSceneState();
 	int stateScene;
 	int lastStateScene;
