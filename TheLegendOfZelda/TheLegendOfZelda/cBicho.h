@@ -70,6 +70,9 @@ public:
 
 	void Hit();
 
+	// Detects if the bicho collision is blocked by the self shield
+	virtual bool ShieldBlocks(cBicho* bicho) = 0;
+
 protected:
 	int x = -1, y = -1;
 	int w, h;

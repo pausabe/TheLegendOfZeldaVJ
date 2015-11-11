@@ -342,6 +342,7 @@ void cGame::Render()
 			d->UpdateMapTiles(Scene.GetMap(), -1, -1);
 			d->SetWidthHeight(TILE_SIZE, TILE_SIZE);
 			d->SetState(STATE_RESTING);
+			d->SetLifes(1);
 			Enemies.push_back(d);
 			//cutrissim
 			break;

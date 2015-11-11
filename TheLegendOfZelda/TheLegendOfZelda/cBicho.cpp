@@ -258,6 +258,6 @@ void cBicho::SetLifes(int l) {
 
 void cBicho::Hit() {
 	lifes--;
-	if (lifes == 0) toBeDestroyed = true;
+	if (lifes <= 0) toBeDestroyed = true;
 }
 
