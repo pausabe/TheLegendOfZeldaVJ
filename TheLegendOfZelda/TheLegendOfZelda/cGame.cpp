@@ -208,7 +208,7 @@ void cGame::Render()
 		case STATE_OVERWORLD_04:
 			numTexture = OVERWORLD_TILES;
 			Scene.LoadOverworldLevel(4);
-			Player.SetTile(15,5);
+			Player.SetPosition(15*TILE_SIZE,Player.GetPosY());
 			break;
 		case STATE_DUNGEON_01: 
 			numTexture = DUNGEON_TILES;
