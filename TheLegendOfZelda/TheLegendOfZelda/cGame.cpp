@@ -256,22 +256,72 @@ void cGame::setSceneState() {
 	int x, y;
 	Player.GetPosition(&x, &y);
 
+	//STATE_OVERWORLD_01
 	if (stateScene == STATE_OVERWORLD_01 && Scene.GetMap()[tile_x + (tile_y*SCENE_WIDTH)].tileId == 19)
 		stateScene = STATE_DUNGEON_01;
-	else if (stateScene == STATE_DUNGEON_01 &&  y == 48)
-		stateScene = STATE_OVERWORLD_01;
 	else if (stateScene == STATE_OVERWORLD_01 &&  y == 480)
 		stateScene = STATE_OVERWORLD_03;
 	else if (stateScene == STATE_OVERWORLD_01 && x == 0)
 		stateScene = STATE_OVERWORLD_04;
 	else if (stateScene == STATE_OVERWORLD_01 && x == 720)
 		stateScene = STATE_OVERWORLD_02;
+
+	//STATE_OVERWORLD_02
 	else if (stateScene == STATE_OVERWORLD_02 && x == 0)
 		stateScene = STATE_OVERWORLD_01;
+
+	//STATE_OVERWORLD_03
 	else if (stateScene == STATE_OVERWORLD_03 && y == 0)
 		stateScene = STATE_OVERWORLD_01;
+
+	//STATE_OVERWORLD_04
 	else if (stateScene == STATE_OVERWORLD_04 && x == 720)
 		stateScene = STATE_OVERWORLD_01;
+
+	//STATE_DUNGEON_01
+	else if (stateScene == STATE_DUNGEON_01 &&  y == 48)
+		stateScene = STATE_OVERWORLD_01;
+	else if (stateScene == STATE_DUNGEON_01 &&  y == 432)
+		stateScene = STATE_DUNGEON_04;
+	else if (stateScene == STATE_DUNGEON_01 &&  x == 48)
+		stateScene = STATE_DUNGEON_02;
+
+	//STATE_DUNGEON_02
+	else if (stateScene == STATE_DUNGEON_02 &&  x == 672)
+		stateScene = STATE_DUNGEON_01;
+
+	//STATE_DUNGEON_03
+	else if (stateScene == STATE_DUNGEON_03 &&  x == 48)
+		stateScene = STATE_DUNGEON_04;
+
+	//STATE_DUNGEON_04
+	else if (stateScene == STATE_DUNGEON_04 &&  y == 48)
+		stateScene = STATE_DUNGEON_01;
+	else if (stateScene == STATE_DUNGEON_04 &&  y == 432)
+		stateScene = STATE_DUNGEON_06;
+	else if (stateScene == STATE_DUNGEON_04 &&  x == 672)
+		stateScene = STATE_DUNGEON_03;
+	else if (stateScene == STATE_DUNGEON_04 &&  x == 48)
+		stateScene = STATE_DUNGEON_05;
+
+	//STATE_DUNGEON_05
+	else if (stateScene == STATE_DUNGEON_05 &&  x == 672)
+		stateScene = STATE_DUNGEON_04;
+
+	//STATE_DUNGEON_06
+	else if (stateScene == STATE_DUNGEON_06 &&  y == 48)
+		stateScene = STATE_DUNGEON_04;
+	else if (stateScene == STATE_DUNGEON_06 &&  x == 48)
+		stateScene = STATE_DUNGEON_08;
+
+	//STATE_DUNGEON_07
+	else if (stateScene == STATE_DUNGEON_07 &&  x == 672)
+		stateScene = STATE_DUNGEON_04;
+
+	//STATE_DUNGEON_08
+	else if (stateScene == STATE_DUNGEON_08 &&  y == 48)
+		stateScene = STATE_DUNGEON_06;
+
 }
 
 //Output
@@ -333,7 +383,6 @@ void cGame::Render()
 		case STATE_OVERWORLD_04:
 			numTexture = OVERWORLD_TILES;
 			Scene.LoadOverworldLevel(4);
-
 			Player.SetTile(15, 5);
 
 			//cutrissim
@@ -347,8 +396,70 @@ void cGame::Render()
 			//cutrissim
 			break;
 		case STATE_DUNGEON_01:
-			numTexture = DUNGEON_TILES;
+			if (lastStateScene == STATE_OVERWORLD_01) {
+				Player.SetTile(8, 1);
+			}
+			else if (lastStateScene == STATE_DUNGEON_04) {
+				Player.SetTile(8, 9);
+			}
+			else if (lastStateScene == STATE_DUNGEON_02) {
+				Player.SetTile(1, 5);
+			}
+
 			Scene.LoadDungeonLevel(1);
+			numTexture = DUNGEON_TILES;
+			break;
+		case STATE_DUNGEON_02:
+			numTexture = DUNGEON_TILES;
+			Scene.LoadDungeonLevel(2);
+			Player.SetTile(14, 5);
+			break;
+		case STATE_DUNGEON_03:
+			numTexture = DUNGEON_TILES;
+			Scene.LoadDungeonLevel(3);
+			Player.SetTile(1, 5);
+			break;
+		case STATE_DUNGEON_04:
+			if (lastStateScene == STATE_DUNGEON_01) {
+				Player.SetTile(8, 1);
+			}
+			else if (lastStateScene == STATE_DUNGEON_05) {
+				Player.SetTile(1, 5);
+			}
+			else if (lastStateScene == STATE_DUNGEON_03) {
+				Player.SetTile(14, 5);
+			}
+			else if (lastStateScene == STATE_DUNGEON_07) {
+				Player.SetTile(1, 5);
+			}
+
+			numTexture = DUNGEON_TILES;
+			Scene.LoadDungeonLevel(4);
+			break;
+		case STATE_DUNGEON_05:
+			numTexture = DUNGEON_TILES;
+			Scene.LoadDungeonLevel(5);
+			Player.SetTile(14, 5);
+			break;
+		case STATE_DUNGEON_06:
+			if (lastStateScene == STATE_DUNGEON_04) {
+				Player.SetTile(8, 1);
+			}
+			else if (lastStateScene == STATE_DUNGEON_08) {
+				Player.SetTile(1, 5);
+			}
+			numTexture = DUNGEON_TILES;
+			Scene.LoadDungeonLevel(6);
+			break;
+		case STATE_DUNGEON_07:
+			numTexture = DUNGEON_TILES;
+			Scene.LoadDungeonLevel(7);
+			Player.SetTile(14, 5);
+			break;
+		case STATE_DUNGEON_08:
+			numTexture = DUNGEON_TILES;
+			Scene.LoadDungeonLevel(8);
+			//Player.SetState(STATE_LOOKUP);
 			Player.SetTile(8, 1);
 			break;
 		}
