@@ -112,7 +112,7 @@ void cPlayer::DetectAtackCollisions(cRect swordArea, std::vector<cBicho*> *bicho
 	for (int i = 0; i < bichos->size(); i++) {
 		cRect rt;
 		(*bichos)[i]->GetArea(&rt);
-		if (!dynamic_cast<cTerrestre*>((*bichos)[i])->ShieldBlocks(this) && (*bichos)[i]->Collides(&swordArea)) {
+		if (!(*bichos)[i]->ShieldBlocks(this) && (*bichos)[i]->Collides(&swordArea)) {
 			int w, h;
 			(*bichos)[i]->GetWidthHeight(&w, &h);
 			if (w == TILE_SIZE*2) dynamic_cast<cGanon*>((*bichos)[i])->Hit();
