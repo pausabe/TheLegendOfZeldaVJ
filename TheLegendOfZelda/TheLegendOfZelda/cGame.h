@@ -10,7 +10,7 @@
 #include <vector>
 
 #define GAME_WIDTH	TILE_SIZE*16
-#define GAME_HEIGHT TILE_SIZE*13
+#define GAME_HEIGHT TILE_SIZE*15
 
 #define STATE_OVERWORLD_01 5
 #define STATE_OVERWORLD_02 6

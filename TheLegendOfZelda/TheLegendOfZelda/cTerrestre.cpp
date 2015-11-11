@@ -6,6 +6,9 @@ cTerrestre::cTerrestre() {
 cTerrestre::~cTerrestre() {}
 
 bool cTerrestre::CollidesMapTile(Tile* map, int direction) {
+	int x, y;
+	GetPosition(&x, &y);
+
 	int tile_x = x / TILE_SIZE;
 	int tile_y = y / TILE_SIZE;
 	int width_tiles = w / TILE_SIZE;
@@ -20,12 +23,14 @@ bool cTerrestre::CollidesMapTile(Tile* map, int direction) {
 			if (map[tile_x + ((tile_y + i)*SCENE_WIDTH)].isWall)	return true;
 		}
 	} else if (direction == UP) {		// TOP
+		//if (y > 480) return true;
 		if (y >= TILE_SIZE*11) return true;
 		if (x % TILE_SIZE != 0) width_tiles++;
 		for (int i = 0; i < width_tiles; ++i) {
 			if (map[tile_x + i + ((tile_y + 1)*SCENE_WIDTH)].isWall)	return true;
 		}
 	} else if (direction == RIGHT) {		// RIGHT
+		//if (x > 720) return true;
 		if (x >= TILE_SIZE * 16) return true;
 		if (y % TILE_SIZE > TILE_SIZE / 2) height_tiles++;
 		for (int i = 0; i < height_tiles; ++i) {
@@ -58,7 +63,8 @@ void cTerrestre::MoveLeft(Tile *map)
 {
 	int xaux;
 	//Whats next tile?
-	if (((x-stepLength) % TILE_SIZE) >= TILE_SIZE - stepLength)
+	if (x < 1) collision = true;
+	else if (((x-stepLength) % TILE_SIZE) >= TILE_SIZE - stepLength)
 	{
 		xaux = x;
 		x -= stepLength;
@@ -90,7 +96,8 @@ void cTerrestre::MoveRight(Tile *map)
 {
 	int xaux;
 	//Whats next tile?
-	if (((x + stepLength) % TILE_SIZE) <= stepLength)
+	if (x > 719) collision = true;
+	else if (((x + stepLength) % TILE_SIZE) <= stepLength)
 	{
 		xaux = x;
 		x += stepLength;
@@ -123,7 +130,8 @@ void cTerrestre::MoveUp(Tile *map)
 {
 	int yaux;
 	//Whats next tile?
-	if (((y + stepLength) % TILE_SIZE) >= TILE_SIZE / 2)
+	if (y > 479) collision = true;
+	else if (((y + stepLength) % TILE_SIZE) >= TILE_SIZE / 2)
 	{
 		yaux = y;
 		y += stepLength;
@@ -159,7 +167,8 @@ void cTerrestre::MoveDown(Tile *map)
 	int yaux;
 	
 	//Whats next tile?
-	if (((y - stepLength) % TILE_SIZE) >= TILE_SIZE - stepLength)
+	if (y < 1) collision = true;
+	else if (((y - stepLength) % TILE_SIZE) >= TILE_SIZE - stepLength)
 	{
 		yaux = y;
 		y -= stepLength;
