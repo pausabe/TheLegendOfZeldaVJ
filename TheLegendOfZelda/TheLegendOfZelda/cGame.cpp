@@ -179,6 +179,8 @@ void cGame::setSceneState() {
 
 	if (stateScene == STATE_OVERWORLD_01 && Scene.GetMap()[tile_x + (tile_y*SCENE_WIDTH)].tileId == 19)
 		stateScene = STATE_DUNGEON_01;
+	else if (stateScene == STATE_DUNGEON_01 &&  y == 48)
+		stateScene = STATE_OVERWORLD_01;
 	else if (stateScene == STATE_OVERWORLD_01 &&  y == 480)
 		stateScene = STATE_OVERWORLD_03;
 	else if (stateScene == STATE_OVERWORLD_01 && x == 0)
@@ -224,6 +226,9 @@ void cGame::Render()
 				d->Destroy(Scene.GetMap());
 				//cutrissim
 			}
+			else if (lastStateScene == STATE_DUNGEON_01) {
+				Player.SetTile(4, 9);
+			}
 			break;
 		case STATE_OVERWORLD_02:
 			numTexture = OVERWORLD_TILES;
@@ -262,6 +267,7 @@ void cGame::Render()
 		case STATE_DUNGEON_01:
 			numTexture = DUNGEON_TILES;
 			Scene.LoadDungeonLevel(1);
+			Player.SetTile(8, 1);
 			break;
 		}
 		lastNumTexture = numTexture;
