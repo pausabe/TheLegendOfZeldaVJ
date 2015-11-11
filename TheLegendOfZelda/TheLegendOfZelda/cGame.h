@@ -45,11 +45,15 @@ public:
 private:
 	void setSceneState();
 	int stateScene;
+	int lastStateScene;
+	int lastNumTexture;
 
 	unsigned char keys[256];
 	char selKey;
 	int oneKey;
 
+	cOctorok* c;
+	cTektike* d;
 	cScene Scene;
 	cPlayer Player;
 	cProjectil *Espasa;

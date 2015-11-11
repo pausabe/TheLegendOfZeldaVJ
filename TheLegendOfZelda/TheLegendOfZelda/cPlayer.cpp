@@ -235,14 +235,6 @@ cBicho* cPlayer::ThrowProjectil(Tile* map) {
 
 void cPlayer::Logic(Tile* map) {
 
-	/*int tile_x, tile_y;
-	GetTile(&tile_x, &tile_y);
-
-	if (!inDungeonTile && map[tile_x + (tile_y*SCENE_WIDTH)].tileId == 19) {
-		inDungeonTile = true;
-	}
-	else inDungeonTile = false;*/
-
 	if (atacking > 0) {
 		atacking--;
 	} 
