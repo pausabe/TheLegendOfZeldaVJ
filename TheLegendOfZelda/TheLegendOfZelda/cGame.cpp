@@ -127,6 +127,7 @@ bool cGame::Process()
 	}
 
 	if (!keys['s']) sKeyPressed = false;
+	if (!keys['a']) aKeyPressed = false;
 
 	//Game Logic
 	Player.Logic(Scene.GetMap(), Dungeon);
@@ -144,13 +145,28 @@ bool cGame::Process()
 	for (int i = 0; i < Objects.size(); i++) {
 		cRect rt;
 		Objects[i]->GetArea(&rt);
-		if (Player.Collides(&rt) && (keys['a'] || keys['A'])) {
-			Player.PickObject(Objects[i]);
-			Objects.erase(Objects.begin() + i);
+		if (Player.Collides(&rt) && (keys['a'] || keys['A']) && !aKeyPressed) {
+			int x, y;
+			Objects[i]->GetPosition(&x, &y);
+			int px, py;
+			Player.GetPosition(&px, &py);
+			if (!(x / TILE_SIZE == px / TILE_SIZE && y / TILE_SIZE == py / TILE_SIZE)) {
+				Player.PickObject(Objects[i]);
+
+				if (Objects[i]->GetKeyId() == -1) {
+					Scene.GetMap()[(y / TILE_SIZE)*SCENE_WIDTH + x / TILE_SIZE].isWall = wallUnderStepladder;
+				}
+
+				Objects.erase(Objects.begin() + i);
+				aKeyPressed = true;
+			}
 		}
 	}
 
-	if (Player.HoldsStepladder() && (keys['a'] || keys['A'])) PlaceStepladder();
+	if (Player.HoldsStepladder() && (keys['a'] || keys['A']) && !aKeyPressed) {
+		PlaceStepladder();
+		aKeyPressed = true;
+	}
 
 	if (Espasa == NULL) Espasa = dynamic_cast<cEspasa*>(Player.ThrowProjectil(Scene.GetMap()));
 	else if (Espasa->ToBeDestroyed()) Espasa = NULL;
@@ -199,8 +215,11 @@ void cGame::PlaceStepladder() {
 
 	int tileId = Scene.GetMap()[ty*SCENE_WIDTH + tx].tileId;
 	if (tileId == -2 || tileId == 22) {
+		wallUnderStepladder = Scene.GetMap()[(ty)*SCENE_WIDTH + tx].isWall;
+
 		cStepladder* s = Player.DropStepladder();
 		s->SetPosition(tx*TILE_SIZE, ty*TILE_SIZE);
+		Scene.GetMap()[ty*SCENE_WIDTH + tx].isWall = false;
 		Objects.push_back(s);
 	}
 }
@@ -304,9 +323,6 @@ void cGame::setSceneState() {
 		stateScene = STATE_DUNGEON_03;
 	else if (stateScene == STATE_DUNGEON_04 &&  x == 48)
 		stateScene = STATE_DUNGEON_05;
-	else if (lastStateScene == STATE_DUNGEON_06) {
-		Player.SetTile(8, 9);
-	}
 
 	//STATE_DUNGEON_05
 	else if (stateScene == STATE_DUNGEON_05 &&  x == 672)
@@ -493,6 +509,11 @@ void cGame::Render()
 
 	Scene.Draw(Data.GetID(numTexture));
 
+	// Draw objects
+	for (int i = 0; i < Objects.size(); i++) {
+		Objects[i]->Draw(Data.GetID(TREASURES));
+	}
+
 	// Draw player 
 	Player.Draw(Data.GetID(LINK));
 	// Draw sword, if necessary
@@ -509,11 +530,6 @@ void cGame::Render()
 				Enemies[i]->Draw(Data.GetID(BOSSES));
 			else Enemies[i]->Draw(Data.GetID(OVERWORLD_ENEMIES));
 		}
-	}
-
-	// Draw objects
-	for (int i = 0; i < Objects.size(); i++) {
-		Objects[i]->Draw(Data.GetID(TREASURES));
 	}
 
 	createPanel();
