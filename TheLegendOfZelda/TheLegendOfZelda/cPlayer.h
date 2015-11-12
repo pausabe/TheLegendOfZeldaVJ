@@ -53,5 +53,9 @@ public:
 	bool ShieldBlocks(cBicho* bicho);
 
 	void PickObject(cObject* o);
+	cStepladder* DropStepladder();
+
 	bool HoldsKey(int key);
+	bool HoldsStepladder();
+	bool isFlyer();
 };

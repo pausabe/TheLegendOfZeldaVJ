@@ -20,27 +20,31 @@ bool cTerrestre::CollidesMapTile(Tile* map, int direction) {
 		if (x < 0) return true;
 		if (y % TILE_SIZE > TILE_SIZE/2) height_tiles++;
 		for (int i = 0; i < height_tiles; ++i) {
-			if (map[tile_x + ((tile_y + i)*SCENE_WIDTH)].isWall)	return true;
+			if (map[tile_x + ((tile_y + i)*SCENE_WIDTH)].tileId == 22 && isFlyer());
+			else if (map[tile_x + ((tile_y + i)*SCENE_WIDTH)].isWall)	return true;
 		}
 	} else if (direction == UP) {		// TOP
 		//if (y > 480) return true;
 		if (y >= TILE_SIZE*11) return true;
 		if (x % TILE_SIZE != 0) width_tiles++;
 		for (int i = 0; i < width_tiles; ++i) {
-			if (map[tile_x + i + ((tile_y + 1)*SCENE_WIDTH)].isWall)	return true;
+			if (map[tile_x + i + ((tile_y + 1)*SCENE_WIDTH)].tileId == 22 && isFlyer());
+			else if (map[tile_x + i + ((tile_y + 1)*SCENE_WIDTH)].isWall)	return true;
 		}
 	} else if (direction == RIGHT) {		// RIGHT
 		//if (x > 720) return true;
 		if (x >= TILE_SIZE * 16) return true;
 		if (y % TILE_SIZE > TILE_SIZE / 2) height_tiles++;
 		for (int i = 0; i < height_tiles; ++i) {
-			if (map[tile_x + width_tiles + ((tile_y + i)*SCENE_WIDTH)].isWall)	return true;
+			if (map[tile_x + width_tiles + ((tile_y + i)*SCENE_WIDTH)].tileId == 22 && isFlyer());
+			else if (map[tile_x + width_tiles + ((tile_y + i)*SCENE_WIDTH)].isWall)	return true;
 		}
 	} else if(direction == DOWN) {			// BOTTOM
 		if (y < 0) return true;
 		if (x % TILE_SIZE != 0) width_tiles++;
 		for (int i = 0; i < width_tiles; ++i) {
-			if (map[tile_x + i + ((tile_y)*SCENE_WIDTH)].isWall)	return true;
+			if (map[tile_x + i + ((tile_y)*SCENE_WIDTH)].tileId == 22 && isFlyer());
+			else if (map[tile_x + i + ((tile_y)*SCENE_WIDTH)].isWall)	return true;
 		}
 	}
 

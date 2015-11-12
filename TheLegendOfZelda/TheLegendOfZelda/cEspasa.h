@@ -23,5 +23,5 @@ public:
 	int timeExplosion = 0;
 	bool ShieldBlocks(cBicho* bicho);
 	void DetectAtackCollisions(std::vector<cBicho*> *bichos);
-
+	bool isFlyer();
 };

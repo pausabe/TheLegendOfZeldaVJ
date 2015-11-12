@@ -120,3 +120,7 @@ bool cOctorok::Blockable() {
 bool cOctorok::ShieldBlocks(cBicho* bicho) {
 	return false;
 }
+
+bool cOctorok::isFlyer() {
+	return false;
+}

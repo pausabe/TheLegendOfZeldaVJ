@@ -54,7 +54,7 @@ void cTektike::Logic(Tile *map) {
 			int length, degrees; 
 			targetX = -1;
 			targetY = -1;
-			while (!(targetX >= 0 && targetY >= 0 && targetX < TILE_SIZE*16 && targetY < TILE_SIZE*11)) {
+			while (!(targetX >= 0 && targetY >= 0 && targetX + w < TILE_SIZE*16 - TILE_SIZE*(float)(10/16) && targetY + h < TILE_SIZE*11 - TILE_SIZE*(float)(10/16))) {
 				length = rand() % JUMP_RADIUS;
 				degrees = rand() % 360;
 				targetX = length*cos(degrees*0.017453f) + x0;
@@ -100,4 +100,8 @@ bool cTektike::Blockable() {
 
 bool cTektike::ShieldBlocks(cBicho* bicho) {
 	return false;
+}
+
+bool cTektike::isFlyer() {
+	return true;
 }

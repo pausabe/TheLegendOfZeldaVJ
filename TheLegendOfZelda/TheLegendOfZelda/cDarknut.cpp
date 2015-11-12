@@ -102,3 +102,7 @@ bool cDarknut::ShieldBlocks(cBicho* bicho) {
 	else if ((bichoState == STATE_WALKLEFT || bichoState == STATE_LOOKLEFT) && (selfState == STATE_WALKRIGHT || selfState == STATE_LOOKRIGHT)) return true;
 	return false;
 }
+
+bool cDarknut::isFlyer() {
+	return false;
+}

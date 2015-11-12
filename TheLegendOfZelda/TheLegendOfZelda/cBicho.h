@@ -60,6 +60,8 @@ public:
 	void SetDroppingObject(cObject* object);
 	cObject* DropsObject();
 
+	virtual bool isFlyer() = 0;
+
 protected:
 	int x = -1, y = -1;
 	int w, h;

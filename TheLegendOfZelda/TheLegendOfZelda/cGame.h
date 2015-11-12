@@ -79,4 +79,6 @@ private:
 
 	void DetectCollisions(std::vector<cBicho*> *bichos);
 	void ProcessDynamicCollisions();
+
+	void PlaceStepladder();
 };

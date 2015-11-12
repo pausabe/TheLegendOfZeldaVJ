@@ -139,7 +139,7 @@ bool cScene::LoadDungeonLevel(int level, cDungeon Dungeon)
 	fscanf(fd, "%c", &b);
 
 	if (Dungeon.GetCurrentDungeon() == 1 && Dungeon.isOpen(1)) t = '0';
-	if (Dungeon.GetCurrentDungeon() == 5 && Dungeon.isOpen(2)) l = '0';
+	if (Dungeon.GetCurrentDungeon() == 5 && Dungeon.EnemiesCleared()) l = '0';
 	if (Dungeon.GetCurrentDungeon() == 5 && Dungeon.isOpen(3)) t = '0';
 
 	if (l != ' ') {
@@ -250,7 +250,7 @@ bool cScene::LoadDungeonLevel(int level, cDungeon Dungeon)
 				}
 			}
 			else {
-				map[(j*SCENE_WIDTH) + i + 2].tileId = -1;
+				map[(j*SCENE_WIDTH) + i + 2].tileId = -2;
 				map[(j *SCENE_WIDTH) + i + 2].isWall = false;
 			}
 			px += TILE_SIZE;

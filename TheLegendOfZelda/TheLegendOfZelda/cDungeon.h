@@ -28,4 +28,6 @@ public:
 	int GetCurrentDungeon();
 	void OpenDoor(int door);
 	bool isOpen(int door);
+
+	bool EnemiesCleared();
 };

@@ -86,19 +86,23 @@ void cEspasa::Logic(Tile *map) {
 		}
 		else if (GetState() == STATE_LOOKRIGHT || GetState() == STATE_WALKRIGHT || GetState() == STATE_ATACKRIGHT) {
 			MoveRight(map);
-
-			bichos = &map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE].bichos;
-			DetectAtackCollisions(bichos);
-			bichos = &map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos;
-			DetectAtackCollisions(bichos);
+			if (x + w + stepLength <= TILE_SIZE * 16) {
+				bichos = &map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE].bichos;
+				DetectAtackCollisions(bichos);
+				bichos = &map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos;
+				DetectAtackCollisions(bichos);
+			}
+			else collision = true;
 		}
 		else if (GetState() == STATE_LOOKUP || GetState() == STATE_WALKUP || GetState() == STATE_ATACKUP) {
 			MoveUp(map);
-
-			bichos = &map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE].bichos;
-			DetectAtackCollisions(bichos);	
-			bichos = &map[(((y0 / TILE_SIZE) + 1)*SCENE_WIDTH) + x0 / TILE_SIZE].bichos;
-			DetectAtackCollisions(bichos);
+			if (y + h + stepLength <= TILE_SIZE * 11) {
+				bichos = &map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE].bichos;
+				DetectAtackCollisions(bichos);
+				bichos = &map[(((y0 / TILE_SIZE) + 1)*SCENE_WIDTH) + x0 / TILE_SIZE].bichos;
+				DetectAtackCollisions(bichos);
+			}
+			else collision = true;
 		}
 		else if (GetState() == STATE_LOOKDOWN || GetState() == STATE_WALKDOWN || GetState() == STATE_ATACKDOWN) {
 			MoveDown(map);
@@ -120,4 +124,8 @@ bool cEspasa::Blockable() {
 
 bool cEspasa::ShieldBlocks(cBicho* bicho) {
 	return false;
+}
+
+bool cEspasa::isFlyer() {
+	return true;
 }

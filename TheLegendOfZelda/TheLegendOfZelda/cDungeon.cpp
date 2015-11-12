@@ -12,7 +12,7 @@ cDungeon::cDungeon() {
 	dungeonObjects[7] = new std::vector<cObject*>();
 
 	cStepladder* Stepladder = new cStepladder();
-	Stepladder->SetPosition(6 * TILE_SIZE, 4 * TILE_SIZE);
+	Stepladder->SetPosition(4 * TILE_SIZE, 5 * TILE_SIZE);
 	dungeonObjects[4]->push_back(Stepladder);
 
 	// Initialize enemies vector
@@ -24,6 +24,8 @@ cDungeon::cDungeon() {
 	dungeonEnemies[5] = new std::vector<cBicho*>();
 	dungeonEnemies[6] = new std::vector<cBicho*>();
 	dungeonEnemies[7] = new std::vector<cBicho*>();
+
+	// Room 2
 
 	cOctorok* o1 = new cOctorok();
 	o1->SetTile(4, 5);
@@ -207,4 +209,9 @@ bool cDungeon::isOpen(int door) {
 		return door2;
 	}
 	return false;
+}
+
+bool cDungeon::EnemiesCleared() {
+	return (dungeonEnemies[1]->size() == 0 && dungeonEnemies[2]->size() == 0 &&
+			dungeonEnemies[3]->size() == 0 && dungeonEnemies[5]->size() == 0);
 }

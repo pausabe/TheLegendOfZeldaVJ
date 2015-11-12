@@ -144,11 +144,13 @@ bool cGame::Process()
 	for (int i = 0; i < Objects.size(); i++) {
 		cRect rt;
 		Objects[i]->GetArea(&rt);
-		if (Player.Collides(&rt)) {
+		if (Player.Collides(&rt) && (keys['a'] || keys['A'])) {
 			Player.PickObject(Objects[i]);
 			Objects.erase(Objects.begin() + i);
 		}
 	}
+
+	if (Player.HoldsStepladder() && (keys['a'] || keys['A'])) PlaceStepladder();
 
 	if (Espasa == NULL) Espasa = dynamic_cast<cEspasa*>(Player.ThrowProjectil(Scene.GetMap()));
 	else if (Espasa->ToBeDestroyed()) Espasa = NULL;
@@ -187,7 +189,21 @@ bool cGame::Process()
 	return res;
 }
 
+void cGame::PlaceStepladder() {
+	int tx, ty;
+	Player.GetTile(&tx, &ty);
+	if (Player.GetState() == STATE_LOOKLEFT || Player.GetState() == STATE_WALKLEFT) tx--;
+	else if (Player.GetState() == STATE_LOOKRIGHT || Player.GetState() == STATE_WALKRIGHT) tx++;
+	else if (Player.GetState() == STATE_LOOKUP || Player.GetState() == STATE_WALKUP) ty++;
+	else if (Player.GetState() == STATE_LOOKDOWN || Player.GetState() == STATE_WALKDOWN)ty--;
 
+	int tileId = Scene.GetMap()[ty*SCENE_WIDTH + tx].tileId;
+	if (tileId == -2 || tileId == 22) {
+		cStepladder* s = Player.DropStepladder();
+		s->SetPosition(tx*TILE_SIZE, ty*TILE_SIZE);
+		Objects.push_back(s);
+	}
+}
 
 void cGame::createPanel()
 {
@@ -479,7 +495,10 @@ void cGame::Render()
 		lastNumTexture = numTexture;
 		lastStateScene = stateScene;
 
-		if (numTexture == DUNGEON_TILES) Dungeon.LoadEnemies(stateScene - 15, &Enemies);
+		if (numTexture == DUNGEON_TILES) {
+			Dungeon.LoadEnemies(stateScene - 15, &Enemies);
+			Dungeon.LoadObjects(stateScene - 15, &Objects);
+		}
 		else {
 			LoadOverworldEnemies();
 			Dungeon.ExitDungeon();

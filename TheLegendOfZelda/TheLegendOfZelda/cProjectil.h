@@ -17,5 +17,7 @@ public:
 
 	bool Blockable();
 	bool ShieldBlocks(cBicho* bicho);
+	
+	bool isFlyer();
 
 };

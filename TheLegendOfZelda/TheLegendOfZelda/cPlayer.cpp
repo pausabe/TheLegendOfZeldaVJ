@@ -313,6 +313,13 @@ bool cPlayer::HoldsKey(int key) {
 	else return key2;
 }
 
+bool cPlayer::HoldsStepladder() {
+	for (int i = 0; i < HoldingObjects.size(); i++) {
+		if (HoldingObjects[i]->GetKeyId() == -1) return true;
+	}
+	return false;
+}
+
 bool cPlayer::isJumping() {
 	return jumping != -1;
 }
@@ -379,4 +386,18 @@ bool cPlayer::ShieldBlocks(cBicho* bicho) {
 
 void cPlayer::PickObject(cObject* o) {
 	HoldingObjects.push_back(o);
+}
+
+cStepladder* cPlayer::DropStepladder() {
+	for (int i = 0; i < HoldingObjects.size(); i++) {
+		if (HoldingObjects[i]->GetKeyId() == -1) {
+			cStepladder* s = dynamic_cast<cStepladder*>(HoldingObjects[i]);
+			HoldingObjects.erase(HoldingObjects.begin() + i);
+			return s;
+		}
+	}
+}
+
+bool cPlayer::isFlyer() {
+	return false;
 }

@@ -149,3 +149,7 @@ void cGanon::UpdateMapTiles(Tile *map, int x0, int y0) {
 bool cGanon::ShieldBlocks(cBicho* bicho) {
 	return false;
 }
+
+bool cGanon::isFlyer() {
+	return true;
+}

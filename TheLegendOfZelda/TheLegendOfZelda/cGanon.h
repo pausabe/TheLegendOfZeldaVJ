@@ -29,4 +29,6 @@ public:
 	void Hit();
 	void UpdateMapTiles(Tile *map, int x0, int y0);
 	bool ShieldBlocks(cBicho* bicho);
+
+	bool isFlyer();
 };
