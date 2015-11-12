@@ -12,5 +12,5 @@ public:
 	cDungeon();
 	~cDungeon();
 
-	void LoadEnemies(int dungeonId, vector<cBicho*> Enemies);
+	void LoadEnemies(int dungeonId, std::vector<cBicho*> Enemies);
 };

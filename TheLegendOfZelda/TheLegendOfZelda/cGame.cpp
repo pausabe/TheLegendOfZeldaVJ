@@ -43,6 +43,8 @@ bool cGame::Init()
 	if (!res) return false;
 	res = Data.LoadImage(BOSSES, "resources/bosses.png", GL_RGBA);
 	if (!res) return false;
+	res = Data.LoadImage(TEASURES, "resources/teasures.png", GL_RGBA);
+	if (!res) return false;
 
 
 
@@ -483,7 +485,7 @@ void cGame::Render()
 		else Enemies[i]->Draw(Data.GetID(OVERWORLD_ENEMIES));
 	}
 
-	createPanel();
+	//createPanel();
 	glutSwapBuffers();
 }
 
