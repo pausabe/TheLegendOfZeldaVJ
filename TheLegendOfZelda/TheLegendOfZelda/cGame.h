@@ -9,6 +9,7 @@
 #include "cGanon.h"
 #include "cStepladder.h"
 #include "cKey.h"
+#include "cDungeon.h"
 #include <vector>
 
 #define GAME_WIDTH	TILE_SIZE*16
@@ -50,6 +51,7 @@ public:
 	void setStateScene(int ss);
 
 	void ClearEnemiesFromMap();
+	void LoadOverworldEnemies();
 
 private:
 	void printHearts();
@@ -69,6 +71,7 @@ private:
 	cPlayer Player;
 	cProjectil *Espasa;
 	cData Data;
+	cDungeon Dungeon;
 	std::vector<cBicho*> Enemies = std::vector<cBicho*>();
 	int lifes;
 	bool sKeyPressed = false;

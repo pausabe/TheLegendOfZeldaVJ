@@ -1,6 +1,8 @@
 #include "cDarknut.h"
 
-cDarknut::cDarknut() {}
+cDarknut::cDarknut() {
+	stepLength = 2;
+}
 cDarknut::~cDarknut() {}
 
 void cDarknut::Draw(int tex_id)
