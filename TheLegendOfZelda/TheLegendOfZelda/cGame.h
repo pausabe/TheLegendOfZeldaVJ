@@ -76,6 +76,8 @@ private:
 	std::vector<cObject*> Objects = std::vector<cObject*>();
 	int lifes;
 	bool sKeyPressed = false;
+	bool aKeyPressed = false;
+	bool wallUnderStepladder = false;
 
 	void DetectCollisions(std::vector<cBicho*> *bichos);
 	void ProcessDynamicCollisions();

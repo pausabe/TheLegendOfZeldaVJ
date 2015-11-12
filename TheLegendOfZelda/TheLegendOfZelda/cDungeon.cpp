@@ -148,6 +148,9 @@ cDungeon::cDungeon() {
 	c3->SetWidthHeight(TILE_SIZE, TILE_SIZE);
 	c3->SetState(STATE_LOOKDOWN);
 	c3->SetLifes(4);
+	cKey* k1 = new cKey();
+	k1->SetKeyId(2);
+	c3->SetDroppingObject(k1);
 
 	dungeonEnemies[6]->push_back(c1);
 	dungeonEnemies[6]->push_back(c2);
@@ -201,7 +204,7 @@ void cDungeon::OpenDoor(int door) {
 bool cDungeon::isOpen(int door) {
 	switch (door) {
 	case 1:
-		return door1;
+		return true;
 	case 2:
 		return door2;
 		break;
