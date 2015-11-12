@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cProjectil.h"
+#include "cGanon.h"
 #define SPEED 10
 #define explosionDelay 10
 
@@ -21,5 +22,6 @@ public:
 
 	int timeExplosion = 0;
 	bool ShieldBlocks(cBicho* bicho);
+	void DetectAtackCollisions(std::vector<cBicho*> *bichos);
 
 };

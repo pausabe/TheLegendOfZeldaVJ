@@ -46,6 +46,23 @@ void cEspasa::Draw(int tex_id)
 	}
 }
 
+void cEspasa::DetectAtackCollisions(std::vector<cBicho*> *bichos) {
+	cRect swordArea;
+	GetArea(&swordArea);
+	for (int i = 0; i < bichos->size(); i++) {
+		cRect rt;
+		(*bichos)[i]->GetArea(&rt);
+		if (!(*bichos)[i]->ShieldBlocks(this) && (*bichos)[i]->Collides(&swordArea)) {
+			int w, h;
+			(*bichos)[i]->GetWidthHeight(&w, &h);
+			if (w == TILE_SIZE * 2) dynamic_cast<cGanon*>((*bichos)[i])->Hit();
+			else ((*bichos)[i])->Hit();
+			collision = true;
+		}
+	}
+}
+
+
 void cEspasa::Logic(Tile *map) {
 	int x0;
 	int y0;
@@ -58,10 +75,36 @@ void cEspasa::Logic(Tile *map) {
 			if (timeExplosion == explosionDelay) toBeDestroyed = true;
 		}
 	}
-	else if (GetState() == STATE_LOOKLEFT || GetState() == STATE_WALKLEFT || GetState() == STATE_ATACKLEFT) MoveLeft(map);
-	else if (GetState() == STATE_LOOKRIGHT || GetState() == STATE_WALKRIGHT || GetState() == STATE_ATACKRIGHT) MoveRight(map);
-	else if (GetState() == STATE_LOOKUP || GetState() == STATE_WALKUP || GetState() == STATE_ATACKUP) MoveUp(map);
-	else if (GetState() == STATE_LOOKDOWN || GetState() == STATE_WALKDOWN || GetState() == STATE_ATACKDOWN) MoveDown(map);
+	else {
+		std::vector<cBicho*> *bichos;
+		if (GetState() == STATE_LOOKLEFT || GetState() == STATE_WALKLEFT || GetState() == STATE_ATACKLEFT) { 
+			MoveLeft(map);
+			bichos = &map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE].bichos;
+			DetectAtackCollisions(bichos);
+		}
+		else if (GetState() == STATE_LOOKRIGHT || GetState() == STATE_WALKRIGHT || GetState() == STATE_ATACKRIGHT) {
+			MoveRight(map);
+
+			bichos = &map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE].bichos;
+			DetectAtackCollisions(bichos);
+			bichos = &map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos;
+			DetectAtackCollisions(bichos);
+		}
+		else if (GetState() == STATE_LOOKUP || GetState() == STATE_WALKUP || GetState() == STATE_ATACKUP) {
+			MoveUp(map);
+
+			bichos = &map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE].bichos;
+			DetectAtackCollisions(bichos);	
+			bichos = &map[(((y0 / TILE_SIZE) + 1)*SCENE_WIDTH) + x0 / TILE_SIZE].bichos;
+			DetectAtackCollisions(bichos);
+		}
+		else if (GetState() == STATE_LOOKDOWN || GetState() == STATE_WALKDOWN || GetState() == STATE_ATACKDOWN) {
+			MoveDown(map);
+
+			bichos = &map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE].bichos;
+			DetectAtackCollisions(bichos);
+		}
+	}
 
 }
 
