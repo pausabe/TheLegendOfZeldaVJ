@@ -212,6 +212,17 @@ bool cDungeon::isOpen(int door) {
 }
 
 bool cDungeon::EnemiesCleared() {
-	return (dungeonEnemies[1]->size() == 0 && dungeonEnemies[2]->size() == 0 &&
-			dungeonEnemies[3]->size() == 0 && dungeonEnemies[5]->size() == 0);
+	for (int i = 0; i < dungeonEnemies[1]->size(); i++) {
+		if ((*dungeonEnemies[1])[i]->GetPosX() != -1) return false;
+	}
+	for (int i = 0; i < dungeonEnemies[2]->size(); i++) {
+		if ((*dungeonEnemies[2])[i]->GetPosX() != -1) return false;
+	}
+	for (int i = 0; i < dungeonEnemies[3]->size(); i++) {
+		if ((*dungeonEnemies[3])[i]->GetPosX() != -1) return false;
+	}
+	for (int i = 0; i < dungeonEnemies[5]->size(); i++) {
+		if ((*dungeonEnemies[5])[i]->GetPosX() != -1) return false;
+	}
+	return true;
 }

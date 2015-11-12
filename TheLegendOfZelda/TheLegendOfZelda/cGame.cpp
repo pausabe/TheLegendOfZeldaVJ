@@ -522,11 +522,15 @@ void cGame::Render()
 	
 	// Draw enemies
 	for (int i = 0; i < Enemies.size(); i++) {
-		int w, h;
-		Enemies[i]->GetWidthHeight(&w, &h);
-		if (w == 2 * TILE_SIZE) // It's Ganon
-			Enemies[i]->Draw(Data.GetID(BOSSES));
-		else Enemies[i]->Draw(Data.GetID(OVERWORLD_ENEMIES));
+		int x, y;
+		Enemies[i]->GetPosition(&x, &y);
+		if (x >= 0 && y >= 0) {
+			int w, h;
+			Enemies[i]->GetWidthHeight(&w, &h);
+			if (w == 2 * TILE_SIZE) // It's Ganon
+				Enemies[i]->Draw(Data.GetID(BOSSES));
+			else Enemies[i]->Draw(Data.GetID(OVERWORLD_ENEMIES));
+		}
 	}
 
 	// Draw objects
