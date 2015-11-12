@@ -238,21 +238,47 @@ void cGame::printHearts()
 
 	float xo, yo, xf, yf;
 
-	float sprite_size = 16;
+	float sprite_size = 8;
 	float texture_size = 256;
 
 
-	xo = 0;
+	/*xo = 0;
 	yo = 0;
 	xf = (float)(sprite_size / texture_size);
-	yf = (float)(sprite_size / texture_size);
+	yf = (float)(sprite_size / texture_size);*/
 
-	int w = 64;
+	int w = 32;
 	glEnable(GL_TEXTURE_2D);
 
-
 	int playerLives = Player.GetLifes();
+	
 
+	xo = (float)(sprite_size / texture_size) * 2;
+	yo = 0;
+	xf = (float)(sprite_size / texture_size) * 3;
+	yf = (float)(sprite_size / texture_size);
+
+	//primer cor
+	if (playerLives > 1) {
+		xo = 0;
+		yo = 0;
+		xf = (float)(sprite_size / texture_size);
+		yf = (float)(sprite_size / texture_size);
+	}
+	else if (playerLives == 1) {
+		xo = (float)(sprite_size / texture_size);
+		yo = 0;
+		xf = (float)(sprite_size / texture_size)*2;
+		yf = (float)(sprite_size / texture_size);
+	}
+	else if(playerLives == 0){
+		xo = (float)(sprite_size / texture_size)*2;
+		yo = 0;
+		xf = (float)(sprite_size / texture_size)*3;
+		yf = (float)(sprite_size / texture_size);
+	}
+	glPushMatrix();
+	glTranslatef(550.0f, 15.0f, 0.0f);
 
 	glBindTexture(GL_TEXTURE_2D, Data.GetID(TREASURES));
 	glBegin(GL_QUADS);
@@ -261,6 +287,72 @@ void cGame::printHearts()
 	glTexCoord2f(xf, yo);	glVertex2i(screen_x + w, screen_y + w);
 	glTexCoord2f(xo, yo);	glVertex2i(screen_x, screen_y + w);
 	glEnd();
+	glPopMatrix();
+
+
+	//segon cor
+	if (playerLives > 3) {
+		xo = 0;
+		yo = 0;
+		xf = (float)(sprite_size / texture_size);
+		yf = (float)(sprite_size / texture_size);
+	}
+	else if (playerLives == 3) {
+		xo = (float)(sprite_size / texture_size);
+		yo = 0;
+		xf = (float)(sprite_size / texture_size) * 2;
+		yf = (float)(sprite_size / texture_size);
+	}
+	else if(playerLives < 3) {
+		xo = (float)(sprite_size / texture_size) * 2;
+		yo = 0;
+		xf = (float)(sprite_size / texture_size) * 3;
+		yf = (float)(sprite_size / texture_size);
+	}
+	glPushMatrix();
+	glTranslatef(585.0f, 15.0f, 0.0f);
+
+	glBindTexture(GL_TEXTURE_2D, Data.GetID(TREASURES));
+	glBegin(GL_QUADS);
+	glTexCoord2f(xo, yf);	glVertex2i(screen_x, screen_y);
+	glTexCoord2f(xf, yf);	glVertex2i(screen_x + w, screen_y);
+	glTexCoord2f(xf, yo);	glVertex2i(screen_x + w, screen_y + w);
+	glTexCoord2f(xo, yo);	glVertex2i(screen_x, screen_y + w);
+	glEnd();
+	glPopMatrix();
+
+	//tercer cor
+	if (playerLives == 6) {
+		xo = 0;
+		yo = 0;
+		xf = (float)(sprite_size / texture_size);
+		yf = (float)(sprite_size / texture_size);
+	}
+	else if (playerLives == 5) {
+		xo = (float)(sprite_size / texture_size);
+		yo = 0;
+		xf = (float)(sprite_size / texture_size) * 2;
+		yf = (float)(sprite_size / texture_size);
+	}
+	else if (playerLives < 5) {
+		xo = (float)(sprite_size / texture_size) * 2;
+		yo = 0;
+		xf = (float)(sprite_size / texture_size) * 3;
+		yf = (float)(sprite_size / texture_size);
+	}
+	glPushMatrix();
+	glTranslatef(620.0f, 15.0f, 0.0f);
+
+	glBindTexture(GL_TEXTURE_2D, Data.GetID(TREASURES));
+	glBegin(GL_QUADS);
+	glTexCoord2f(xo, yf);	glVertex2i(screen_x, screen_y);
+	glTexCoord2f(xf, yf);	glVertex2i(screen_x + w, screen_y);
+	glTexCoord2f(xf, yo);	glVertex2i(screen_x + w, screen_y + w);
+	glTexCoord2f(xo, yo);	glVertex2i(screen_x, screen_y + w);
+	glEnd();
+	glPopMatrix();
+
+
 
 }
 
@@ -335,7 +427,6 @@ void cGame::setSceneState() {
 		stateScene = STATE_DUNGEON_07;	
 	else if (stateScene == STATE_DUNGEON_06 &&  y == 432)
 		stateScene = STATE_DUNGEON_08;
-
 
 	//STATE_DUNGEON_07
 	else if (stateScene == STATE_DUNGEON_07 &&  x == 672)
@@ -471,9 +562,9 @@ void cGame::Render()
 			if (lastStateScene == STATE_DUNGEON_04) {
 				Player.SetTile(8, 1);
 			}
-			else if (lastStateScene == STATE_DUNGEON_08) {
+			/*else if (lastStateScene == STATE_DUNGEON_08) {
 				Player.SetTile(8, 9);
-			}
+			}*/
 			else if (lastStateScene == STATE_DUNGEON_07) {
 				Player.SetTile(1, 5);
 			}
