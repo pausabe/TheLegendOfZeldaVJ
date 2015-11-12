@@ -49,6 +49,8 @@ public:
 	int getStateScene();
 	void setStateScene(int ss);
 
+	void ClearEnemiesFromMap();
+
 private:
 	void printHearts();
 	void createPanel();

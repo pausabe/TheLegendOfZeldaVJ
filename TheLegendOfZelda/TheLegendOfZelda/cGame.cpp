@@ -242,7 +242,7 @@ void cGame::printHearts()
 	int playerLives = Player.GetLifes();
 
 
-	glBindTexture(GL_TEXTURE_2D, TEASURES);
+	glBindTexture(GL_TEXTURE_2D, TREASURES);
 	glBegin(GL_QUADS);
 	glTexCoord2f(xo, yo);	glVertex2i(screen_x, screen_y);
 	glTexCoord2f(xf, yo);	glVertex2i(screen_x + w, screen_y);
@@ -531,4 +531,12 @@ void cGame::ProcessDynamicCollisions() {
 		DetectCollisions(bichos);
 	}
 
+}
+
+void cGame::ClearEnemiesFromMap() {
+	for (int j = 0; j < SCENE_HEIGHT; j++) {
+		for (int i = 0; i < SCENE_WIDTH; i++) {
+			Scene.GetMap()[j*SCENE_WIDTH + i].bichos.clear();
+		}
+	}
 }
