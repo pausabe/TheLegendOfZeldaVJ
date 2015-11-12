@@ -396,9 +396,6 @@ void cGame::setSceneState() {
 		stateScene = STATE_DUNGEON_03;
 	else if (stateScene == STATE_DUNGEON_04 &&  x == 48)
 		stateScene = STATE_DUNGEON_05;
-	else if (lastStateScene == STATE_DUNGEON_06) {
-		Player.SetTile(8, 9);
-	}
 
 	//STATE_DUNGEON_05
 	else if (stateScene == STATE_DUNGEON_05 &&  x == 672)
@@ -411,7 +408,6 @@ void cGame::setSceneState() {
 		stateScene = STATE_DUNGEON_07;	
 	else if (stateScene == STATE_DUNGEON_06 &&  y == 432)
 		stateScene = STATE_DUNGEON_08;
-
 
 	//STATE_DUNGEON_07
 	else if (stateScene == STATE_DUNGEON_07 &&  x == 672)
@@ -547,9 +543,9 @@ void cGame::Render()
 			if (lastStateScene == STATE_DUNGEON_04) {
 				Player.SetTile(8, 1);
 			}
-			else if (lastStateScene == STATE_DUNGEON_08) {
+			/*else if (lastStateScene == STATE_DUNGEON_08) {
 				Player.SetTile(8, 9);
-			}
+			}*/
 			else if (lastStateScene == STATE_DUNGEON_07) {
 				Player.SetTile(1, 5);
 			}
