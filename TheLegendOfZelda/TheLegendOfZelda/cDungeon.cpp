@@ -4,5 +4,5 @@ cDungeon::cDungeon() {
 }
 cDungeon::~cDungeon() {}
 
-void cDungeon::LoadEnemies(int dungeonId, vector<cBicho*> Enemies) {
+void cDungeon::LoadEnemies(int dungeonId, std::vector<cBicho*> Enemies) {
 }
