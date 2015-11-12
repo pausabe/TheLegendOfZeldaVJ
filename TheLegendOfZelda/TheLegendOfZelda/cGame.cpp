@@ -207,37 +207,7 @@ void cGame::PlaceStepladder() {
 
 void cGame::createPanel()
 {
-
-	/*int screen_x, screen_y;
-
-	screen_x = SCENE_Xo;
-	screen_y = SCENE_Yo + TILE_SIZE*11;
-
-	float xo, yo, xf, yf;
-
-	float sprite_size = 16;
-	float texture_size = 512;
-
-	xo = (float)((sprite_size + 14) * 11 / texture_size);
-	yo = (float)0;
-	xf = xo + (float)(sprite_size / texture_size);
-	yf = yo + (float)(sprite_size / texture_size);
-
-	int w = 16;
-	glEnable(GL_TEXTURE_2D);
-
-	
-	glBindTexture(GL_TEXTURE_2D, OVERWORLD_ENEMIES);
-	glBegin(GL_QUADS);
-	glTexCoord2f(xo, yo);	glVertex2i(screen_x, screen_y);
-	glTexCoord2f(xf, yo);	glVertex2i(screen_x + w, screen_y);
-	glTexCoord2f(xf, yf);	glVertex2i(screen_x + w, screen_y + w);
-	glTexCoord2f(xo, yf);	glVertex2i(screen_x, screen_y + w);
-	glEnd();*/
-
-	//printHearts();
-
-	glDisable(GL_TEXTURE_2D);
+	printHearts();
 }
 
 void cGame::printHearts()
@@ -249,15 +219,12 @@ void cGame::printHearts()
 
 	float xo, yo, xf, yf;
 
-	float sprite_size = 7;
+	float sprite_size = 16;
 	float texture_size = 256;
 
-	float hola = 0;
 
-
-
-	xo = (float)(hola / texture_size);
-	yo = hola;
+	xo = 0;
+	yo = 0;
 	xf = (float)(sprite_size / texture_size);
 	yf = (float)(sprite_size / texture_size);
 
@@ -268,12 +235,12 @@ void cGame::printHearts()
 	int playerLives = Player.GetLifes();
 
 
-	glBindTexture(GL_TEXTURE_2D, TREASURES);
+	glBindTexture(GL_TEXTURE_2D, Data.GetID(TREASURES));
 	glBegin(GL_QUADS);
-	glTexCoord2f(xo, yo);	glVertex2i(screen_x, screen_y);
-	glTexCoord2f(xf, yo);	glVertex2i(screen_x + w, screen_y);
-	glTexCoord2f(xf, yf);	glVertex2i(screen_x + w, screen_y + w);
-	glTexCoord2f(xo, yf);	glVertex2i(screen_x, screen_y + w);
+	glTexCoord2f(xo, yf);	glVertex2i(screen_x, screen_y);
+	glTexCoord2f(xf, yf);	glVertex2i(screen_x + w, screen_y);
+	glTexCoord2f(xf, yo);	glVertex2i(screen_x + w, screen_y + w);
+	glTexCoord2f(xo, yo);	glVertex2i(screen_x, screen_y + w);
 	glEnd();
 
 }
@@ -320,6 +287,9 @@ void cGame::setSceneState() {
 	//STATE_DUNGEON_02
 	else if (stateScene == STATE_DUNGEON_02 &&  x == 672)
 		stateScene = STATE_DUNGEON_01;
+	else if (stateScene == STATE_DUNGEON_02 &&  y == 432)
+		stateScene = STATE_DUNGEON_05;
+
 
 	//STATE_DUNGEON_03
 	else if (stateScene == STATE_DUNGEON_03 &&  x == 48)
@@ -334,6 +304,9 @@ void cGame::setSceneState() {
 		stateScene = STATE_DUNGEON_03;
 	else if (stateScene == STATE_DUNGEON_04 &&  x == 48)
 		stateScene = STATE_DUNGEON_05;
+	else if (lastStateScene == STATE_DUNGEON_06) {
+		Player.SetTile(8, 9);
+	}
 
 	//STATE_DUNGEON_05
 	else if (stateScene == STATE_DUNGEON_05 &&  x == 672)
@@ -469,9 +442,14 @@ void cGame::Render()
 			Scene.LoadDungeonLevel(4, Dungeon);
 			break;
 		case STATE_DUNGEON_05:
+			if (lastStateScene == STATE_DUNGEON_01) {
+				Player.SetTile(14, 5);
+			}
+			else if (lastStateScene == STATE_DUNGEON_02) {
+				Player.SetTile(8, 1);
+			}
 			numTexture = DUNGEON_TILES;
 			Scene.LoadDungeonLevel(5, Dungeon);
-			Player.SetTile(14, 5);
 			break;
 		case STATE_DUNGEON_06:
 			if (lastStateScene == STATE_DUNGEON_04) {
@@ -534,7 +512,7 @@ void cGame::Render()
 		Objects[i]->Draw(Data.GetID(TREASURES));
 	}
 
-	//createPanel();
+	createPanel();
 	glutSwapBuffers();
 }
 
