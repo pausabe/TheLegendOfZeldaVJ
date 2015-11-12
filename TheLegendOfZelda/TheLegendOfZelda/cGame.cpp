@@ -419,6 +419,8 @@ void cGame::setSceneState() {
 	//STATE_DUNGEON_05
 	else if (stateScene == STATE_DUNGEON_05 &&  x == 672)
 		stateScene = STATE_DUNGEON_04;
+	else if (stateScene == STATE_DUNGEON_05 && y == 48)
+		stateScene = STATE_DUNGEON_02;
 
 	//STATE_DUNGEON_06
 	else if (stateScene == STATE_DUNGEON_06 &&  y == 48)
@@ -522,9 +524,14 @@ void cGame::Render()
 			numTexture = DUNGEON_TILES;
 			break;
 		case STATE_DUNGEON_02:
+			if (lastStateScene == STATE_DUNGEON_01) {
+				Player.SetTile(14, 5);
+			}
+			else if (lastStateScene == STATE_DUNGEON_05) {
+				Player.SetTile(8, 9);
+			}
 			numTexture = DUNGEON_TILES;
 			Scene.LoadDungeonLevel(2, Dungeon);
-			Player.SetTile(14, 5);
 			break;
 		case STATE_DUNGEON_03:
 			numTexture = DUNGEON_TILES;

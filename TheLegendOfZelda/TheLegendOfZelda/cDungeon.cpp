@@ -204,7 +204,7 @@ void cDungeon::OpenDoor(int door) {
 bool cDungeon::isOpen(int door) {
 	switch (door) {
 	case 1:
-		return true;
+		return door1;
 	case 2:
 		return door2;
 		break;
