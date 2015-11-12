@@ -343,11 +343,14 @@ void cGame::setSceneState() {
 	else if (stateScene == STATE_DUNGEON_06 &&  y == 48)
 		stateScene = STATE_DUNGEON_04;
 	else if (stateScene == STATE_DUNGEON_06 &&  x == 48)
+		stateScene = STATE_DUNGEON_07;	
+	else if (stateScene == STATE_DUNGEON_06 &&  y == 432)
 		stateScene = STATE_DUNGEON_08;
+
 
 	//STATE_DUNGEON_07
 	else if (stateScene == STATE_DUNGEON_07 &&  x == 672)
-		stateScene = STATE_DUNGEON_04;
+		stateScene = STATE_DUNGEON_06;
 
 	//STATE_DUNGEON_08
 	else if (stateScene == STATE_DUNGEON_08 &&  y == 48)
@@ -458,8 +461,8 @@ void cGame::Render()
 			else if (lastStateScene == STATE_DUNGEON_03) {
 				Player.SetTile(14, 5);
 			}
-			else if (lastStateScene == STATE_DUNGEON_07) {
-				Player.SetTile(1, 5);
+			else if (lastStateScene == STATE_DUNGEON_06) {
+				Player.SetTile(8, 9);
 			}
 
 			numTexture = DUNGEON_TILES;
@@ -475,6 +478,9 @@ void cGame::Render()
 				Player.SetTile(8, 1);
 			}
 			else if (lastStateScene == STATE_DUNGEON_08) {
+				Player.SetTile(8, 9);
+			}
+			else if (lastStateScene == STATE_DUNGEON_07) {
 				Player.SetTile(1, 5);
 			}
 			numTexture = DUNGEON_TILES;

@@ -138,9 +138,9 @@ bool cScene::LoadDungeonLevel(int level, cDungeon Dungeon)
 	// BOTTOM
 	fscanf(fd, "%c", &b);
 
-	if (Dungeon.GetCurrentDungeon() == 1 && Dungeon.isOpen(1)) t = '0';
-	if (Dungeon.GetCurrentDungeon() == 5 && Dungeon.EnemiesCleared()) l = '0';
-	if (Dungeon.GetCurrentDungeon() == 5 && Dungeon.isOpen(3)) t = '0';
+	if (level == 2 && Dungeon.isOpen(1)) t = '0';
+	if (level == 6 && Dungeon.EnemiesCleared()) l = '0';
+	if (level == 6 && Dungeon.isOpen(3)) t = '0';
 
 	if (l != ' ') {
 
