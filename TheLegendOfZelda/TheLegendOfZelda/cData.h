@@ -12,6 +12,7 @@
 #define OVERWORLD_ENEMIES	2
 #define DUNGEON_TILES	3
 #define BOSSES 4
+#define TEASURES 5
 
 class cData
 {

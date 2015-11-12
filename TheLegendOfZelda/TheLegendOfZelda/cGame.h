@@ -50,6 +50,7 @@ public:
 	void setStateScene(int ss);
 
 private:
+	void printHearts();
 	void createPanel();
 	void setSceneState();
 	int stateScene;
