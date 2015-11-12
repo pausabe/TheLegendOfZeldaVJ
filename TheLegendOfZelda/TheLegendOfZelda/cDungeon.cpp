@@ -10,7 +10,7 @@ cDungeon::cDungeon() {
 	c->SetWidthHeight(TILE_SIZE, TILE_SIZE);
 	c->SetState(STATE_LOOKDOWN);
 
-	dungeonEnemies[0].push_back(c);
+	dungeonEnemies[0]->push_back(c);
 }
 cDungeon::~cDungeon() {}
 

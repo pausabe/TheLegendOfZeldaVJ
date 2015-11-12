@@ -43,7 +43,7 @@ bool cGame::Init()
 	if (!res) return false;
 	res = Data.LoadImage(BOSSES, "resources/bosses.png", GL_RGBA);
 	if (!res) return false;
-	res = Data.LoadImage(TEASURES, "resources/teasures.png", GL_RGBA);
+	res = Data.LoadImage(TREASURES, "resources/treasures.png", GL_RGBA);
 	if (!res) return false;
 
 
