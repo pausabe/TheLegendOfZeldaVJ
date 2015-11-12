@@ -219,7 +219,7 @@ void cGame::createPanel()
 	glTexCoord2f(xo, yf);	glVertex2i(screen_x, screen_y + w);
 	glEnd();*/
 
-	printHearts();
+	//printHearts();
 
 	glDisable(GL_TEXTURE_2D);
 }
@@ -233,15 +233,19 @@ void cGame::printHearts()
 
 	float xo, yo, xf, yf;
 
-	float sprite_size = 16;
-	float texture_size = 512;
+	float sprite_size = 7;
+	float texture_size = 256;
 
-	xo = (float)((sprite_size + 14) * 11 / texture_size);
-	yo = (float)0;
-	xf = xo + (float)(sprite_size / texture_size);
-	yf = yo + (float)(sprite_size / texture_size);
+	float hola = 0;
 
-	int w = 16;
+
+
+	xo = (float)(hola / texture_size);
+	yo = hola;
+	xf = (float)(sprite_size / texture_size);
+	yf = (float)(sprite_size / texture_size);
+
+	int w = 64;
 	glEnable(GL_TEXTURE_2D);
 
 
