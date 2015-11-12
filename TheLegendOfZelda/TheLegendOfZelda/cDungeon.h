@@ -14,11 +14,13 @@ class cDungeon
 protected:
 	int currentDungeon = 0;
 
-	std::vector<cBicho*>* dungeonEnemies[8];
+	std::vector<cBicho*>* dungeonEnemies[8]; // = { &std::vector<cBicho*>(),&std::vector<cBicho*>(),
+		//&std::vector<cBicho*>(),&std::vector<cBicho*>(),&std::vector<cBicho*>(),
+		//&std::vector<cBicho*>(),&std::vector<cBicho*>(),&std::vector<cBicho*>() };
 
 public:
 	cDungeon();
 	~cDungeon();
 
-	void LoadEnemies(int dungeonId, std::vector<cBicho*>* Enemies, Tile* map);
+	void LoadEnemies(int dungeonId, std::vector<cBicho*>* Enemies);
 };

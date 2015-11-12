@@ -2,26 +2,152 @@
 
 cDungeon::cDungeon() {
 
-
-
 	// Initialize enemies vector
-	cOctorok* c = new cOctorok();
-	c->SetTile(4, 5);
-	c->SetWidthHeight(TILE_SIZE, TILE_SIZE);
-	c->SetState(STATE_LOOKDOWN);
+	dungeonEnemies[0] = new std::vector<cBicho*>();
+	dungeonEnemies[1] = new std::vector<cBicho*>();
+	dungeonEnemies[2] = new std::vector<cBicho*>();
+	dungeonEnemies[3] = new std::vector<cBicho*>();
+	dungeonEnemies[4] = new std::vector<cBicho*>();
+	dungeonEnemies[5] = new std::vector<cBicho*>();
+	dungeonEnemies[6] = new std::vector<cBicho*>();
+	dungeonEnemies[7] = new std::vector<cBicho*>();
 
-	dungeonEnemies[0]->push_back(c);
+	cOctorok* o1 = new cOctorok();
+	o1->SetTile(4, 5);
+	o1->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	o1->SetState(STATE_LOOKDOWN);
+	o1->SetLifes(1);
+	cOctorok* o2 = new cOctorok();
+	o2->SetTile(3, 3);
+	o2->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	o2->SetState(STATE_LOOKDOWN);
+	o2->SetLifes(1);
+	cOctorok* o3 = new cOctorok();
+	o3->SetTile(6, 3);
+	o3->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	o3->SetState(STATE_LOOKDOWN);
+	o3->SetLifes(1);
+	cOctorok* o4 = new cOctorok();
+	o4->SetTile(10, 7);
+	o4->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	o4->SetState(STATE_LOOKDOWN);
+	o4->SetLifes(1);
+
+	dungeonEnemies[1]->push_back(o1);
+	dungeonEnemies[1]->push_back(o2);
+	dungeonEnemies[1]->push_back(o3);
+	dungeonEnemies[1]->push_back(o4);
+
+	// Room 3
+
+	cTektike* d1 = new cTektike();
+	d1->SetTile(13, 7);
+	d1->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	d1->SetState(STATE_RESTING);
+	d1->SetLifes(1);
+	cTektike* d2 = new cTektike();
+	d2->SetTile(3, 7);
+	d2->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	d2->SetState(STATE_RESTING);
+	d2->SetLifes(1);
+	cTektike* d3 = new cTektike();
+	d3->SetTile(7, 3);
+	d3->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	d3->SetState(STATE_RESTING);
+	d3->SetLifes(1);
+	cTektike* d4 = new cTektike();
+	d4->SetTile(6, 5);
+	d4->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	d4->SetState(STATE_RESTING);
+	d4->SetLifes(1);
+	cTektike* d5 = new cTektike();
+	d5->SetTile(10, 5);
+	d5->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	d5->SetState(STATE_RESTING);
+	d5->SetLifes(1);
+
+	cDarknut* d = new cDarknut();
+	d->SetTile(3, 7);
+	d->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	d->SetState(STATE_LOOKDOWN);
+	d->SetLifes(4);
+
+	dungeonEnemies[2]->push_back(d1);
+	dungeonEnemies[2]->push_back(d2);
+	dungeonEnemies[2]->push_back(d3);
+	dungeonEnemies[2]->push_back(d4);
+	dungeonEnemies[2]->push_back(d5);
+	dungeonEnemies[2]->push_back(d);
+
+	// Room 4
+
+	cDarknut* x1 = new cDarknut();
+	x1->SetTile(5, 7);
+	x1->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	x1->SetState(STATE_LOOKDOWN);
+	x1->SetLifes(4);
+	cTektike* x2 = new cTektike();
+	x2->SetTile(10, 5);
+	x2->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	x2->SetState(STATE_RESTING);
+	x2->SetLifes(1);
+	cTektike* x3 = new cTektike();
+	x3->SetTile(3, 4);
+	x3->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	x3->SetState(STATE_RESTING);
+	x3->SetLifes(1);
+	cOctorok* x4 = new cOctorok();
+	x4->SetTile(6, 4);
+	x4->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	x4->SetState(STATE_LOOKDOWN);
+	x4->SetLifes(1);
+	cOctorok* x5 = new cOctorok();
+	x5->SetTile(12, 4);
+	x5->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	x5->SetState(STATE_LOOKDOWN);
+	x5->SetLifes(1);
+
+	dungeonEnemies[3]->push_back(x1);
+	dungeonEnemies[3]->push_back(x2);
+	dungeonEnemies[3]->push_back(x3);
+	dungeonEnemies[3]->push_back(x4);
+	dungeonEnemies[3]->push_back(x5);
+
+	// Room 7
+
+	cDarknut* c1 = new cDarknut();
+	c1->SetTile(5, 3);
+	c1->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	c1->SetState(STATE_LOOKDOWN);
+	c1->SetLifes(4);
+	cDarknut* c2 = new cDarknut();
+	c2->SetTile(3, 7);
+	c2->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	c2->SetState(STATE_LOOKDOWN);
+	c2->SetLifes(4);
+	cDarknut* c3 = new cDarknut();
+	c3->SetTile(4, 5);
+	c3->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	c3->SetState(STATE_LOOKDOWN);
+	c3->SetLifes(4);
+
+	dungeonEnemies[6]->push_back(c1);
+	dungeonEnemies[6]->push_back(c2);
+	dungeonEnemies[6]->push_back(c3);
+
+	// Room 8 -> Ganondorf!
+
+	cGanon* g = new cGanon();
+	g->SetTile(4, 3);
+	g->SetWidthHeight(TILE_SIZE*2, TILE_SIZE*2);
+	g->SetState(STATE_VISIBLE);
+	g->SetLifes(8);
+
+	dungeonEnemies[7]->push_back(g);
+
 }
 cDungeon::~cDungeon() {}
 
-void cDungeon::LoadEnemies(int dungeonId, std::vector<cBicho*>* Enemies, Tile* map) {
-	switch (dungeonId) {
-	case 1:
-		break;
-
-	case 2:
-		break;
-	}
-
-	//Enemies = &dungeonEnemies[dungeonId];
+void cDungeon::LoadEnemies(int dungeonId, std::vector<cBicho*>* Enemies) {	
+	Enemies->assign(dungeonEnemies[dungeonId]->begin(), dungeonEnemies[dungeonId]->end());
 }

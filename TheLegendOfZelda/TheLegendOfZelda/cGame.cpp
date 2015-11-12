@@ -62,32 +62,7 @@ bool cGame::Init()
 	Player.MoveLeft(Scene.GetMap());
 	Player.SetLifes(6);
 
-	//Enemies initialization
-
-	/*cGanon* g = new cGanon();
-	g->SetTile(4, 5);
-	g->UpdateMapTiles(Scene.GetMap(), -1, -1);
-	g->SetWidthHeight(TILE_SIZE*2, TILE_SIZE*2);
-	g->SetState(STATE_INVISIBLE);
-	g->SetLifes(6);*/
-
-	/*
-	cOctorok* c = new cOctorok();
-	c->SetTile(4, 5);
-	int x, y;
-	c->UpdateMapTiles(Scene.GetMap(), -1,-1);
-	c->SetWidthHeight(TILE_SIZE, TILE_SIZE);
-	c->SetState(STATE_LOOKDOWN);
 	
-	cTektike* d = new cTektike();
-	d->SetTile(6,5);
-	d->UpdateMapTiles(Scene.GetMap(), -1, -1);
-	d->SetWidthHeight(TILE_SIZE, TILE_SIZE);
-	d->SetState(STATE_RESTING);
-	*/
-	//Enemies.push_back(g);
-	//Enemies.push_back(d);
-
 	cStepladder* s = new cStepladder();
 	s->SetPosition(0,0);
 	return res;
@@ -470,6 +445,10 @@ void cGame::Render()
 		}
 		lastNumTexture = numTexture;
 		lastStateScene = stateScene;
+
+		if (numTexture == DUNGEON_TILES) Dungeon.LoadEnemies(stateScene - 15, &Enemies);
+		else LoadOverworldEnemies();
+		ClearEnemiesFromMap();
 	}
 	else numTexture = lastNumTexture;
 
@@ -541,4 +520,8 @@ void cGame::ClearEnemiesFromMap() {
 			Scene.GetMap()[j*SCENE_WIDTH + i].bichos.clear();
 		}
 	}
+}
+
+void cGame::LoadOverworldEnemies() {
+	
 }
