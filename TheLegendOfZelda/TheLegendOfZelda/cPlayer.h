@@ -3,6 +3,8 @@
 #include "cTerrestre.h"
 #include "cGanon.h"
 #include "cEspasa.h"
+#include "cObject.h"
+#include "cDungeon.h"
 
 #define PLAYER_START_CX		3
 #define PLAYER_START_CY		2
@@ -21,12 +23,17 @@ private:
 	int atacking = -1;
 	int jump;
 	int immune = 0;
+
+	std::vector<cObject*> HoldingObjects = std::vector<cObject*>();
+
 public:
 	cPlayer();
 	~cPlayer();
 
 	void Draw(int tex_id);
 	void Stop();
+	void Logic(Tile* map, cDungeon Dungeon);
+	// Dumb void logic
 	void Logic(Tile* map);
 
 	bool isJumping();
@@ -45,6 +52,6 @@ public:
 	void DetectAtackCollisions(cRect swordArea, std::vector<cBicho*> *bichos);
 	bool ShieldBlocks(cBicho* bicho);
 
-	//bool inDungeonTile();
-
+	void PickObject(cObject* o);
+	bool HoldsKey(int key);
 };

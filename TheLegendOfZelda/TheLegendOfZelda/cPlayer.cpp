@@ -234,6 +234,9 @@ cBicho* cPlayer::ThrowProjectil(Tile* map) {
 }
 
 void cPlayer::Logic(Tile* map) {
+}
+
+void cPlayer::Logic(Tile* map, cDungeon Dungeon) {
 
 	if (atacking > 0) {
 		atacking--;
@@ -295,6 +298,19 @@ void cPlayer::Logic(Tile* map) {
 	if (immune > 0) {
 		immune--;
 	}
+
+
+}
+
+bool cPlayer::HoldsKey(int key) {
+	bool key1 = false;
+	bool key2 = false;
+	for (int i = 0; i < HoldingObjects.size(); i++) {
+		if (HoldingObjects[i]->GetKeyId() == 1) key1 = true;
+		if (HoldingObjects[i]->GetKeyId() == 2) key2 = true;
+	}
+	if (key == 1) return key1;
+	else return key2;
 }
 
 bool cPlayer::isJumping() {
@@ -360,9 +376,7 @@ bool cPlayer::ShieldBlocks(cBicho* bicho) {
 	else if ((bichoState == STATE_WALKLEFT || bichoState == STATE_LOOKLEFT) && (selfState == STATE_WALKRIGHT || selfState == STATE_LOOKRIGHT)) return true;
 	return false;
 }
-/*
-bool cPlayer::inDungeonTile()
-{
-	return inDungeonTile;
+
+void cPlayer::PickObject(cObject* o) {
+	HoldingObjects.push_back(o);
 }
-*/

@@ -97,7 +97,7 @@ bool cScene::isADungeonWall(int tile) {
 	return true;
 }
 
-bool cScene::LoadDungeonLevel(int level)
+bool cScene::LoadDungeonLevel(int level, cDungeon Dungeon)
 {
 
 
@@ -131,6 +131,17 @@ bool cScene::LoadDungeonLevel(int level)
 	// Draw doors and similar
 	// LEFT
 	fscanf(fd, "%c", &l);
+	// TOP
+	fscanf(fd, "%c", &t);
+	// RIGHT
+	fscanf(fd, "%c", &r);
+	// BOTTOM
+	fscanf(fd, "%c", &b);
+
+	if (Dungeon.GetCurrentDungeon() == 1 && Dungeon.isOpen(1)) t = '0';
+	if (Dungeon.GetCurrentDungeon() == 5 && Dungeon.isOpen(2)) l = '0';
+	if (Dungeon.GetCurrentDungeon() == 5 && Dungeon.isOpen(3)) t = '0';
+
 	if (l != ' ') {
 
 		coordx_tile = (float)324/512;
@@ -146,8 +157,6 @@ bool cScene::LoadDungeonLevel(int level)
 
 	}
 
-	// TOP
-	fscanf(fd, "%c", &t);
 	if (t != ' ') {
 		coordx_tile = (float)272 / 512;
 		coordy_tile = atoi(&t)*(float)20 / 512;
@@ -162,8 +171,6 @@ bool cScene::LoadDungeonLevel(int level)
 
 	}
 
-	// RIGHT
-	fscanf(fd, "%c", &r);
 	if (r != ' ') {
 		coordx_tile = (float)304 / 512;
 		coordy_tile = atoi(&r)*(float)32 / 512;
@@ -178,8 +185,6 @@ bool cScene::LoadDungeonLevel(int level)
 
 	}
 
-	// BOTTOM
-	fscanf(fd, "%c", &b);
 	if (b != ' ') {
 		coordx_tile = (float)240 / 512;
 		coordy_tile = atoi(&b)*(float)20 / 512;

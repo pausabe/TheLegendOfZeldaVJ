@@ -1,6 +1,5 @@
 #pragma once
 
-#include "cTerrestre.h"
 
 class cEnemy
 {

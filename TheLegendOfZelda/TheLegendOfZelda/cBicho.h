@@ -1,20 +1,12 @@
 #pragma once
 
 #include "Globals.h"
-
 #include "cTexture.h"
-#include "cScene.h"
+#include "cObject.h"
 
 #define FRAME_DELAY		4
 
-class cRect
-{
-
-public:
-	int left,top,
-		right,bottom;
-};
-
+class cScene;
 class cBicho
 {
 public:
@@ -37,16 +29,8 @@ public:
 	void GetArea(cRect *rc);
 	void DrawRect(int tex_id,float xo,float yo,float xf,float yf);
 
-	/*void MoveRight(Tile *map);
-	void MoveLeft(Tile *map);
-	void MoveUp(Tile *map);
-	void MoveDown(Tile *map);*/
-	//void Atack(Tile * map);
-	//void Jump(int *map);
-	//void Stop();
-
 	void RemoveBichoFromVector(std::vector<cBicho*> *bichos, cBicho*);
-		// Updates the map tiles with the bicho position
+	// Updates the map tiles with the bicho position
 	// tileX0 or tileY0 = -1 indicates that the bicho has just been created
 	void UpdateMapTiles(Tile *map, int tileX0, int tileY0);
 
@@ -73,6 +57,9 @@ public:
 	// Detects if the bicho collision is blocked by the self shield
 	virtual bool ShieldBlocks(cBicho* bicho) = 0;
 
+	void SetDroppingObject(cObject* object);
+	cObject* DropsObject();
+
 protected:
 	int x = -1, y = -1;
 	int w, h;
@@ -83,6 +70,7 @@ protected:
 	bool toBeDestroyed = false;
 	int lifes;
 	int frameDelay = FRAME_DELAY;
+	cObject* droppingObject = nullptr;
 
 private:
 

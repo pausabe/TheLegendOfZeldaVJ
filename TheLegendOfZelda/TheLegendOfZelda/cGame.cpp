@@ -129,7 +129,26 @@ bool cGame::Process()
 	if (!keys['s']) sKeyPressed = false;
 
 	//Game Logic
-	Player.Logic(Scene.GetMap());
+	Player.Logic(Scene.GetMap(), Dungeon);
+
+	int x, y;
+	Player.GetPosition(&x, &y);
+	if ((x / TILE_SIZE == 8 || x / TILE_SIZE == 7) && (y / TILE_SIZE == SCENE_HEIGHT - 3) && (Dungeon.GetCurrentDungeon() == 1) && Player.HoldsKey(1)) {
+		Dungeon.OpenDoor(1);
+		Scene.LoadDungeonLevel(2, Dungeon);
+	} else if ((x / TILE_SIZE == 8 || x / TILE_SIZE == 7) && (y / TILE_SIZE == SCENE_HEIGHT - 3) && (Dungeon.GetCurrentDungeon() == 5) && Player.HoldsKey(2)) {
+		Dungeon.OpenDoor(2);
+		Scene.LoadDungeonLevel(6, Dungeon);
+	}
+
+	for (int i = 0; i < Objects.size(); i++) {
+		cRect rt;
+		Objects[i]->GetArea(&rt);
+		if (Player.Collides(&rt)) {
+			Player.PickObject(Objects[i]);
+			Objects.erase(Objects.begin() + i);
+		}
+	}
 
 	if (Espasa == NULL) Espasa = dynamic_cast<cEspasa*>(Player.ThrowProjectil(Scene.GetMap()));
 	else if (Espasa->ToBeDestroyed()) Espasa = NULL;
@@ -138,6 +157,16 @@ bool cGame::Process()
 	for (int i = 0; i < Enemies.size(); i++) {
 		if (Enemies[i]->ToBeDestroyed()) {
 			cBicho* aux = Enemies[i];
+
+			// Drop object
+			cObject* droppingObject = aux->DropsObject();
+			if (droppingObject != nullptr) {
+				int x, y;
+				aux->GetPosition(&x, &y);
+
+				droppingObject->SetPosition(x, y);
+				Objects.push_back(droppingObject);
+			}
 			aux->Destroy(Scene.GetMap());
 			Enemies.erase(Enemies.begin() + i);
 			//delete aux;
@@ -386,17 +415,17 @@ void cGame::Render()
 				Player.SetTile(1, 5);
 			}
 
-			Scene.LoadDungeonLevel(1);
+			Scene.LoadDungeonLevel(1, Dungeon);
 			numTexture = DUNGEON_TILES;
 			break;
 		case STATE_DUNGEON_02:
 			numTexture = DUNGEON_TILES;
-			Scene.LoadDungeonLevel(2);
+			Scene.LoadDungeonLevel(2, Dungeon);
 			Player.SetTile(14, 5);
 			break;
 		case STATE_DUNGEON_03:
 			numTexture = DUNGEON_TILES;
-			Scene.LoadDungeonLevel(3);
+			Scene.LoadDungeonLevel(3, Dungeon);
 			Player.SetTile(1, 5);
 			break;
 		case STATE_DUNGEON_04:
@@ -414,11 +443,11 @@ void cGame::Render()
 			}
 
 			numTexture = DUNGEON_TILES;
-			Scene.LoadDungeonLevel(4);
+			Scene.LoadDungeonLevel(4, Dungeon);
 			break;
 		case STATE_DUNGEON_05:
 			numTexture = DUNGEON_TILES;
-			Scene.LoadDungeonLevel(5);
+			Scene.LoadDungeonLevel(5, Dungeon);
 			Player.SetTile(14, 5);
 			break;
 		case STATE_DUNGEON_06:
@@ -429,16 +458,16 @@ void cGame::Render()
 				Player.SetTile(1, 5);
 			}
 			numTexture = DUNGEON_TILES;
-			Scene.LoadDungeonLevel(6);
+			Scene.LoadDungeonLevel(6, Dungeon);
 			break;
 		case STATE_DUNGEON_07:
 			numTexture = DUNGEON_TILES;
-			Scene.LoadDungeonLevel(7);
+			Scene.LoadDungeonLevel(7, Dungeon);
 			Player.SetTile(14, 5);
 			break;
 		case STATE_DUNGEON_08:
 			numTexture = DUNGEON_TILES;
-			Scene.LoadDungeonLevel(8);
+			Scene.LoadDungeonLevel(8, Dungeon);
 			//Player.SetState(STATE_LOOKUP);
 			Player.SetTile(8, 1);
 			break;
@@ -447,21 +476,33 @@ void cGame::Render()
 		lastStateScene = stateScene;
 
 		if (numTexture == DUNGEON_TILES) Dungeon.LoadEnemies(stateScene - 15, &Enemies);
-		else LoadOverworldEnemies();
+		else {
+			LoadOverworldEnemies();
+			Dungeon.ExitDungeon();
+		}
 		ClearEnemiesFromMap();
 	}
 	else numTexture = lastNumTexture;
 
 	Scene.Draw(Data.GetID(numTexture));
 
+	// Draw player 
 	Player.Draw(Data.GetID(LINK));
+	// Draw sword, if necessary
 	if (Espasa != NULL) Espasa->Draw(Data.GetID(LINK));
+	
+	// Draw enemies
 	for (int i = 0; i < Enemies.size(); i++) {
 		int w, h;
 		Enemies[i]->GetWidthHeight(&w, &h);
-		if (w == 2*TILE_SIZE) // It's Ganon
+		if (w == 2 * TILE_SIZE) // It's Ganon
 			Enemies[i]->Draw(Data.GetID(BOSSES));
 		else Enemies[i]->Draw(Data.GetID(OVERWORLD_ENEMIES));
+	}
+
+	// Draw objects
+	for (int i = 0; i < Objects.size(); i++) {
+		Objects[i]->Draw(Data.GetID(TREASURES));
 	}
 
 	//createPanel();

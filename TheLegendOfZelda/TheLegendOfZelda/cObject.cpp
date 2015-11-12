@@ -5,7 +5,6 @@ cObject::cObject() {
 cObject::~cObject() {}
 
 
-
 void cObject::SetPosition(int posx, int posy)
 {
 	x = posx;
@@ -21,8 +20,8 @@ void cObject::DrawRect(int tex_id, float xo, float yo, float xf, float yf)
 {
 	int screen_x, screen_y;
 
-	screen_x = x + SCENE_Xo;
-	screen_y = y + SCENE_Yo + (BLOCK_SIZE - TILE_SIZE);
+	screen_x = x;
+	screen_y = y; // +SCENE_Yo + (BLOCK_SIZE - TILE_SIZE);
 
 
 	glEnable(GL_TEXTURE_2D);
@@ -36,4 +35,12 @@ void cObject::DrawRect(int tex_id, float xo, float yo, float xf, float yf)
 	glEnd();
 
 	glDisable(GL_TEXTURE_2D);
+}
+
+void cObject::GetArea(cRect *rc)
+{
+	rc->left = x;
+	rc->right = x + w;
+	rc->bottom = y;
+	rc->top = y + h;
 }

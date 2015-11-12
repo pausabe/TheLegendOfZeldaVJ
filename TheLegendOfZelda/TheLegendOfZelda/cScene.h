@@ -1,18 +1,13 @@
 #pragma once
 
 #include "cTexture.h"
+#include "cDungeon.h"
 
-#define SCENE_Xo		0 //(2*TILE_SIZE)
-#define SCENE_Yo		0 // TILE_SIZE
-#define SCENE_WIDTH		16
-#define SCENE_HEIGHT	11
 
 #define FILENAME			"levels/level"
 #define DUNGEON_FILENAME	"levels/dungeon"
 #define FILENAME_EXT		".txt"
 
-#define TILE_SIZE		48
-#define BLOCK_SIZE		TILE_SIZE
 
 class cScene
 {
@@ -22,7 +17,7 @@ public:
 	virtual ~cScene(void);
 
 	bool LoadOverworldLevel(int level);
-	bool LoadDungeonLevel(int level);
+	bool LoadDungeonLevel(int level, cDungeon Dungeon);
 	void Draw(int tex_id);
 	Tile *GetMap();
 

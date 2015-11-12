@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Globals.h"
-#include "cBicho.h"
 
 class cObject
 {
@@ -18,5 +17,9 @@ public:
 
 	void SetPosition(int x, int y);
 	void GetPosition(int *x, int *y);
+	void GetArea(cRect *rc);
+
+	virtual void Draw(int tex_id) = 0;
+	virtual int GetKeyId() = 0;
 
 };

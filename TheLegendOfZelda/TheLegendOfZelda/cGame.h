@@ -73,6 +73,7 @@ private:
 	cData Data;
 	cDungeon Dungeon;
 	std::vector<cBicho*> Enemies = std::vector<cBicho*>();
+	std::vector<cObject*> Objects = std::vector<cObject*>();
 	int lifes;
 	bool sKeyPressed = false;
 

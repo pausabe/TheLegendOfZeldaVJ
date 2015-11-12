@@ -1,6 +1,8 @@
 #include "cStepladder.h"
 
 cStepladder::cStepladder() {
+	w = TILE_SIZE;
+	h = TILE_SIZE;
 }
 cStepladder::~cStepladder() {}
 
@@ -20,4 +22,8 @@ void cStepladder::Draw(int tex_id)
 
 	DrawRect(tex_id, xo, yf, xf, yo);
 
+}
+
+int cStepladder::GetKeyId() {
+	return -1;
 }

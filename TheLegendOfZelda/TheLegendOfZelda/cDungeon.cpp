@@ -1,6 +1,19 @@
 #include "cDungeon.h"
 
 cDungeon::cDungeon() {
+	// Initialize objects vector
+	dungeonObjects[0] = new std::vector<cObject*>();
+	dungeonObjects[1] = new std::vector<cObject*>();
+	dungeonObjects[2] = new std::vector<cObject*>();
+	dungeonObjects[3] = new std::vector<cObject*>();
+	dungeonObjects[4] = new std::vector<cObject*>();
+	dungeonObjects[5] = new std::vector<cObject*>();
+	dungeonObjects[6] = new std::vector<cObject*>();
+	dungeonObjects[7] = new std::vector<cObject*>();
+
+	cStepladder* Stepladder = new cStepladder();
+	Stepladder->SetPosition(6 * TILE_SIZE, 4 * TILE_SIZE);
+	dungeonObjects[4]->push_back(Stepladder);
 
 	// Initialize enemies vector
 	dungeonEnemies[0] = new std::vector<cBicho*>();
@@ -71,6 +84,9 @@ cDungeon::cDungeon() {
 	d->SetWidthHeight(TILE_SIZE, TILE_SIZE);
 	d->SetState(STATE_LOOKDOWN);
 	d->SetLifes(4);
+	cKey* k = new cKey();
+	k->SetKeyId(1);
+	d->SetDroppingObject(k);
 
 	dungeonEnemies[2]->push_back(d1);
 	dungeonEnemies[2]->push_back(d2);
@@ -149,5 +165,46 @@ cDungeon::cDungeon() {
 cDungeon::~cDungeon() {}
 
 void cDungeon::LoadEnemies(int dungeonId, std::vector<cBicho*>* Enemies) {	
+	currentDungeon = dungeonId;
 	Enemies->assign(dungeonEnemies[dungeonId]->begin(), dungeonEnemies[dungeonId]->end());
+}
+
+void cDungeon::LoadObjects(int dungeonId, std::vector<cObject*>* Objects) {
+	currentDungeon = dungeonId;
+	Objects->assign(dungeonObjects[dungeonId]->begin(), dungeonObjects[dungeonId]->end());
+}
+
+void cDungeon::ExitDungeon() {
+	currentDungeon = -1;
+}
+
+int cDungeon::GetCurrentDungeon() {
+	return currentDungeon;
+}
+
+void cDungeon::OpenDoor(int door) {
+	switch (door) {
+	case 1:
+		door1 = true;
+		break;
+	case 2:
+		door2 = true;
+		break;
+	case 3:
+		door3 = true;
+		break;
+	}
+}
+
+bool cDungeon::isOpen(int door) {
+	switch (door) {
+	case 1:
+		return door1;
+	case 2:
+		return door2;
+		break;
+	case 3:
+		return door2;
+	}
+	return false;
 }

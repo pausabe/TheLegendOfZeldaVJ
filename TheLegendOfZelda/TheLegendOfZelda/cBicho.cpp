@@ -261,3 +261,10 @@ void cBicho::Hit() {
 	if (lifes <= 0) toBeDestroyed = true;
 }
 
+void cBicho::SetDroppingObject(cObject* object) {
+	droppingObject = object;
+}
+
+cObject* cBicho::DropsObject() {
+	return droppingObject;
+}

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Globals.h"
 #include "cObject.h"
 
 class cStepladder : public cObject
@@ -12,5 +11,6 @@ public:
 	~cStepladder();
 
 	void Draw(int tex_id);
+	int GetKeyId();
 
 };
