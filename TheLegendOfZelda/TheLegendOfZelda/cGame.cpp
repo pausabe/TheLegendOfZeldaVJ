@@ -181,9 +181,39 @@ bool cGame::Process()
 
 void cGame::createPanel()
 {
-	glClear(GL_COLOR_BUFFER_BIT);
-	glLoadIdentity();
+	//glClear(GL_COLOR_BUFFER_BIT);
+	//glLoadIdentity();
 
+
+	int screen_x, screen_y;
+
+	screen_x = SCENE_Xo;
+	screen_y = SCENE_Yo + TILE_SIZE*11;
+
+	float xo, yo, xf, yf;
+
+	float sprite_size = 16;
+	float texture_size = 512;
+
+	xo = (float)((sprite_size + 14) * 11 / texture_size);
+	yo = (float)0;
+	xf = xo + (float)(sprite_size / texture_size);
+	yf = yo + (float)(sprite_size / texture_size);
+
+	int w = 16;
+	glEnable(GL_TEXTURE_2D);
+
+	glBindTexture(GL_TEXTURE_2D, OVERWORLD_ENEMIES);
+	glBegin(GL_QUADS);
+	glTexCoord2f(xo, yo);	glVertex2i(screen_x, screen_y);
+	glTexCoord2f(xf, yo);	glVertex2i(screen_x + w, screen_y);
+	glTexCoord2f(xf, yf);	glVertex2i(screen_x + w, screen_y + w);
+	glTexCoord2f(xo, yf);	glVertex2i(screen_x, screen_y + w);
+	glEnd();
+
+	glDisable(GL_TEXTURE_2D);
+
+	/*
 	glTranslatef(0.0f, 0.0f, -10.0f);
 
 	glPushMatrix();
@@ -246,7 +276,7 @@ void cGame::createPanel()
 	glPopMatrix();
 
 	glutSwapBuffers();
-
+	*/
 }
 
 void cGame::setSceneState() {
@@ -480,6 +510,7 @@ void cGame::Render()
 		else Enemies[i]->Draw(Data.GetID(OVERWORLD_ENEMIES));
 	}
 
+	createPanel();
 	glutSwapBuffers();
 }
 
