@@ -72,6 +72,7 @@ private:
 	cProjectil *Espasa;
 	cData Data;
 	cDungeon Dungeon;
+	std::vector<cBicho*>* OverworldEnemies[4];// = std::vector<cBicho*>();
 	std::vector<cBicho*> Enemies = std::vector<cBicho*>();
 	std::vector<cObject*> Objects = std::vector<cObject*>();
 	int lifes;

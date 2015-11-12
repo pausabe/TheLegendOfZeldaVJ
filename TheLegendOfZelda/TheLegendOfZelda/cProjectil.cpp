@@ -46,9 +46,8 @@ bool cProjectil::Blockable() {
 }
 
 bool cProjectil::ShieldBlocks(cBicho* bicho) {
-	return true;
+	return false;
 }
-
 
 bool cProjectil::isFlyer() {
 	return true;

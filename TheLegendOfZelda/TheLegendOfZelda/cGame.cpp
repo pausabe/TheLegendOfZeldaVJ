@@ -63,8 +63,97 @@ bool cGame::Init()
 	Player.SetLifes(6);
 
 	
-	cStepladder* s = new cStepladder();
-	s->SetPosition(0,0);
+	// Overworld enemies initialization
+	OverworldEnemies[0] = new std::vector<cBicho*>();
+	OverworldEnemies[1] = new std::vector<cBicho*>();
+	OverworldEnemies[2] = new std::vector<cBicho*>();
+	OverworldEnemies[3] = new std::vector<cBicho*>();
+
+	cOctorok* o1 = new cOctorok();
+	o1->SetTile(4, 5);
+	o1->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	o1->SetState(STATE_LOOKDOWN);
+	o1->SetLifes(1);
+	OverworldEnemies[1]->push_back(o1);
+
+	o1 = new cOctorok();
+	o1->SetTile(8, 2);
+	o1->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	o1->SetState(STATE_LOOKDOWN);
+	o1->SetLifes(1);
+	OverworldEnemies[1]->push_back(o1);
+
+	o1 = new cOctorok();
+	o1->SetTile(13, 9);
+	o1->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	o1->SetState(STATE_LOOKDOWN);
+	o1->SetLifes(1);
+	OverworldEnemies[1]->push_back(o1);
+
+	o1 = new cOctorok();
+	o1->SetTile(4, 9);
+	o1->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	o1->SetState(STATE_LOOKDOWN);
+	o1->SetLifes(1);
+	OverworldEnemies[1]->push_back(o1);
+
+	o1 = new cOctorok();
+	o1->SetTile(10, 7);
+	o1->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	o1->SetState(STATE_LOOKDOWN);
+	o1->SetLifes(1);
+	OverworldEnemies[1]->push_back(o1);
+
+	cTektike* d1 = new cTektike();
+	d1->SetTile(11, 7);
+	d1->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	d1->SetState(STATE_RESTING);
+	d1->SetLifes(1);
+	OverworldEnemies[2]->push_back(d1);
+	
+	d1 = new cTektike();
+	d1->SetTile(4, 2);
+	d1->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	d1->SetState(STATE_RESTING);
+	d1->SetLifes(1);
+	OverworldEnemies[2]->push_back(d1);
+
+	d1 = new cTektike();
+	d1->SetTile(3, 10);
+	d1->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	d1->SetState(STATE_RESTING);
+	d1->SetLifes(1);
+	OverworldEnemies[2]->push_back(d1);
+
+	d1 = new cTektike();
+	d1->SetTile(6, 5);
+	d1->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	d1->SetState(STATE_RESTING);
+	d1->SetLifes(1);
+	OverworldEnemies[2]->push_back(d1);
+
+	d1 = new cTektike();
+	d1->SetTile(13, 10);
+	d1->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	d1->SetState(STATE_RESTING);
+	d1->SetLifes(1);
+	OverworldEnemies[2]->push_back(d1);
+
+	cDarknut* d = new cDarknut();
+	d->SetTile(5, 8);
+	d->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	d->SetState(STATE_LOOKDOWN);
+	d->SetLifes(4);
+	OverworldEnemies[3]->push_back(d);
+
+	d = new cDarknut();
+	d->SetTile(7, 3);
+	d->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+	d->SetState(STATE_LOOKDOWN);
+	d->SetLifes(4);
+	OverworldEnemies[3]->push_back(d);
+
+	LoadOverworldEnemies();
 	return res;
 }
 
@@ -346,8 +435,6 @@ void cGame::printHearts()
 	glEnd();
 	glPopMatrix();
 
-
-
 }
 
 
@@ -361,7 +448,7 @@ void cGame::setSceneState() {
 
 	//STATE_OVERWORLD_01
 	if (stateScene == STATE_OVERWORLD_01 && Scene.GetMap()[tile_x + (tile_y*SCENE_WIDTH)].tileId == 19)
-		stateScene = STATE_DUNGEON_01;
+		stateScene = STATE_DUNGEON_08;
 	else if (stateScene == STATE_OVERWORLD_01 &&  y == 480)
 		stateScene = STATE_OVERWORLD_03;
 	else if (stateScene == STATE_OVERWORLD_01 && x == 0)
@@ -683,5 +770,5 @@ void cGame::ClearEnemiesFromMap() {
 }
 
 void cGame::LoadOverworldEnemies() {
-	
+	Enemies.assign(OverworldEnemies[stateScene - 5]->begin(), OverworldEnemies[stateScene - 5]->end());
 }

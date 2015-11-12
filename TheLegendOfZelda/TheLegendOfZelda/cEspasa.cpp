@@ -99,7 +99,7 @@ void cEspasa::Logic(Tile *map) {
 			if (y + h + stepLength <= TILE_SIZE * 11) {
 				bichos = &map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE].bichos;
 				DetectAtackCollisions(bichos);
-				bichos = &map[(((y0 / TILE_SIZE) + 1)*SCENE_WIDTH) + x0 / TILE_SIZE].bichos;
+				bichos = &map[(((y / TILE_SIZE) + 1)*SCENE_WIDTH) + x / TILE_SIZE].bichos;
 				DetectAtackCollisions(bichos);
 			}
 			else collision = true;

@@ -23,7 +23,20 @@ void cGanon::Draw(int tex_id)
 	}
 }
 
+bool cGanon::isPreparing() {
+	return preparing > -1;
+}
+
 void cGanon::Logic(Tile *map) {
+	if (preparing > 0) {
+		preparing--;
+		return;
+	}
+	else if (preparing == 0) {
+		SetState(STATE_INVISIBLE);
+		preparing = -1;
+	}
+
 	int x0;
 	int y0;
 
@@ -42,16 +55,15 @@ void cGanon::Logic(Tile *map) {
 			throwProjectil = true;
 			shooting = SHOOTING_WAIT;
 		}
-	}
-	if (visible > 0) visible--;
+	} 
 	else if (visible == 0) {
 		visible = -1;
 		SetState(STATE_INVISIBLE);
 		int x = rand() % (10 * TILE_SIZE);
 		int y = rand() % (5 * TILE_SIZE);
 		SetPosition(x + 2 * TILE_SIZE, y + 2 * TILE_SIZE);
-
 	}
+	else if (visible > 0) visible--;
 
 	UpdateMapTiles(map, x0, y0);
 	
@@ -124,25 +136,40 @@ void cGanon::UpdateMapTiles(Tile *map, int x0, int y0) {
 	int x, y;
 	GetPosition(&x, &y);
 	if (x != -1 && y != -1 && x < TILE_SIZE * 16 && y < TILE_SIZE * 11) {
-		map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE].bichos.push_back(this);			
+		if (map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE].bichos.size() == 0)
+			map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE].bichos.push_back(this);			
 		std::vector<cBicho*>* bichos = &map[(((y / TILE_SIZE))*SCENE_WIDTH) + x / TILE_SIZE].bichos;
-
-		map[((y / TILE_SIZE + 1)*SCENE_WIDTH) + x / TILE_SIZE].bichos.push_back(this);
+		
+		if (map[((y / TILE_SIZE + 1)*SCENE_WIDTH) + x / TILE_SIZE].bichos.size() == 0)
+			map[((y / TILE_SIZE + 1)*SCENE_WIDTH) + x / TILE_SIZE].bichos.push_back(this);
 		bichos = &map[((y / TILE_SIZE + 1)*SCENE_WIDTH) + x / TILE_SIZE].bichos;
-		map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos.push_back(this);
+		
+		if (map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos.size() == 0)
+			map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos.push_back(this);
 		bichos = &map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos;
-		map[((y / TILE_SIZE + 1)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos.push_back(this);
+		
+		if (map[((y / TILE_SIZE + 1)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos.size() == 0)
+			map[((y / TILE_SIZE + 1)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos.push_back(this);
 		bichos = &map[((y / TILE_SIZE + 1)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos;
+		
 		if (x % TILE_SIZE != 0 && x + TILE_SIZE < TILE_SIZE * 16) {
-			map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE + 2].bichos.push_back(this);
-			map[((y / TILE_SIZE + 1)*SCENE_WIDTH) + x / TILE_SIZE + 2].bichos.push_back(this);
+			
+			if (map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE + 2].bichos.size() == 0)
+				map[((y / TILE_SIZE)*SCENE_WIDTH) + x / TILE_SIZE + 2].bichos.push_back(this);
+			
+			if (map[((y / TILE_SIZE + 1)*SCENE_WIDTH) + x / TILE_SIZE + 2].bichos.size() == 0)
+				map[((y / TILE_SIZE + 1)*SCENE_WIDTH) + x / TILE_SIZE + 2].bichos.push_back(this);
 		}
 		if (y % TILE_SIZE != 0 && y + TILE_SIZE < TILE_SIZE * 11) {
-			map[(((y / TILE_SIZE) + 2)*SCENE_WIDTH) + x / TILE_SIZE].bichos.push_back(this);
-			map[(((y / TILE_SIZE) + 2)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos.push_back(this);
+			if (map[(((y / TILE_SIZE) + 2)*SCENE_WIDTH) + x / TILE_SIZE].bichos.size() == 0)
+				map[(((y / TILE_SIZE) + 2)*SCENE_WIDTH) + x / TILE_SIZE].bichos.push_back(this);
+			
+			if (map[(((y / TILE_SIZE) + 2)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos.size() == 0)
+				map[(((y / TILE_SIZE) + 2)*SCENE_WIDTH) + x / TILE_SIZE + 1].bichos.push_back(this);
 		}
 		if (x % TILE_SIZE != 0 && y % TILE_SIZE != 0 && x + TILE_SIZE < TILE_SIZE * 16 && y + TILE_SIZE < TILE_SIZE * 11)
-			map[(((y / TILE_SIZE) + 2)*SCENE_WIDTH) + x / TILE_SIZE + 2].bichos.push_back(this);
+			if (map[(((y / TILE_SIZE) + 2)*SCENE_WIDTH) + x / TILE_SIZE + 2].bichos.size() == 0)
+				map[(((y / TILE_SIZE) + 2)*SCENE_WIDTH) + x / TILE_SIZE + 2].bichos.push_back(this);
 	}
 }
 
