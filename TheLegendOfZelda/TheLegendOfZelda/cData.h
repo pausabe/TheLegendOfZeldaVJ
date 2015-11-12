@@ -4,7 +4,7 @@
 #include "Globals.h"
 
 //Image array size
-#define NUM_IMG		6
+#define NUM_IMG		5
 
 //Image identifiers
 #define OVERWORLD_TILES	0
@@ -12,7 +12,7 @@
 #define OVERWORLD_ENEMIES	2
 #define DUNGEON_TILES	3
 #define BOSSES 4
-#define TREASURES 5
+#define TEASURES 5
 
 class cData
 {

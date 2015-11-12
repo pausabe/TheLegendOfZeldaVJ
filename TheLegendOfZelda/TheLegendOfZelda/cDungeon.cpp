@@ -23,5 +23,5 @@ void cDungeon::LoadEnemies(int dungeonId, std::vector<cBicho*>* Enemies, Tile* m
 		break;
 	}
 
-	Enemies = &dungeonEnemies[dungeonId];
+	//Enemies = &dungeonEnemies[dungeonId];
 }
