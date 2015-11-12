@@ -7,10 +7,12 @@ class cDungeon
 {
 protected:
 	int currentDungeon = 0;
+	
+	std::vector<cBicho*>* dungeonEnemies[8];
 
 public:
 	cDungeon();
 	~cDungeon();
 
-	void LoadEnemies(int dungeonId, vector<cBicho*> Enemies);
+	void LoadEnemies(int dungeonId, std::vector<cBicho*>* Enemies);
 };
