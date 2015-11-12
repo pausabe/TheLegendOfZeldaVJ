@@ -348,7 +348,7 @@ void cGame::Render()
 			break;
 		case STATE_DUNGEON_01:
 			numTexture = DUNGEON_TILES;
-			Scene.LoadDungeonLevel(1);
+			Scene.LoadDungeonLevel(5);
 			Player.SetTile(8, 1);
 			break;
 		}
