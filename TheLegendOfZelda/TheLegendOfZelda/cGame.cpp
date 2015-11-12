@@ -86,6 +86,9 @@ bool cGame::Init()
 	*/
 	//Enemies.push_back(g);
 	//Enemies.push_back(d);
+
+	cStepladder* s = new cStepladder();
+	s->SetPosition(0,0);
 	return res;
 }
 
