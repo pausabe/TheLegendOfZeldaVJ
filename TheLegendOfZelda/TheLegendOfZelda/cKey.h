@@ -3,13 +3,13 @@
 #include "Globals.h"
 #include "cObject.h"
 
-class cStepladder : public cObject
+class cKey : public cObject
 {
 private:
 
 public:
-	cStepladder();
-	~cStepladder();
+	cKey();
+	~cKey();
 
 	void Draw(int tex_id);
 

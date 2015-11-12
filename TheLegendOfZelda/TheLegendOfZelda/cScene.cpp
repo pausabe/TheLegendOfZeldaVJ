@@ -196,10 +196,10 @@ bool cScene::LoadDungeonLevel(int level)
 
 	
 	fscanf(fd, "%c", &tile[0]);
-	for (j = SCENE_HEIGHT - 4; j >= 0; j--)
+	for (j = SCENE_HEIGHT - 3; j >= 2; j--)
 	{
 		px = SCENE_Xo + (float)TILE_SIZE * 2;
-		py = SCENE_Yo + (j * TILE_SIZE) + TILE_SIZE;
+		py = SCENE_Yo + (j * TILE_SIZE);// +TILE_SIZE;
 
 		for (i = 0; i < SCENE_WIDTH - 4; i++)
 		{
@@ -207,8 +207,8 @@ bool cScene::LoadDungeonLevel(int level)
 			fscanf(fd, "%c", &tile[1]);
 
 			if (tile[0] != ' ' && tile[1] != ' ') {
-				map[((j+1)*SCENE_WIDTH) + i + 2].tileId = atoi(tile);
-				map[((j+1)*SCENE_WIDTH) + i + 2].isWall = isADungeonWall(atoi(tile));
+				map[(j*SCENE_WIDTH) + i + 2].tileId = atoi(tile);
+				map[(j*SCENE_WIDTH) + i + 2].isWall = isADungeonWall(atoi(tile));
 
 				int tileId = atoi(tile);
 
@@ -245,8 +245,8 @@ bool cScene::LoadDungeonLevel(int level)
 				}
 			}
 			else {
-				map[((j + 1)*SCENE_WIDTH) + i + 2].tileId = -1;
-				map[((j + 1)*SCENE_WIDTH) + i + 2].isWall = false;
+				map[(j*SCENE_WIDTH) + i + 2].tileId = -1;
+				map[(j *SCENE_WIDTH) + i + 2].isWall = false;
 			}
 			px += TILE_SIZE;
 		}
@@ -275,23 +275,23 @@ bool cScene::LoadDungeonLevel(int level)
 	// Open the gates if necessary	
 	// Left
 	map[5 * SCENE_WIDTH + 1].tileId = -1;
-	map[5 * SCENE_WIDTH + 1].isWall = atoi(&l) != 0;
+	map[5 * SCENE_WIDTH + 1].isWall = l == ' ' || atoi(&l) != 0;
 	
 	// Top
 	map[(SCENE_HEIGHT - 2) * SCENE_WIDTH + 7].tileId = -1;
-	map[(SCENE_HEIGHT - 2) * SCENE_WIDTH + 7].isWall = atoi(&t) != 0;
+	map[(SCENE_HEIGHT - 2) * SCENE_WIDTH + 7].isWall = t == ' ' || atoi(&t) != 0;
 	map[(SCENE_HEIGHT - 2) * SCENE_WIDTH + 8].tileId = -1;
-	map[(SCENE_HEIGHT - 2) * SCENE_WIDTH + 8].isWall = atoi(&t) != 0;
+	map[(SCENE_HEIGHT - 2) * SCENE_WIDTH + 8].isWall = t == ' ' || atoi(&t) != 0;
 	
 	// Bottom
 	map[SCENE_WIDTH + 7].tileId = -1;
-	map[SCENE_WIDTH + 7].isWall = atoi(&t) != 0;
+	map[SCENE_WIDTH + 7].isWall = b == ' ' || atoi(&b) != 0;
 	map[SCENE_WIDTH + 8].tileId = -1;
-	map[SCENE_WIDTH + 8].isWall = atoi(&t) != 0;
+	map[SCENE_WIDTH + 8].isWall = b == ' ' || atoi(&b) != 0;
 
 	// Right
 	map[5 * SCENE_WIDTH + SCENE_WIDTH - 2].tileId = -1;
-	map[5 * SCENE_WIDTH + SCENE_WIDTH - 2].isWall = atoi(&r) != 0;
+	map[5 * SCENE_WIDTH + SCENE_WIDTH - 2].isWall = r == ' ' || atoi(&r) != 0;
 
 
 	glEnd();
