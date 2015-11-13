@@ -339,66 +339,66 @@ void cGame::createPanel()
 	printMap();
 }
 
+void cGame::printMapRoom(int screen_x, int screen_y, int state) {
+	glBegin(GL_QUADS);
+	glVertex2i(screen_x, screen_y);
+	glVertex2i(screen_x + 80, screen_y);
+	glVertex2i(screen_x + 80, screen_y + 40);
+	glVertex2i(screen_x, screen_y + 40);
+	glEnd();
+	if (stateScene == state) {
+		glPointSize(5.0f);
+		glBegin(GL_POINTS);
+		glColor3f(1.0f, 1.0f, 1.0f);
+		glVertex2i(screen_x + 80 * ((float)Player.GetPosX() / (16 * TILE_SIZE)), screen_y + 40 * ((float)Player.GetPosY() / (11 * TILE_SIZE)));
+		glVertex2i(0, 0);
+		glColor3f(0.4f, 0.4f, 0.4f);
+		glEnd();
+	}
+
+}
+
 void cGame::printMap() {
 	
 	int screen_x, screen_y;
 
 	screen_x = SCENE_Xo;
-	screen_y = SCENE_Yo + TILE_SIZE * 11 + TILE_SIZE;
-
+	screen_y = SCENE_Yo + TILE_SIZE * 11;
+	
 	glDisable(GL_TEXTURE_2D);
 
 	glPushMatrix();
-	glTranslatef(30.0f, 15.0f, 0.0f);
-
 	glColor3f(0.4f, 0.4f, 0.4f);
-	glBegin(GL_QUADS);
-	glVertex2i(screen_x, screen_y);
-	glVertex2i(screen_x + 80, screen_y);
-	glVertex2i(screen_x + 80, screen_y + 40);
-	glVertex2i(screen_x, screen_y + 40);
-	glEnd();
 
-	if (stateScene == STATE_OVERWORLD_01) {
-		glPointSize(5.0f);
-		glBegin(GL_POINTS);
-		glColor3f(1.0f, 1.0f, 1.0f);
-//		glVertex2i(80 * (float)Player.GetPosX() / GAME_WIDTH, 40 * (float)Player.GetPosY() / GAME_HEIGHT);
-		glVertex2i(0,0);
-		glColor3f(0.4f, 0.4f, 0.4f);
-		glEnd();
+	if (stateScene > 14) {
+		glTranslatef(30.0f, 5.0f, 0.0f);
+		printMapRoom(screen_x, screen_y, STATE_DUNGEON_02);
+		glTranslatef(0.0f, 44.0f, 0.0f);
+		printMapRoom(screen_x, screen_y, STATE_DUNGEON_05);
+		glTranslatef(0.0f, 44.0f, 0.0f);
+		printMapRoom(screen_x, screen_y, STATE_DUNGEON_07);
+		glTranslatef(84.0f, -88.0f, 0.0f);
+		printMapRoom(screen_x, screen_y, STATE_DUNGEON_01);
+		glTranslatef(0.0f, 44.0f, 0.0f);
+		printMapRoom(screen_x, screen_y, STATE_DUNGEON_04);
+		glTranslatef(0.0f, 44.0f, 0.0f);
+		printMapRoom(screen_x, screen_y, STATE_DUNGEON_06);
+		glTranslatef(0.0f, 44.0f, 0.0f);
+		printMapRoom(screen_x, screen_y, STATE_DUNGEON_08);
+		glTranslatef(84.0f, -88.0f, 0.0f);
+		printMapRoom(screen_x, screen_y, STATE_DUNGEON_03);
+
 	}
-
-	glTranslatef(84.0f, 0.0f, 0.0f);
-
-	glColor3f(0.4f, 0.4f, 0.4f);
-	glBegin(GL_QUADS);
-	glVertex2i(screen_x, screen_y);
-	glVertex2i(screen_x + 80, screen_y);
-	glVertex2i(screen_x + 80, screen_y + 40);
-	glVertex2i(screen_x, screen_y + 40);
-	glEnd();
-
-	glTranslatef(84.0f, 0.0f, 0.0f);
-
-	glColor3f(0.4f, 0.4f, 0.4f);
-	glBegin(GL_QUADS);
-	glVertex2i(screen_x, screen_y);
-	glVertex2i(screen_x + 80, screen_y);
-	glVertex2i(screen_x + 80, screen_y + 40);
-	glVertex2i(screen_x, screen_y + 40);
-	glEnd();
-
-	glTranslatef(-84.0f, 44.0f, 0.0f);
-
-	glColor3f(0.4f, 0.4f, 0.4f);
-	glBegin(GL_QUADS);
-	glVertex2i(screen_x, screen_y);
-	glVertex2i(screen_x + 80, screen_y);
-	glVertex2i(screen_x + 80, screen_y + 40);
-	glVertex2i(screen_x, screen_y + 40);
-	glEnd();
-
+	else {
+		glTranslatef(30.0f, 15.0f, 0.0f);
+		printMapRoom(screen_x, screen_y, STATE_OVERWORLD_04);
+		glTranslatef(84.0f, 0.0f, 0.0f);
+		printMapRoom(screen_x, screen_y, STATE_OVERWORLD_01);
+		glTranslatef(84.0f, 0.0f, 0.0f);
+		printMapRoom(screen_x, screen_y, STATE_OVERWORLD_02);
+		glTranslatef(-84.0f, 44.0f, 0.0f);
+		printMapRoom(screen_x, screen_y, STATE_OVERWORLD_03);
+	}
 	glColor3f(1.0f, 1.0f, 1.0f);
 	glPopMatrix();
 	
