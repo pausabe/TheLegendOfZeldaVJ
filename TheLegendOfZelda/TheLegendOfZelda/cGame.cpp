@@ -44,7 +44,6 @@ bool cGame::Init()
 	if (!res) return false;
 
 
-
 	stateScene = STATE_OVERWORLD_01;
 	lastStateScene = STATE_OVERWORLD_01;
 	lastNumTexture = OVERWORLD_TILES;
