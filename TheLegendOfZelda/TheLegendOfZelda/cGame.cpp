@@ -529,7 +529,7 @@ void cGame::printHearts()
 	int w = 32;
 	glEnable(GL_TEXTURE_2D);
 
-	
+	//Player.SetLifes(6);
 	int playerLives = Player.GetLifes();
 
 	xo = (float)(sprite_size / texture_size) * 2;
