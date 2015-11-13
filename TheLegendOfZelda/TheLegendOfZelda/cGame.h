@@ -61,6 +61,7 @@ private:
 	void printObjectBox();
 	void printHearts();
 	void printMap();
+	void printMapRoom(int screen_x, int screen_y, int state);
 	void createPanel();
 	void setSceneState();
 	int stateScene;
