@@ -228,10 +228,9 @@ bool cGame::Process()
 	if ((x / TILE_SIZE == 8 || x / TILE_SIZE == 7) && (y / TILE_SIZE == SCENE_HEIGHT - 3) && (Dungeon.GetCurrentDungeon() == 1) && Player.HoldsKey(1)) {
 		PlaySound(TEXT("sounds/LOZ_Unlock.wav"), NULL, SND_FILENAME | SND_ASYNC);
 		Dungeon.OpenDoor(1);
-		//Scene.LoadDungeonLevel(2, Dungeon);
+		Scene.LoadDungeonLevel(2, Dungeon);
 	} else if ((x / TILE_SIZE == 8 || x / TILE_SIZE == 7) && (y / TILE_SIZE == SCENE_HEIGHT - 3) && (Dungeon.GetCurrentDungeon() == 5) && Player.HoldsKey(2)) {
 		Dungeon.OpenDoor(2);
-		Scene.LoadDungeonLevel(6, Dungeon);
 		Scene.LoadDungeonLevel(6, Dungeon);
 	}
 
