@@ -544,6 +544,9 @@ void cGame::Render()
 	
 	glLoadIdentity();
 
+	if (Player.GetLifes() == 0)
+		glColor3f(0.0f,0.0f,0.0f);
+	
 	int numTexture;
 
 	int x, y;

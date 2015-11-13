@@ -17,6 +17,7 @@
 #define GAME_HEIGHT TILE_SIZE*15
 
 #define TES_COOLDOWN 20*50
+#define GAME_OVER_ANIMATION 3*50
 
 #define STATE_OVERWORLD_01 5
 #define STATE_OVERWORLD_02 6
@@ -67,6 +68,7 @@ private:
 	unsigned char keys[256];
 	char selKey;
 	int oneKey;
+	int gameOver = GAME_OVER_ANIMATION;
 
 	cScene Scene;
 	cPlayer Player;
