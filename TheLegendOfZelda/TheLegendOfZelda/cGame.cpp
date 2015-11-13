@@ -11,6 +11,7 @@ cGame::~cGame(void)
 
 bool cGame::Init()
 {
+
 	PlaySound(TEXT("sounds/Overworld_Theme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 
 	oneKey = true;
@@ -592,6 +593,18 @@ void cGame::Render()
 			gameOver--;
 			float aux = ((float)gameOver / (float)GAME_OVER_ANIMATION);
 			glColor3f(aux, aux, aux);
+		} else if (gameOver == 0) {
+			glDisable(GL_TEXTURE_2D);
+
+			glColor3f(1.0f, 0.2f, 0.2f);
+			char c[] = "VALAR MORGHULIS";
+			glRasterPos2f(320, (float)GAME_HEIGHT/2);
+
+			for (int i = 0; i < 16; i++) 
+				glutBitmapCharacter(GLUT_BITMAP_9_BY_15, c[i]);
+			glEnable(GL_TEXTURE_2D);
+			glutSwapBuffers();
+			return;
 		}
 	}
 	
@@ -738,7 +751,11 @@ void cGame::Render()
 
 	// Draw objects
 	for (int i = 0; i < Objects.size(); i++) {
-		Objects[i]->Draw(Data.GetID(TREASURES));
+		int x, y;
+		Objects[i]->GetPosition(&x, &y);
+		if (x >= 0 && y >= 0) {
+			Objects[i]->Draw(Data.GetID(TREASURES));
+		}
 	}
 
 	// Draw player 
