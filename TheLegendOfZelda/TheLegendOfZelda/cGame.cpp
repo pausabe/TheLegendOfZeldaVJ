@@ -491,7 +491,7 @@ void cGame::setSceneState() {
 	else if (stateScene == STATE_DUNGEON_01 &&  y == 48) {
 		stateScene = STATE_OVERWORLD_01;
 		PlaySound(NULL, 0, 0);
-		PlaySound(TEXT("sounds/Overworld_Theme.mp3"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+		PlaySound(TEXT("sounds/Overworld_Theme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 	}
 	else if (stateScene == STATE_DUNGEON_01 &&  y == 432)
 		stateScene = STATE_DUNGEON_04;
