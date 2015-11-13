@@ -354,9 +354,17 @@ void cPlayer::JumpBack(cRect* collider) {
 }
 
 void cPlayer::Hit(cRect* collider) {
+
 	JumpBack(collider);
 	immune = IMMUNITY_DURATION;
 	lifes--;
+
+	if (lifes > 0) {
+		PlaySound(TEXT("sounds/LOZ_Hurt.wav"), NULL, SND_FILENAME | SND_ASYNC);
+	}
+	else {
+		PlaySound(TEXT("sounds/LOZ_Die.wav"), NULL, SND_FILENAME | SND_ASYNC);
+	}
 }
 
 int cPlayer::getAtacking()
