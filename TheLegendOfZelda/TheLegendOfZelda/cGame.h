@@ -60,6 +60,7 @@ public:
 private:
 	void printObjectBox();
 	void printHearts();
+	void printMap();
 	void createPanel();
 	void setSceneState();
 	int stateScene;

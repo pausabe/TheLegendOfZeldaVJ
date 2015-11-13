@@ -242,7 +242,7 @@ bool cGame::Process()
 			Objects[i]->GetPosition(&x, &y);
 			int px, py;
 			Player.GetPosition(&px, &py);
-			if (!(x / TILE_SIZE == px / TILE_SIZE && y / TILE_SIZE == py / TILE_SIZE)) {
+			if (Objects[i]->GetKeyId() != -1 || !(x / TILE_SIZE == px / TILE_SIZE && y / TILE_SIZE == py / TILE_SIZE)) {
 				Player.PickObject(Objects[i]);
 
 				if (Objects[i]->GetKeyId() == -1) {
@@ -336,6 +336,74 @@ void cGame::createPanel()
 {
 	printHearts();
 	printObjectBox();
+	printMap();
+}
+
+void cGame::printMap() {
+	
+	int screen_x, screen_y;
+
+	screen_x = SCENE_Xo;
+	screen_y = SCENE_Yo + TILE_SIZE * 11 + TILE_SIZE;
+
+	glDisable(GL_TEXTURE_2D);
+
+	glPushMatrix();
+	glTranslatef(30.0f, 15.0f, 0.0f);
+
+	glColor3f(0.4f, 0.4f, 0.4f);
+	glBegin(GL_QUADS);
+	glVertex2i(screen_x, screen_y);
+	glVertex2i(screen_x + 80, screen_y);
+	glVertex2i(screen_x + 80, screen_y + 40);
+	glVertex2i(screen_x, screen_y + 40);
+	glEnd();
+
+	if (stateScene == STATE_OVERWORLD_01) {
+		glPointSize(5.0f);
+		glBegin(GL_POINTS);
+		glColor3f(1.0f, 1.0f, 1.0f);
+//		glVertex2i(80 * (float)Player.GetPosX() / GAME_WIDTH, 40 * (float)Player.GetPosY() / GAME_HEIGHT);
+		glVertex2i(0,0);
+		glColor3f(0.4f, 0.4f, 0.4f);
+		glEnd();
+	}
+
+	glTranslatef(84.0f, 0.0f, 0.0f);
+
+	glColor3f(0.4f, 0.4f, 0.4f);
+	glBegin(GL_QUADS);
+	glVertex2i(screen_x, screen_y);
+	glVertex2i(screen_x + 80, screen_y);
+	glVertex2i(screen_x + 80, screen_y + 40);
+	glVertex2i(screen_x, screen_y + 40);
+	glEnd();
+
+	glTranslatef(84.0f, 0.0f, 0.0f);
+
+	glColor3f(0.4f, 0.4f, 0.4f);
+	glBegin(GL_QUADS);
+	glVertex2i(screen_x, screen_y);
+	glVertex2i(screen_x + 80, screen_y);
+	glVertex2i(screen_x + 80, screen_y + 40);
+	glVertex2i(screen_x, screen_y + 40);
+	glEnd();
+
+	glTranslatef(-84.0f, 44.0f, 0.0f);
+
+	glColor3f(0.4f, 0.4f, 0.4f);
+	glBegin(GL_QUADS);
+	glVertex2i(screen_x, screen_y);
+	glVertex2i(screen_x + 80, screen_y);
+	glVertex2i(screen_x + 80, screen_y + 40);
+	glVertex2i(screen_x, screen_y + 40);
+	glEnd();
+
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glPopMatrix();
+	
+	glEnable(GL_TEXTURE_2D);
+
 }
 
 void cGame::printObjectBox()
@@ -387,7 +455,6 @@ void cGame::printHearts()
 	glEnable(GL_TEXTURE_2D);
 
 	
-	//Player.SetLifes(6);
 	int playerLives = Player.GetLifes();
 
 	xo = (float)(sprite_size / texture_size) * 2;

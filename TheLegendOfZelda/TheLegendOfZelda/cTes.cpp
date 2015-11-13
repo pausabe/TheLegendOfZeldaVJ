@@ -199,7 +199,10 @@ void cTes::Logic(Tile* map, std::vector<cBicho*> Enemies) {
 				Atack(map);
 			}
 			else {
-				if (Enemies.size() == 0) move = -1;
+				if (Enemies.size() == 0) {
+					move = -1;
+					Stop();
+				}
 				else if (inTileX && inTileY) move = BFS(map);
 				switch (move) {
 				case -1:
