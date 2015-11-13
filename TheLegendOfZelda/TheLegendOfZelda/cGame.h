@@ -10,10 +10,13 @@
 #include "cStepladder.h"
 #include "cKey.h"
 #include "cDungeon.h"
+#include "cTes.h"
 #include <vector>
 
 #define GAME_WIDTH	TILE_SIZE*16
 #define GAME_HEIGHT TILE_SIZE*15
+
+#define TES_COOLDOWN 20*50
 
 #define STATE_OVERWORLD_01 5
 #define STATE_OVERWORLD_02 6
@@ -65,17 +68,16 @@ private:
 	char selKey;
 	int oneKey;
 
-	cOctorok* c;
-	cTektike* d;
 	cScene Scene;
 	cPlayer Player;
+	cTes* Tes;
 	cProjectil *Espasa;
 	cData Data;
 	cDungeon Dungeon;
 	std::vector<cBicho*>* OverworldEnemies[4];// = std::vector<cBicho*>();
 	std::vector<cBicho*> Enemies = std::vector<cBicho*>();
 	std::vector<cObject*> Objects = std::vector<cObject*>();
-	int lifes;
+
 	bool sKeyPressed = false;
 	bool aKeyPressed = false;
 	bool wallUnderStepladder = false;
@@ -84,4 +86,5 @@ private:
 	void ProcessDynamicCollisions();
 
 	void PlaceStepladder();
+	int tesCooldown = 0;
 };

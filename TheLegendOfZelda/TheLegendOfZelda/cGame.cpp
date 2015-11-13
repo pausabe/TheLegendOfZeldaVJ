@@ -53,7 +53,6 @@ bool cGame::Init()
 	Player.SetTile(8, 5);
 	Player.SetWidthHeight(TILE_SIZE, TILE_SIZE);
 	Player.SetState(STATE_LOOKDOWN);
-	Player.MoveLeft(Scene.GetMap());
 	Player.SetLifes(6);
 
 	
@@ -216,6 +215,7 @@ bool cGame::Process()
 	if (!keys['s']) sKeyPressed = false;
 	if (!keys['a']) aKeyPressed = false;
 
+
 	//Game Logic
 	Player.Logic(Scene.GetMap(), Dungeon);
 
@@ -248,6 +248,22 @@ bool cGame::Process()
 				aKeyPressed = true;
 			}
 		}
+	}
+
+	if (Tes != NULL) {
+		Tes->Logic(Scene.GetMap(), Enemies);
+		if (Tes->ToBeDestroyed()) {
+			Tes = NULL;
+			tesCooldown = TES_COOLDOWN;
+		}
+	}
+
+	if (tesCooldown > 0) tesCooldown--;
+	if (Tes == NULL && tesCooldown == 0 && keys['t']) {
+		Tes = new cTes();
+		Tes->SetPosition(Player.GetPosX(), Player.GetPosY());
+		Tes->SetWidthHeight(TILE_SIZE, TILE_SIZE);
+		Tes->SetState(STATE_LOOKDOWN);
 	}
 
 	if (Player.HoldsStepladder() && (keys['a'] || keys['A']) && !aKeyPressed) {
@@ -547,15 +563,9 @@ void cGame::Render()
 			if(lastStateScene==STATE_OVERWORLD_02) Player.SetTile(15, 5);
 			else if (lastStateScene == STATE_OVERWORLD_03) {
 				Player.SetTile(8, 10);
-				//cutrissim
-				c->Destroy(Scene.GetMap());
-				//cutrissim
 			}
 			else if (lastStateScene == STATE_OVERWORLD_04) {
 				Player.SetTile(0, 5);
-				//cutrissim
-				d->Destroy(Scene.GetMap());
-				//cutrissim
 			}
 			else if (lastStateScene == STATE_DUNGEON_01) {
 				Player.SetTile(4, 9);
@@ -571,29 +581,12 @@ void cGame::Render()
 			Scene.LoadOverworldLevel(3);
 			Player.SetTile(8, 0);
 
-			//cutrissim
-			c = new cOctorok();
-			c->SetTile(4, 5);
-			c->UpdateMapTiles(Scene.GetMap(), -1, -1);
-			c->SetWidthHeight(TILE_SIZE, TILE_SIZE);
-			c->SetState(STATE_LOOKDOWN);
-			Enemies.push_back(c);
-			//cutrissim
 			break;
 		case STATE_OVERWORLD_04:
 			numTexture = OVERWORLD_TILES;
 			Scene.LoadOverworldLevel(4);
 			Player.SetTile(15, 5);
 
-			//cutrissim
-			d = new cTektike();
-			d->SetTile(6, 5);
-			d->UpdateMapTiles(Scene.GetMap(), -1, -1);
-			d->SetWidthHeight(TILE_SIZE, TILE_SIZE);
-			d->SetState(STATE_RESTING);
-			d->SetLifes(1);
-			Enemies.push_back(d);
-			//cutrissim
 			break;
 		case STATE_DUNGEON_01:
 			if (lastStateScene == STATE_OVERWORLD_01) {
@@ -687,6 +680,7 @@ void cGame::Render()
 			LoadOverworldEnemies();
 			Dungeon.ExitDungeon();
 		}
+		if (Tes != NULL) Tes->SetPosition(Player.GetPosX(), Player.GetPosY());
 		ClearEnemiesFromMap();
 	}
 	else numTexture = lastNumTexture;
@@ -700,6 +694,10 @@ void cGame::Render()
 
 	// Draw player 
 	Player.Draw(Data.GetID(LINK));
+
+	// Draw Tes, if necessary
+	if (Tes != NULL) Tes->Draw(Data.GetID(LINK));
+
 	// Draw sword, if necessary
 	if (Espasa != NULL) Espasa->Draw(Data.GetID(LINK));
 	

@@ -17,7 +17,7 @@
 
 class cPlayer: public cTerrestre
 {
-private:
+protected:
 	bool inDungeonTile = false;
 	int jumping = -1;
 	int atacking = -1;

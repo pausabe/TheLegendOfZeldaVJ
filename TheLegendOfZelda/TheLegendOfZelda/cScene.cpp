@@ -67,8 +67,9 @@ bool cScene::LoadOverworldLevel(int level)
 					}
 
 					map[(j*SCENE_WIDTH) + i].tileId = atoi(tile)-1;
-
-					map[(j*SCENE_WIDTH) + i].isWall = (atoi(tile) != 3 && atoi(tile) != 20);  //isAWall(atoi(tile)-1);
+					int t = atoi(tile);
+					map[(j*SCENE_WIDTH) + i].isWall = isAWall(atoi(tile) - 1);//(atoi(tile) != 3 && atoi(tile) != 20);  
+					bool b = map[(j*SCENE_WIDTH) + i].isWall;
 
 					coordx_tile = (float) 1 / 256 + map[(j*SCENE_WIDTH) + i].tileId % 15 * (float) 17 / 256;
 					int row = (int) map[(j*SCENE_WIDTH) + i].tileId / 15;
