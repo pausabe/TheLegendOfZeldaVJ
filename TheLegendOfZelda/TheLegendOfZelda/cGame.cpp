@@ -238,13 +238,13 @@ bool cGame::Process()
 		cRect rt;
 		Objects[i]->GetArea(&rt);
 		if (Player.Collides(&rt) && (keys['a'] || keys['A']) && !aKeyPressed) {
-			PlaySound(TEXT("sounds/LOZ_Key.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			int x, y;
 			Objects[i]->GetPosition(&x, &y);
 			int px, py;
 			Player.GetPosition(&px, &py);
 			if (Objects[i]->GetKeyId() != -1 || !(x / TILE_SIZE == px / TILE_SIZE && y / TILE_SIZE == py / TILE_SIZE)) {
 				Player.PickObject(Objects[i]);
+				PlaySound(TEXT("sounds/LOZ_Key.wav"), NULL, SND_FILENAME | SND_ASYNC);
 
 				if (Objects[i]->GetKeyId() == -1) {
 					Scene.GetMap()[(y / TILE_SIZE)*SCENE_WIDTH + x / TILE_SIZE].isWall = wallUnderStepladder;
@@ -372,7 +372,7 @@ void cGame::printMap() {
 	glColor3f(0.4f, 0.4f, 0.4f);
 
 	if (stateScene > 14) {
-		glTranslatef(30.0f, 5.0f, 0.0f);
+		glTranslatef(30.0f, 0.0f, 0.0f);
 		printMapRoom(screen_x, screen_y, STATE_DUNGEON_02);
 		glTranslatef(0.0f, 44.0f, 0.0f);
 		printMapRoom(screen_x, screen_y, STATE_DUNGEON_05);
