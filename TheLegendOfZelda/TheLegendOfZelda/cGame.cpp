@@ -334,6 +334,40 @@ void cGame::PlaceStepladder() {
 void cGame::createPanel()
 {
 	printHearts();
+	printObjectBox();
+}
+
+void cGame::printObjectBox()
+{
+	int screen_x, screen_y;
+
+	screen_x = SCENE_Xo;
+	screen_y = SCENE_Yo + TILE_SIZE * 11;
+
+	float xo, yo, xf, yf;
+
+	float sprite_size = 8;
+	float texture_size = 512;
+
+	int w = 64;
+	glEnable(GL_TEXTURE_2D);
+
+	xo = (float)(222.0f / texture_size);
+	yo = (float)(364.0f / texture_size);
+	xf = (float)(240.0f / texture_size);
+	yf = (float)(372.0f / texture_size);
+
+	glPushMatrix();
+	glTranslatef(400.0f, 15.0f, 0.0f);
+
+	glBindTexture(GL_TEXTURE_2D, Data.GetID(LINK));
+	glBegin(GL_QUADS);
+	glTexCoord2f(xo, yf);	glVertex2i(screen_x, screen_y);
+	glTexCoord2f(xf, yf);	glVertex2i(screen_x + w, screen_y);
+	glTexCoord2f(xf, yo);	glVertex2i(screen_x + w, screen_y + w);
+	glTexCoord2f(xo, yo);	glVertex2i(screen_x, screen_y + w);
+	glEnd();
+	glPopMatrix();
 }
 
 void cGame::printHearts()
@@ -352,7 +386,7 @@ void cGame::printHearts()
 	glEnable(GL_TEXTURE_2D);
 
 	
-	Player.SetLifes(6);
+	//Player.SetLifes(6);
 	int playerLives = Player.GetLifes();
 
 	xo = (float)(sprite_size / texture_size) * 2;

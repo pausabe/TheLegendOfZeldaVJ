@@ -58,6 +58,7 @@ public:
 	void LoadOverworldEnemies();
 
 private:
+	void printObjectBox();
 	void printHearts();
 	void createPanel();
 	void setSceneState();
