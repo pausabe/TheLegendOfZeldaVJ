@@ -644,7 +644,7 @@ void cGame::setSceneState() {
 
 	//STATE_OVERWORLD_01
 	if (stateScene == STATE_OVERWORLD_01 && Scene.GetMap()[tile_x + (tile_y*SCENE_WIDTH)].tileId == 19) {
-		stateScene = STATE_DUNGEON_08;
+		stateScene = STATE_DUNGEON_01;
 
 		PlaySound(NULL,0,0);
 		PlaySound(TEXT("sounds/Underworld_Theme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
