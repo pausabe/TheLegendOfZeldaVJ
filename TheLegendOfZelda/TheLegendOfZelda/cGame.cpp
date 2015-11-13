@@ -11,16 +11,10 @@ cGame::~cGame(void)
 
 bool cGame::Init()
 {
+	//PlaySound(TEXT("sounds/Overworld_Theme.mp3"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+
 	oneKey = true;
 	bool res=true;
-
-	/*if (!Buffer.loadFromFile("sound.wav"))
-	{
-		res = false;
-	}*/
-	//sf::Sound Sound;
-	//Sound.setBuffer(Buffer);
-	//Sound.play();
 
 	//Graphics initialization
 	glClearColor(0.0f,0.0f,0.0f,0.0f);
@@ -191,6 +185,10 @@ bool cGame::Process()
 
 	if (!Player.isJumping()) {
 		if ((keys['s'] || keys['S'])&& !sKeyPressed) {
+			
+			if(Player.GetLifes()==6) PlaySound(TEXT("sounds/LOZ_Sword_Combined.wav"), NULL, SND_FILENAME | SND_ASYNC);
+			else PlaySound(TEXT("sounds/LOZ_Sword.wav"), NULL, SND_FILENAME | SND_ASYNC);
+
 			Player.Atack(Scene.GetMap());
 			sKeyPressed = true;
 		}
@@ -349,8 +347,9 @@ void cGame::printHearts()
 	int w = 32;
 	glEnable(GL_TEXTURE_2D);
 
+	
+	//Player.SetLifes(1);
 	int playerLives = Player.GetLifes();
-	Player.SetLifes(6);
 
 	xo = (float)(sprite_size / texture_size) * 2;
 	yo = 0;
@@ -463,8 +462,12 @@ void cGame::setSceneState() {
 	Player.GetPosition(&x, &y);
 
 	//STATE_OVERWORLD_01
-	if (stateScene == STATE_OVERWORLD_01 && Scene.GetMap()[tile_x + (tile_y*SCENE_WIDTH)].tileId == 19)
+	if (stateScene == STATE_OVERWORLD_01 && Scene.GetMap()[tile_x + (tile_y*SCENE_WIDTH)].tileId == 19) {
 		stateScene = STATE_DUNGEON_01;
+
+		PlaySound(NULL,0,0);
+		//PlaySound(TEXT("sounds/Underworld_Theme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+	}
 	else if (stateScene == STATE_OVERWORLD_01 &&  y == 480)
 		stateScene = STATE_OVERWORLD_03;
 	else if (stateScene == STATE_OVERWORLD_01 && x == 0)
@@ -485,8 +488,11 @@ void cGame::setSceneState() {
 		stateScene = STATE_OVERWORLD_01;
 
 	//STATE_DUNGEON_01
-	else if (stateScene == STATE_DUNGEON_01 &&  y == 48)
+	else if (stateScene == STATE_DUNGEON_01 &&  y == 48) {
 		stateScene = STATE_OVERWORLD_01;
+		PlaySound(NULL, 0, 0);
+		PlaySound(TEXT("sounds/Overworld_Theme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+	}
 	else if (stateScene == STATE_DUNGEON_01 &&  y == 432)
 		stateScene = STATE_DUNGEON_04;
 	else if (stateScene == STATE_DUNGEON_01 &&  x == 48)
@@ -497,7 +503,6 @@ void cGame::setSceneState() {
 		stateScene = STATE_DUNGEON_01;
 	else if (stateScene == STATE_DUNGEON_02 &&  y == 432)
 		stateScene = STATE_DUNGEON_05;
-
 
 	//STATE_DUNGEON_03
 	else if (stateScene == STATE_DUNGEON_03 &&  x == 48)

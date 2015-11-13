@@ -71,8 +71,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Pau\Source\Repos\Zelda4\TheLegendOfZeldaVJ\TheLegendOfZelda\glut-3.7.6-bin;C:\Users\Pau\Source\Repos\Zelda4\TheLegendOfZeldaVJ\TheLegendOfZelda\SFML-2.3.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Pau\Source\Repos\Zelda4\TheLegendOfZeldaVJ\TheLegendOfZelda\glut-3.7.6-bin;C:\Users\Pau\Source\Repos\Zelda4\TheLegendOfZeldaVJ\TheLegendOfZelda\SFML-2.3.2\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Pau\Source\Repos\Zelda4\TheLegendOfZeldaVJ\TheLegendOfZelda\glut-3.7.6-bin;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\studio\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Pau\Source\Repos\Zelda4\TheLegendOfZeldaVJ\TheLegendOfZelda\glut-3.7.6-bin;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\studio\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -81,8 +81,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Users\Pau\Source\Repos\Zelda4\TheLegendOfZeldaVJ\TheLegendOfZelda\SFML-2.3.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Pau\Source\Repos\Zelda4\TheLegendOfZeldaVJ\TheLegendOfZelda\SFML-2.3.2\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Pau\Source\Repos\Zelda4\TheLegendOfZeldaVJ\TheLegendOfZelda\glut-3.7.6-bin;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Pau\Source\Repos\Zelda4\TheLegendOfZeldaVJ\TheLegendOfZelda\glut-3.7.6-bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -174,6 +174,7 @@
     <ClCompile Include="cTerrestre.cpp" />
     <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cScene.cpp" />
+    <ClCompile Include="cTes.cpp" />
     <ClCompile Include="cTexture.cpp" />
     <ClCompile Include="GLUTMain.cpp" />
   </ItemGroup>
@@ -195,6 +196,7 @@
     <ClInclude Include="cTerrestre.h" />
     <ClInclude Include="cPlayer.h" />
     <ClInclude Include="cScene.h" />
+    <ClInclude Include="cTes.h" />
     <ClInclude Include="cTexture.h" />
     <ClInclude Include="Globals.h" />
   </ItemGroup>

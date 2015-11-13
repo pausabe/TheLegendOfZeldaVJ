@@ -258,7 +258,11 @@ void cBicho::SetLifes(int l) {
 
 void cBicho::Hit() {
 	lifes--;
-	if (lifes <= 0) toBeDestroyed = true;
+	PlaySound(TEXT("sounds/LOZ_Hurt.wav"), NULL, SND_FILENAME | SND_ASYNC);
+	if (lifes <= 0) {
+		toBeDestroyed = true;
+		PlaySound(TEXT("sounds/LOZ_Kill.wav"), NULL, SND_FILENAME | SND_ASYNC);
+	}
 }
 
 void cBicho::SetDroppingObject(cObject* object) {

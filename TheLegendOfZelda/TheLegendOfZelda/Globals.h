@@ -2,6 +2,9 @@
 #define MY_HEADER_FILE_
 
 #include <windows.h>
+#include <mmsystem.h>
+#pragma comment(lib, "winmm.lib")
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
