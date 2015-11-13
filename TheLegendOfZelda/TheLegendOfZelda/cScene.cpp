@@ -51,9 +51,9 @@ bool cScene::LoadOverworldLevel(int level)
 
 				for(i=0;i<SCENE_WIDTH;i++)
 				{
-					fscanf_s(fd,"%c",&auxT[0]);
-					fscanf_s(fd, "%c", &auxT[1]);
-					if(auxT[1] != ',') fscanf_s(fd, "%c", &auxT[2]);
+					fscanf(fd,"%c",&auxT[0]);
+					fscanf(fd, "%c", &auxT[1]);
+					if(auxT[1] != ',') fscanf(fd, "%c", &auxT[2]);
 
 						//if(tile[0]==' ') map[(j*SCENE_WIDTH) + i].tileId = atoi(tile);
 						//else map[(j*SCENE_WIDTH) + i].tileId = atoi(tile);
@@ -211,7 +211,7 @@ bool cScene::LoadDungeonLevel(int level, cDungeon Dungeon)
 		for (i = 0; i < SCENE_WIDTH - 4; i++)
 		{
 			fscanf_s(fd, "%c", &tile[0]);
-			fscanf_s(fd, "%c", &tile[1]);
+			fscanf(fd, "%c", &tile[1]);
 
 			if (tile[0] != ' ' && tile[1] != ' ') {
 				map[(j*SCENE_WIDTH) + i + 2].tileId = atoi(tile);
@@ -257,7 +257,7 @@ bool cScene::LoadDungeonLevel(int level, cDungeon Dungeon)
 			}
 			px += TILE_SIZE;
 		}
-		fscanf_s(fd, "%c", &tile); //pass enter
+		fscanf(fd, "%c", &tile); //pass enter
 
 	}
 	// Fill the map with the dungeons walls

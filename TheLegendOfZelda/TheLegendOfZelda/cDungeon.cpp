@@ -162,7 +162,7 @@ cDungeon::cDungeon() {
 	g->SetTile(4, 3);
 	g->SetWidthHeight(TILE_SIZE*2, TILE_SIZE*2);
 	g->SetState(STATE_VISIBLE);
-	g->SetLifes(8);
+	g->SetLifes(2);
 
 	dungeonEnemies[7]->push_back(g);
 
