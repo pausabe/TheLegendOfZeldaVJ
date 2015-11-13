@@ -91,6 +91,7 @@ bool cGanon::Blockable() {
 void cGanon::Hit() {
 	if (visible == -1) {
 		lifes--;
+
 		if (lifes == 0) {
 			toBeDestroyed = true;
 			PlaySound(TEXT("sounds/victory_FF.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
