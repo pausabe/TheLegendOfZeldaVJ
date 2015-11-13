@@ -182,11 +182,11 @@ void cTes::Logic(Tile* map, std::vector<cBicho*> Enemies) {
 			int tx, ty;
 			GetTile(&tx, &ty);
 			cBicho* aux = NULL;
-			if (map[ty*SCENE_WIDTH + tx].bichos.size() > 0) aux = map[ty*SCENE_WIDTH + tx].bichos[0];
-			else if (map[ty*SCENE_WIDTH + tx + 1].bichos.size() > 0) aux = map[ty*SCENE_WIDTH + tx + 1].bichos[0];
-			else if (map[ty*SCENE_WIDTH + tx - 1].bichos.size() > 0) aux = map[ty*SCENE_WIDTH + tx - 1].bichos[0];
-			else if (map[(ty + 1)*SCENE_WIDTH + tx].bichos.size() > 0) aux = map[(ty + 1)*SCENE_WIDTH + tx].bichos[0];
-			else if (map[(ty - 1)*SCENE_WIDTH + tx].bichos.size() > 0) aux = map[(ty - 1)*SCENE_WIDTH + tx].bichos[0];
+			if (tx >= 0 && tx < 16 && ty >= 0 && ty < 11 && map[ty*SCENE_WIDTH + tx].bichos.size() > 0) aux = map[ty*SCENE_WIDTH + tx].bichos[0];
+			else if (tx + 1>= 0 && tx + 1 < 16 && ty >= 0 && ty < 11 && map[ty*SCENE_WIDTH + tx + 1].bichos.size() > 0) aux = map[ty*SCENE_WIDTH + tx + 1].bichos[0];
+			else if (tx - 1 >= 0 && tx - 1 < 16 && ty >= 0 && ty < 11 && map[ty*SCENE_WIDTH + tx - 1].bichos.size() > 0) aux = map[ty*SCENE_WIDTH + tx - 1].bichos[0];
+			else if (tx >= 0 && tx < 16 && ty + 1 >= 0 && ty + 1 < 11 && map[(ty + 1)*SCENE_WIDTH + tx].bichos.size() > 0) aux = map[(ty + 1)*SCENE_WIDTH + tx].bichos[0];
+			else if (tx >= 0 && tx < 16 && ty - 1 >= 0 && ty - 1 < 11 && map[(ty - 1)*SCENE_WIDTH + tx].bichos.size() > 0) aux = map[(ty - 1)*SCENE_WIDTH + tx].bichos[0];
 
 			if (aux != NULL && aux->GetPosX() != -1 && (abs(x - aux->GetPosX()) < TILE_SIZE || abs(y - aux->GetPosY()) < TILE_SIZE)) {
 				int diffX = x - aux->GetPosX();
