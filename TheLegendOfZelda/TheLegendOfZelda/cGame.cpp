@@ -40,6 +40,8 @@ bool cGame::Init()
 	if (!res) return false;
 	res = Data.LoadImage(TREASURES, "resources/treasures.png", GL_RGBA);
 	if (!res) return false;
+	res = Data.LoadImage(MENU, "resources/menu.png", GL_RGBA);
+	if (!res) return false;
 
 
 
@@ -347,28 +349,102 @@ void cGame::printObjectBox()
 
 	float xo, yo, xf, yf;
 
-	float sprite_size = 8;
+	float sprite_size = 38;
 	float texture_size = 512;
 
-	int w = 64;
+	int w = 80;
 	glEnable(GL_TEXTURE_2D);
 
-	xo = (float)(222.0f / texture_size);
-	yo = (float)(364.0f / texture_size);
-	xf = (float)(240.0f / texture_size);
-	yf = (float)(372.0f / texture_size);
+	xo = 0;
+	yo = 0;
+	xf = (float)(40.0f / texture_size);
+	yf = (float)(40.0f / texture_size);
 
 	glPushMatrix();
-	glTranslatef(400.0f, 15.0f, 0.0f);
+		glTranslatef(330.0f, 15.0f, 0.0f);
 
-	glBindTexture(GL_TEXTURE_2D, Data.GetID(LINK));
-	glBegin(GL_QUADS);
-	glTexCoord2f(xo, yf);	glVertex2i(screen_x, screen_y);
-	glTexCoord2f(xf, yf);	glVertex2i(screen_x + w, screen_y);
-	glTexCoord2f(xf, yo);	glVertex2i(screen_x + w, screen_y + w);
-	glTexCoord2f(xo, yo);	glVertex2i(screen_x, screen_y + w);
-	glEnd();
+		glBindTexture(GL_TEXTURE_2D, Data.GetID(MENU));
+		glBegin(GL_QUADS);
+			glTexCoord2f(xo, yf);	glVertex2i(screen_x, screen_y);
+			glTexCoord2f(xf, yf);	glVertex2i(screen_x + w, screen_y);
+			glTexCoord2f(xf, yo);	glVertex2i(screen_x + w, screen_y + w);
+			glTexCoord2f(xo, yo);	glVertex2i(screen_x, screen_y + w);
+		glEnd();
 	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(430.0f, 15.0f, 0.0f);
+
+		glBindTexture(GL_TEXTURE_2D, Data.GetID(MENU));
+		glBegin(GL_QUADS);
+			glTexCoord2f(xo, yf);	glVertex2i(screen_x, screen_y);
+			glTexCoord2f(xf, yf);	glVertex2i(screen_x + w, screen_y);
+			glTexCoord2f(xf, yo);	glVertex2i(screen_x + w, screen_y + w);
+			glTexCoord2f(xo, yo);	glVertex2i(screen_x, screen_y + w);
+		glEnd();
+	glPopMatrix();
+
+	//LIFE title
+	w = 40;
+
+	xo = (float)(40.0f / texture_size);;
+	yo = 0;
+	xf = (float)(55.0f / texture_size);
+	yf = (float)(20.0f / texture_size);
+
+	glPushMatrix();
+		glTranslatef(348.0f, 34.0f, 0.0f);
+
+		glBindTexture(GL_TEXTURE_2D, Data.GetID(MENU));
+		glBegin(GL_QUADS);
+			glTexCoord2f(xo, yf);	glVertex2i(screen_x, screen_y);
+			glTexCoord2f(xf, yf);	glVertex2i(screen_x + w, screen_y);
+			glTexCoord2f(xf, yo);	glVertex2i(screen_x + w, screen_y + w);
+			glTexCoord2f(xo, yo);	glVertex2i(screen_x, screen_y + w);
+		glEnd();
+	glPopMatrix();
+
+	if (Player.HoldsKey(1) || Player.HoldsKey(2)) {
+		w = 40;
+
+		xo = (float)(40.0f / texture_size);;
+		yo = 0;
+		xf = (float)(55.0f / texture_size);
+		yf = (float)(20.0f / texture_size);
+
+		glPushMatrix();
+			glTranslatef(348.0f, 34.0f, 0.0f);
+
+			glBindTexture(GL_TEXTURE_2D, Data.GetID(MENU));
+			glBegin(GL_QUADS);
+				glTexCoord2f(xo, yf);	glVertex2i(screen_x, screen_y);
+				glTexCoord2f(xf, yf);	glVertex2i(screen_x + w, screen_y);
+				glTexCoord2f(xf, yo);	glVertex2i(screen_x + w, screen_y + w);
+				glTexCoord2f(xo, yo);	glVertex2i(screen_x, screen_y + w);
+			glEnd();
+		glPopMatrix();
+	}
+
+	if (Player.HoldsStepladder()) {
+		w = 32;
+
+		xo = (float)(59.0f / texture_size);;
+		yo = 0;
+		xf = (float)(75.0f / texture_size);
+		yf = (float)(16.0f / texture_size);
+
+		glPushMatrix();
+		glTranslatef(455.0f, 37.0f, 0.0f);
+
+		glBindTexture(GL_TEXTURE_2D, Data.GetID(MENU));
+		glBegin(GL_QUADS);
+		glTexCoord2f(xo, yf);	glVertex2i(screen_x, screen_y);
+		glTexCoord2f(xf, yf);	glVertex2i(screen_x + w, screen_y);
+		glTexCoord2f(xf, yo);	glVertex2i(screen_x + w, screen_y + w);
+		glTexCoord2f(xo, yo);	glVertex2i(screen_x, screen_y + w);
+		glEnd();
+		glPopMatrix();
+	}
+
 }
 
 void cGame::printHearts()
