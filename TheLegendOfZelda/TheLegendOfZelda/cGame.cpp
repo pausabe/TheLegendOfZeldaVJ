@@ -222,6 +222,7 @@ bool cGame::Process()
 	int x, y;
 	Player.GetPosition(&x, &y);
 	if ((x / TILE_SIZE == 8 || x / TILE_SIZE == 7) && (y / TILE_SIZE == SCENE_HEIGHT - 3) && (Dungeon.GetCurrentDungeon() == 1) && Player.HoldsKey(1)) {
+		PlaySound(TEXT("sounds/LOZ_Unlock.wav"), NULL, SND_FILENAME | SND_ASYNC);
 		Dungeon.OpenDoor(1);
 		Scene.LoadDungeonLevel(2, Dungeon);
 	} else if ((x / TILE_SIZE == 8 || x / TILE_SIZE == 7) && (y / TILE_SIZE == SCENE_HEIGHT - 3) && (Dungeon.GetCurrentDungeon() == 5) && Player.HoldsKey(2)) {
@@ -233,6 +234,7 @@ bool cGame::Process()
 		cRect rt;
 		Objects[i]->GetArea(&rt);
 		if (Player.Collides(&rt) && (keys['a'] || keys['A']) && !aKeyPressed) {
+			PlaySound(TEXT("sounds/LOZ_Key.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			int x, y;
 			Objects[i]->GetPosition(&x, &y);
 			int px, py;
