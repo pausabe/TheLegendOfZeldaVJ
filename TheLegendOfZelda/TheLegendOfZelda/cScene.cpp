@@ -141,7 +141,8 @@ bool cScene::LoadDungeonLevel(int level, cDungeon Dungeon)
 	if (level == 2 && Dungeon.isOpen(1)) t = '0';
 	if (level == 5 && Dungeon.isOpen(1)) b = '0';
 	if (level == 6 && Dungeon.EnemiesCleared()) l = '0';
-	if (level == 6 && Dungeon.isOpen(3)) t = '0'; if (level == 2 && Dungeon.isOpen(1)) t = '0';
+	if (level == 6 && Dungeon.isOpen(3)) t = '0'; 
+	if (level == 2 && Dungeon.isOpen(1)) t = '0';
 	if (level == 5 && Dungeon.isOpen(1)) b = '0';
 	if (level == 6 && Dungeon.EnemiesCleared()) l = '0';
 	if (level == 6 && Dungeon.isOpen(3)) t = '0';
@@ -290,23 +291,23 @@ bool cScene::LoadDungeonLevel(int level, cDungeon Dungeon)
 	// Open the gates if necessary	
 	// Left
 	map[5 * SCENE_WIDTH + 1].tileId = -1;
-	map[5 * SCENE_WIDTH + 1].isWall = l == ' ' || atoi(&l) != 0;
+	map[5 * SCENE_WIDTH + 1].isWall = l == ' ' || l != '0';
 	
 	// Top
 	map[(SCENE_HEIGHT - 2) * SCENE_WIDTH + 7].tileId = -1;
-	map[(SCENE_HEIGHT - 2) * SCENE_WIDTH + 7].isWall = t == ' ' || atoi(&t) != 0;
+	map[(SCENE_HEIGHT - 2) * SCENE_WIDTH + 7].isWall = t == ' ' || t != '0';
 	map[(SCENE_HEIGHT - 2) * SCENE_WIDTH + 8].tileId = -1;
-	map[(SCENE_HEIGHT - 2) * SCENE_WIDTH + 8].isWall = t == ' ' || atoi(&t) != 0;
+	map[(SCENE_HEIGHT - 2) * SCENE_WIDTH + 8].isWall = t == ' ' || t !='0';
 	
 	// Bottom
 	map[SCENE_WIDTH + 7].tileId = -1;
-	map[SCENE_WIDTH + 7].isWall = b == ' ' || atoi(&b) != 0;
+	map[SCENE_WIDTH + 7].isWall = b == ' ' || b != '0';
 	map[SCENE_WIDTH + 8].tileId = -1;
-	map[SCENE_WIDTH + 8].isWall = b == ' ' || atoi(&b) != 0;
+	map[SCENE_WIDTH + 8].isWall = b == ' ' || b != '0';
 
 	// Right
 	map[5 * SCENE_WIDTH + SCENE_WIDTH - 2].tileId = -1;
-	map[5 * SCENE_WIDTH + SCENE_WIDTH - 2].isWall = r == ' ' || atoi(&r) != 0;
+	map[5 * SCENE_WIDTH + SCENE_WIDTH - 2].isWall = r == ' ' || r != '0';
 
 
 	glEnd();
