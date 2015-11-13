@@ -101,7 +101,6 @@ bool cScene::isADungeonWall(int tile) {
 bool cScene::LoadDungeonLevel(int level, cDungeon Dungeon)
 {
 
-
 	bool res;
 	FILE *fd;
 	char file[32];
@@ -150,7 +149,9 @@ bool cScene::LoadDungeonLevel(int level, cDungeon Dungeon)
 	if (l != ' ') {
 
 		coordx_tile = (float)324/512;
-		coordy_tile = atoi(&l)*(float)32/512;
+		if (l == '0') coordy_tile = 0.0f;
+		else if (l == '1') coordy_tile = (float)32 / 512;
+		else coordy_tile = (float)64/512;
 		int tile_height = 32;
 		int tile_width = 20;
 		px = TILE_SIZE*(float)12/16;
@@ -164,7 +165,8 @@ bool cScene::LoadDungeonLevel(int level, cDungeon Dungeon)
 
 	if (t != ' ') {
 		coordx_tile = (float)272 / 512;
-		coordy_tile = atoi(&t)*(float)20 / 512;
+		if (t == '0') coordy_tile = 0.0f;
+		else coordy_tile = (float) 40/ 512;
 		int tile_height = 20;
 		int tile_width = 32;
 		px = TILE_SIZE*(float)112 / 16;
@@ -179,7 +181,8 @@ bool cScene::LoadDungeonLevel(int level, cDungeon Dungeon)
 
 	if (r != ' ') {
 		coordx_tile = (float)304 / 512;
-		coordy_tile = atoi(&r)*(float)32 / 512;
+		if (r == '0') coordy_tile = 0.0f;
+		else coordy_tile = (float)64 / 512;
 		int tile_height = 32;
 		int tile_width = 20;
 		px = TILE_SIZE*((float)13 + 20 + 12*16) / 16;
@@ -193,7 +196,8 @@ bool cScene::LoadDungeonLevel(int level, cDungeon Dungeon)
 
 	if (b != ' ') {
 		coordx_tile = (float)240 / 512;
-		coordy_tile = atoi(&b)*(float)20 / 512;
+		if (b == '0') coordy_tile = 0.0f;
+		else coordy_tile = (float)40 / 512;
 		int tile_height = 20;
 		int tile_width = 32;
 		px = TILE_SIZE*(float)112 / 16;
