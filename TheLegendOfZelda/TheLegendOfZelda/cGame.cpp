@@ -352,7 +352,7 @@ void cGame::printHearts()
 	glEnable(GL_TEXTURE_2D);
 
 	
-	//Player.SetLifes(1);
+	Player.SetLifes(6);
 	int playerLives = Player.GetLifes();
 
 	xo = (float)(sprite_size / texture_size) * 2;
@@ -652,6 +652,9 @@ void cGame::Render()
 			}
 			else if (lastStateScene == STATE_DUNGEON_02) {
 				Player.SetTile(8, 1);
+			}
+			else if (lastStateScene == STATE_DUNGEON_04) {
+				Player.SetTile(14, 5);
 			}
 			numTexture = DUNGEON_TILES;
 			Scene.LoadDungeonLevel(5, Dungeon);
