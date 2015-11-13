@@ -183,6 +183,8 @@ bool cGame::Process()
 	//Process Input
 	if (keys[27])	res = false;
 
+	if (Player.GetLifes() == 0) return res;
+
 	if (!Player.isJumping()) {
 		if ((keys['s'] || keys['S'])&& !sKeyPressed) {
 			
@@ -551,8 +553,13 @@ void cGame::Render()
 	
 	glLoadIdentity();
 
-	if (Player.GetLifes() == 0)
-		glColor3f(0.0f,0.0f,0.0f);
+	if (Player.GetLifes() == 0) {
+		if (gameOver > 0) {
+			gameOver--;
+			float aux = ((float)gameOver / (float)GAME_OVER_ANIMATION);
+			glColor3f(aux, aux, aux);
+		}
+	}
 	
 	int numTexture;
 
