@@ -142,8 +142,11 @@ bool cScene::LoadDungeonLevel(int level, cDungeon Dungeon)
 	if (level == 2 && Dungeon.isOpen(1)) t = '0';
 	if (level == 5 && Dungeon.isOpen(1)) b = '0';
 	if (level == 6 && Dungeon.EnemiesCleared()) l = '0';
+	if (level == 6 && Dungeon.isOpen(3)) t = '0'; if (level == 2 && Dungeon.isOpen(1)) t = '0';
+	if (level == 5 && Dungeon.isOpen(1)) b = '0';
+	if (level == 6 && Dungeon.EnemiesCleared()) l = '0';
 	if (level == 6 && Dungeon.isOpen(3)) t = '0';
-
+	
 	if (l != ' ') {
 
 		coordx_tile = (float)324/512;
@@ -167,7 +170,8 @@ bool cScene::LoadDungeonLevel(int level, cDungeon Dungeon)
 		px = TILE_SIZE*(float)112 / 16;
 		py = TILE_SIZE*((float)(33 + 16 * 7) / 16);
 		glTexCoord2f(coordx_tile, coordy_tile + (float)tile_height / 512); glVertex2i(px, py + TILE_SIZE*(float)tile_height / 16);
-		glTexCoord2f(coordx_tile + (float)tile_width / 512, coordy_tile + (float)tile_height / 512);    glVertex2i(px + TILE_SIZE*(float)(tile_width+1)/ 16, py + TILE_SIZE*(float)tile_height / 16);
+		glTexCoord2f(coordx_tile + (float)tile_width / 512, coordy_tile + (float)tile_height / 512);    
+		glVertex2i(px + TILE_SIZE*(float)(tile_width+1)/ 16, py + TILE_SIZE*(float)tile_height / 16);
 		glTexCoord2f(coordx_tile + (float)tile_width / 512, coordy_tile); glVertex2i(px + TILE_SIZE*(float)(tile_width+1) / 16, py);
 		glTexCoord2f(coordx_tile, coordy_tile); glVertex2i(px, py);
 

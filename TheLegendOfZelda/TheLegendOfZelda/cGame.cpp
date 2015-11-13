@@ -228,9 +228,10 @@ bool cGame::Process()
 	if ((x / TILE_SIZE == 8 || x / TILE_SIZE == 7) && (y / TILE_SIZE == SCENE_HEIGHT - 3) && (Dungeon.GetCurrentDungeon() == 1) && Player.HoldsKey(1)) {
 		PlaySound(TEXT("sounds/LOZ_Unlock.wav"), NULL, SND_FILENAME | SND_ASYNC);
 		Dungeon.OpenDoor(1);
-		Scene.LoadDungeonLevel(2, Dungeon);
+		//Scene.LoadDungeonLevel(2, Dungeon);
 	} else if ((x / TILE_SIZE == 8 || x / TILE_SIZE == 7) && (y / TILE_SIZE == SCENE_HEIGHT - 3) && (Dungeon.GetCurrentDungeon() == 5) && Player.HoldsKey(2)) {
 		Dungeon.OpenDoor(2);
+		Scene.LoadDungeonLevel(6, Dungeon);
 		Scene.LoadDungeonLevel(6, Dungeon);
 	}
 
@@ -644,7 +645,7 @@ void cGame::setSceneState() {
 
 	//STATE_OVERWORLD_01
 	if (stateScene == STATE_OVERWORLD_01 && Scene.GetMap()[tile_x + (tile_y*SCENE_WIDTH)].tileId == 19) {
-		stateScene = STATE_DUNGEON_08;
+		stateScene = STATE_DUNGEON_01;
 
 		PlaySound(NULL,0,0);
 		PlaySound(TEXT("sounds/Underworld_Theme.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
