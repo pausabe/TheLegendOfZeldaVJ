@@ -452,15 +452,15 @@ void cGame::printObjectBox()
 	glPopMatrix();
 
 	//LIFE title
-	w = 40;
+	w = 80;
 
-	xo = (float)(40.0f / texture_size);;
+	xo = (float)(80.0f / texture_size);;
 	yo = 0;
-	xf = (float)(55.0f / texture_size);
-	yf = (float)(20.0f / texture_size);
+	xf = (float)(170.0f / texture_size);
+	yf = (float)(50.0f / texture_size);
 
 	glPushMatrix();
-		glTranslatef(348.0f, 34.0f, 0.0f);
+		glTranslatef(580.0f, 50.0f, 0.0f);
 
 		glBindTexture(GL_TEXTURE_2D, Data.GetID(MENU));
 		glBegin(GL_QUADS);
@@ -501,7 +501,7 @@ void cGame::printObjectBox()
 		yf = (float)(16.0f / texture_size);
 
 		glPushMatrix();
-		glTranslatef(455.0f, 37.0f, 0.0f);
+		glTranslatef(455.0f, 38.0f, 0.0f);
 
 		glBindTexture(GL_TEXTURE_2D, Data.GetID(MENU));
 		glBegin(GL_QUADS);
@@ -558,7 +558,7 @@ void cGame::printHearts()
 		yf = (float)(sprite_size / texture_size);
 	}
 	glPushMatrix();
-	glTranslatef(550.0f, 15.0f, 0.0f);
+	glTranslatef(570.0f, 15.0f, 0.0f);
 
 	glBindTexture(GL_TEXTURE_2D, Data.GetID(TREASURES));
 	glBegin(GL_QUADS);
@@ -590,7 +590,7 @@ void cGame::printHearts()
 		yf = (float)(sprite_size / texture_size);
 	}
 	glPushMatrix();
-	glTranslatef(585.0f, 15.0f, 0.0f);
+	glTranslatef(605.0f, 15.0f, 0.0f);
 
 	glBindTexture(GL_TEXTURE_2D, Data.GetID(TREASURES));
 	glBegin(GL_QUADS);
@@ -621,7 +621,7 @@ void cGame::printHearts()
 		yf = (float)(sprite_size / texture_size);
 	}
 	glPushMatrix();
-	glTranslatef(620.0f, 15.0f, 0.0f);
+	glTranslatef(640.0f, 15.0f, 0.0f);
 
 	glBindTexture(GL_TEXTURE_2D, Data.GetID(TREASURES));
 	glBegin(GL_QUADS);
